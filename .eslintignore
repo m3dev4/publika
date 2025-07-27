@@ -1,0 +1,5 @@
+// Simple ignore for node, build, env, and lock files
+node_modules/
+.next/
+.env*
+pnpm-lock.yaml
