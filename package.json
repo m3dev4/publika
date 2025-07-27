@@ -1,5 +1,8 @@
 {
   "name": "publika",
+  "license": "MIT",
+  "type": "module",
+  "description": "publika - plateforme libre de services et de talents",
   "version": "0.1.0",
   "private": true,
   "scripts": {
