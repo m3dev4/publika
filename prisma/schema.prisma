@@ -10,20 +10,29 @@ datasource db {
 }
 
 model User {
-  id                          String    @id @default(cuid())
-  email                       String    @unique
-  password                    String
-  firstName                   String?
-  lastName                    String?
-  username                    String?
-  avatar                      String?
-  city                        String?
-  isTalent                    Boolean   @default(false)
-  isAnnouncer                 Boolean   @default(false)
-  description                 String?
-  isVerify                    Boolean   @default(false)
-  passwordResetToken          String?
-  passwordResetTokenExpiresAt DateTime?
+  id                               String    @id @default(cuid())
+  email                            String    @unique
+  password                         String
+  firstName                        String?
+  lastName                         String?
+  username                         String?   @unique
+  avatar                           String?
+  city                             String?
+  isTalent                         Boolean   @default(false)
+  isAnnouncer                      Boolean   @default(false)
+  description                      String?
+  isVerify                         Boolean   @default(false)
+  
+  // Champs pour reset de mot de passe
+  passwordResetToken               String?
+  passwordResetTokenExpiresAt      DateTime?
+  
+  // Champs pour vérification d'email
+  emailVerificationToken           String?
+  emailVerificationTokenExpiresAt  DateTime?
+  
+  // Champ obligatoire pour l'onboarding
+  onboarding                       Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

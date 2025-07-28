@@ -2,17 +2,27 @@ export interface User {
   id: string;
   email: string;
   password: string;
-  firstName?: string;
-  lastName?: string;
-  userName?: string;
-  avatar?: string;
-  city?: string;
-  description?: string;
+  firstName: string | null;
+  lastName: string | null;
+  username: string | null;
+  avatar: string | null;
+  city: string | null;
+  description: string | null;
   isTalent: boolean;
   isAnnouncer: boolean;
   isVerify: boolean;
-  passwordResetToken: string;
-  passwordResetTokenExpiry: Date;
+  
+  // Champs pour reset de mot de passe
+  passwordResetToken: string | null;
+  passwordResetTokenExpiresAt: Date | null;
+  
+  // Champs pour vérification d'email
+  emailVerificationToken: string | null;
+  emailVerificationTokenExpiresAt: Date | null;
+  
+  // Champ obligatoire pour l'onboarding
+  onboarding: boolean;
+  
   createdAt: Date;
   updatedAt: Date;
 }
