@@ -15,4 +15,10 @@ export const userRegisterSchema = z
     path: ["confirmPassword"],
   });
 
+  export const userVerifyEmailSchema = z.object({
+    code: z.string().length(6, "Le code doit contenir exactement 6 chiffres"),
+  });
+
 export type registerFormValue = z.infer<typeof userRegisterSchema>;
+export type verifyEmailFormValue = z.infer<typeof userVerifyEmailSchema>;
+

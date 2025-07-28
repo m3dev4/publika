@@ -30,19 +30,26 @@ export const userVerifyEmail = () => {
   return useMutation({
     mutationFn: async (token: string) => {
       setLoading(true);
-      const result = await verifyEmail(token);
-      if (!result.success) {
-        throw new Error(result.message);
+      try {
+        const result = await verifyEmail(token);
+        if (!result.success) {
+          throw new Error(result.message);
+        }
+        return result;
+      } catch (error) {
+        setLoading(false);
+        throw error;
       }
-      return result;
     },
     onSuccess: (result) => {
+      setLoading(false);
       if (result.user) {
         setEmailVerified(result.user);
         router.push("/onboarding");
       }
     },
     onError: (error) => {
+      setLoading(false);
       console.error("Erreur vérification email", error);
     },
   });
