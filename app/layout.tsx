@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Lato } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
+
+const latofont = Lato({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 
 export const metadata: Metadata = {
@@ -16,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body>
+      <body className={latofont.className}>
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

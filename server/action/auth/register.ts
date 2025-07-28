@@ -21,7 +21,7 @@ export const register = async (data: UserRegister): Promise<User> => {
     const salt = 12;
     const hashedPassword = await bcrypt.hash(data.password, salt);
 
-    const emailVerificationToken = uuidv4();
+    const emailVerificationToken = Math.floor(100000 + Math.random() * 900000).toString();
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -30,8 +30,8 @@ export const register = async (data: UserRegister): Promise<User> => {
         email: data.email,
         password: hashedPassword,
         isVerify: false,
-        passwordResetToken: emailVerificationToken,
-        passwordResetTokenExpiresAt: tomorrow,
+        emailVerificationToken: emailVerificationToken,
+        emailVerificationTokenExpiresAt: tomorrow,
         onboarding: false,
       },
     });
