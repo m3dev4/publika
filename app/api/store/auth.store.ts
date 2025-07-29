@@ -52,6 +52,15 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: true,
           pendingEmail: null,
         });
+        // Forcer la sauvegarde dans localStorage
+        if (typeof window !== 'undefined') {
+          const storageData = {
+            user,
+            isAuthenticated: true,
+            pendingEmail: null,
+          };
+          localStorage.setItem('auth-storage', JSON.stringify({ state: storageData, version: 0 }));
+        }
       },
 
       logout: () => {

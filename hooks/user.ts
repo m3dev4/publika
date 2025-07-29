@@ -45,7 +45,8 @@ export const userVerifyEmail = () => {
       setLoading(false);
       if (result.user) {
         setEmailVerified(result.user);
-        router.push("/onboarding");
+        // Rediriger vers une page intermédiaire qui gère la redirection finale
+        router.push("/auth/verify-success");
       }
     },
     onError: (error) => {

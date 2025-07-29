@@ -40,3 +40,16 @@ export interface UserRegister {
   email: string;
   password: string;
 }
+
+
+export interface UserOnboarding {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  avatar: string;
+  city: string;
+  description: string;
+  isTalent: boolean;
+  isAnnouncer: boolean;
+}
