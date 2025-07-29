@@ -78,15 +78,13 @@ export function middleware(request: NextRequest) {
 
   // Si l'utilisateur essaie d'accéder à l'onboarding
   if (isEmailVerifiedRoute) {
-    if (!isAuthenticated) {
-      // Pas authentifié -> rediriger vers login
-      return NextResponse.redirect(new URL('/auth/login', request.url));
-    }
-    
-    if (hasCompletedOnboarding) {
+    // Permettre l'accès à onboarding même sans cookie
+    // La page onboarding elle-même gérera la redirection si nécessaire
+    if (authData && hasCompletedOnboarding) {
       // Onboarding déjà terminé -> rediriger vers home
       return NextResponse.redirect(new URL('/home', request.url));
     }
+    // Laisser passer pour que la page onboarding gère l'authentification côté client
   }
 
   // Empêcher les utilisateurs authentifiés d'accéder aux pages d'auth
