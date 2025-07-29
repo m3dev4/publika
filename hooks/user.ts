@@ -1,9 +1,10 @@
 import { useAuthStore } from "@/app/api/store/auth.store";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { UserRegister } from "@/types/user.type";
+import { UserLogin, UserRegister } from "@/types/user.type";
 import { register } from "@/server/action/auth/register";
 import { verifyEmail } from "@/server/action/auth/verifyEmail";
+import { login } from "@/server/action/auth/login";
 
 export const userRegister = () => {
   const router = useRouter();
@@ -52,6 +53,38 @@ export const userVerifyEmail = () => {
     onError: (error) => {
       setLoading(false);
       console.error("Erreur vérification email", error);
+    },
+  });
+};
+
+export const userLogin = () => {
+  const router = useRouter();
+  const { setLoading, setUser } = useAuthStore();
+
+  return useMutation({
+    mutationFn: async (data: UserLogin) => {
+      setLoading(true);
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Login failed");
+      }
+
+      const result = await res.json();
+      return result.user;
+    },
+    onSuccess: (user) => {
+      setUser(user); // ✅ tu mets à jour le store
+      router.push("/home");
+    },
+    onError: (error) => {
+      setLoading(false);
+      console.error("Login error:", error);
     },
   });
 };

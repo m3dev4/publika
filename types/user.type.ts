@@ -11,27 +11,34 @@ export interface User {
   isTalent: boolean;
   isAnnouncer: boolean;
   isVerify: boolean;
-  
+
   // Champs pour reset de mot de passe
   passwordResetToken: string | null;
   passwordResetTokenExpiresAt: Date | null;
-  
+
   // Champs pour vérification d'email
   emailVerificationToken: string | null;
   emailVerificationTokenExpiresAt: Date | null;
-  
+
   // Champ obligatoire pour l'onboarding
   onboarding: boolean;
-  
+
   createdAt: Date;
   updatedAt: Date;
+
+  // Sessions associées (optionnel lors du retour)
+  sessions?: UserSession[];
 }
 
 export interface UserSession {
   id: string;
   userId: string;
   ipAddress: string;
-  userAgent: string;
+  userAgent: string | null;
+  token: string;
+  isOnline: boolean;
+  lastActivityAt: Date;
+  expiresAt: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -41,6 +48,11 @@ export interface UserRegister {
   password: string;
 }
 
+export interface UserLogin {
+  email: string;
+  password: string;
+  // Retirer session d'ici car c'est une input de login, pas une sortie
+}
 
 export interface UserOnboarding {
   userId: string;

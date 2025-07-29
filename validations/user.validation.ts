@@ -19,6 +19,12 @@ export const userRegisterSchema = z
     code: z.string().length(6, "Le code doit contenir exactement 6 chiffres"),
   });
 
+  export const userLoginSchema = z.object({
+    email: email().min(1, "Email is required"),
+    password: z.string().min(1, "Password is required"),
+  });
+
 export type registerFormValue = z.infer<typeof userRegisterSchema>;
 export type verifyEmailFormValue = z.infer<typeof userVerifyEmailSchema>;
+export type loginFormValue = z.infer<typeof userLoginSchema>;
 

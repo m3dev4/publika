@@ -10,29 +10,29 @@ datasource db {
 }
 
 model User {
-  id                               String    @id @default(cuid())
-  email                            String    @unique
-  password                         String
-  firstName                        String?
-  lastName                         String?
-  username                         String?   @unique
-  avatar                           String?
-  city                             String?
-  isTalent                         Boolean   @default(false)
-  isAnnouncer                      Boolean   @default(false)
-  description                      String?
-  isVerify                         Boolean   @default(false)
-  
+  id          String  @id @default(cuid())
+  email       String  @unique
+  password    String
+  firstName   String?
+  lastName    String?
+  username    String? @unique
+  avatar      String?
+  city        String?
+  isTalent    Boolean @default(false)
+  isAnnouncer Boolean @default(false)
+  description String?
+  isVerify    Boolean @default(false)
+
   // Champs pour reset de mot de passe
-  passwordResetToken               String?
-  passwordResetTokenExpiresAt      DateTime?
-  
+  passwordResetToken          String?
+  passwordResetTokenExpiresAt DateTime?
+
   // Champs pour vérification d'email
-  emailVerificationToken           String?
-  emailVerificationTokenExpiresAt  DateTime?
-  
+  emailVerificationToken          String?
+  emailVerificationTokenExpiresAt DateTime?
+
   // Champ obligatoire pour l'onboarding
-  onboarding                       Boolean   @default(false)
+  onboarding Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -41,11 +41,15 @@ model User {
 }
 
 model Session {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  ipAddress String
-  userAgent String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  ipAddress      String
+  userAgent      String
+  token          String   @unique
+  lastActivityAt DateTime @default(now())
+  isOnline       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  expiresAt      DateTime
 }
