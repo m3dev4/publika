@@ -1,49 +1,41 @@
 "use client"
 import { useAuthStore } from '@/app/api/store/auth.store'
-import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import React, { useEffect } from 'react'
 
 const HomePage = () => {
-  const {user, isAuthenticated, isLoading, hydrated} = useAuthStore()
+  const { user, isAuthenticated, logout, hydrated } = useAuthStore()
   const router = useRouter()
+  
+  // Forcer la synchronisation avec les cookies au chargement
+  useEffect(() => {
+    if (user && isAuthenticated) {
+      const currentState = useAuthStore.getState();
+      const serializedData = JSON.stringify({ state: currentState, version: 0 });
+      document.cookie = `auth-storage=${encodeURIComponent(serializedData)}; path=/; max-age=604800; SameSite=Lax`;
+      console.log('Forced cookie sync on HomePage load');
+    }
+  }, [user, isAuthenticated])
+
+  const handleLogout = () => {
+    logout()
+    router.push("/auth/login")
+  }
 
   useEffect(() => {
-    console.log("HomePage - Auth state:", { user, isAuthenticated, isLoading, hydrated });
-    
-    if (isLoading || !hydrated) return;
-    
-    if (!isAuthenticated || !user) {
-      console.log("Redirecting to login - not authenticated");
-      router.push("/auth/login");
-      return;
+    // Attendre que Zustand soit hydraté avant de vérifier l'auth
+    if (hydrated && !isAuthenticated) {
+      console.log('Redirecting to login - not authenticated after hydration');
+      router.push("/auth/login")
     }
-    
-    if (!user.isVerify) {
-      console.log("Redirecting to verify-email - email not verified");
-      router.push("/auth/verify-email");
-      return;
-    }
-    
-    if (!user.onboarding) {
-      console.log("Redirecting to onboarding - onboarding not completed");
-      router.push("/onboarding");
-      return;
-    }
-  }, [user, isAuthenticated, isLoading, hydrated, router])
-
-
-  if (isLoading || !hydrated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div>Loading...</div>
-      </div>
-    );
-  }
+  }, [isAuthenticated, hydrated, router])
+ 
 
   return (
     <div>
       <h1>HomePage</h1>
-      <p>Bienvenue {user?.firstName} {user?.lastName}!</p>
+      <p>Bienvenue {user?.firstName}!</p>    
+      <button onClick={handleLogout}>Se deconnecter</button>
     </div>
   )
 }

@@ -16,7 +16,7 @@ export function middleware(request: NextRequest) {
 
   // Routes protégées qui nécessitent une authentification complète
   const protectedRoutes = [
-    '/pages/home',
+    '/pages/home', // TEMPORAIREMENT DÉSACTIVÉ - la page gère sa propre auth
     '/pages/profiles',
     '/pages/dashboard'
   ];
@@ -37,17 +37,25 @@ export function middleware(request: NextRequest) {
   }
 
   // Récupérer les données d'authentification depuis les cookies ou headers
-  // Note: Dans un vrai projet, vous devriez utiliser JWT ou session cookies
+  console.log('=== MIDDLEWARE DEBUG ===');
+  console.log('Path:', pathname);
+  
   const authCookie = request.cookies.get('auth-storage');
+  console.log('Auth cookie exists:', !!authCookie);
+  console.log('Auth cookie value:', authCookie?.value);
+  
   let authData = null;
 
   if (authCookie) {
     try {
       const parsedData = JSON.parse(authCookie.value);
       authData = parsedData.state;
+      console.log('Parsed auth data:', authData);
     } catch (error) {
       console.error('Erreur parsing auth cookie:', error);
     }
+  } else {
+    console.log('NO AUTH COOKIE FOUND');
   }
 
   const isAuthenticated = authData?.isAuthenticated || false;

@@ -32,10 +32,19 @@ export const useAuthStore = create<AuthState>()(
 
       setUser: (user) => {
         console.log("Setting user in store:", user);
-        set({
+        const newState = {
           user,
           isAuthenticated: !!user,
-        });
+        };
+        set(newState);
+        
+        // Synchroniser avec les cookies
+        if (typeof window !== 'undefined') {
+          const currentState = useAuthStore.getState();
+          const serializedData = JSON.stringify({ state: currentState, version: 0 });
+          document.cookie = `auth-storage=${encodeURIComponent(serializedData)}; path=/; max-age=604800; SameSite=Lax`;
+          console.log('Synced setUser to cookies');
+        }
       },
 
       setLoading: (loading) => {
@@ -68,11 +77,28 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: () => {
+        console.log("Logging out - clearing all session data");
+        
+        // Vider le store Zustand
         set({
           user: null,
           isAuthenticated: false,
           pendingEmail: null,
+          hydrated: false,
         });
+        
+        // Nettoyer le localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('auth-storage');
+          
+          // Nettoyer tous les cookies d'authentification
+          document.cookie = 'auth-storage=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+          
+          // Nettoyer d'autres cookies potentiels
+          document.cookie = 'onboarding_completed=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+          
+          console.log("Session data cleared from localStorage and cookies");
+        }
       },
 
       setHydrated: () => {
@@ -92,15 +118,21 @@ export const useAuthStore = create<AuthState>()(
         isAuthenticated: state.isAuthenticated,
         pendingEmail: state.pendingEmail,
       }),
-      onRehydrateStorage: () => (state) => {
-        console.log("Rehydrating auth store:", state);
-        if (state?.user) {
-          console.log("User found in storage:", state.user);
+      onRehydrateStorage: () => (state, error) => {
+        if (error) {
+          console.error('Rehydration error:', error);
+        } else {
+          console.log("Rehydrating auth store:", state);
+          
+          // Synchroniser avec les cookies après la réhydratation
+          if (state && typeof window !== 'undefined') {
+            const serializedData = JSON.stringify({ state, version: 0 });
+            document.cookie = `auth-storage=${encodeURIComponent(serializedData)}; path=/; max-age=604800; SameSite=Lax`;
+            console.log('Synced auth data to cookies');
+          }
         }
-        // Marquer comme hydraté après la réhydratation
-        setTimeout(() => {
-          useAuthStore.getState().setHydrated();
-        }, 0);
+        // Toujours marquer comme hydraté
+        return { ...state, hydrated: true };
       },
     }
   )
