@@ -79,8 +79,22 @@ export const userLogin = () => {
       return result.user;
     },
     onSuccess: (user) => {
-      setUser(user); // ✅ tu mets à jour le store
-      router.push("/home");
+      console.log("Login success - User data:", user);
+      setLoading(false);
+      setUser(user);
+      
+      // Vérifier que le store est bien mis à jour
+      setTimeout(() => {
+        const storeState = useAuthStore.getState();
+        console.log("Store state after login:", storeState);
+      }, 100);
+      
+      // Redirection basée sur l'état de l'onboarding
+      if (!user.onboarding) {
+        router.push("/onboarding");
+      } else {
+        router.push("/pages/home");
+      }
     },
     onError: (error) => {
       setLoading(false);

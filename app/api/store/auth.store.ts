@@ -6,7 +6,8 @@ interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  pendingEmail: string | null; // Email en attente de vérification
+  pendingEmail: string | null;
+  hydrated: boolean;
 
   // Actions
   setUser: (user: User | null) => void;
@@ -14,6 +15,7 @@ interface AuthState {
   setPendingVerification: (email: string) => void;
   setEmailVerified: (user: User) => void;
   logout: () => void;
+  setHydrated: () => void;
 
   // Getters
   needsEmailVerification: () => boolean;
@@ -26,11 +28,13 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isLoading: false,
       pendingEmail: null,
+      hydrated: false,
 
       setUser: (user) => {
+        console.log("Setting user in store:", user);
         set({
           user,
-          isAuthenticated: !!user?.isVerify, // Authentifié seulement si email vérifié
+          isAuthenticated: !!user,
         });
       },
 
@@ -71,6 +75,10 @@ export const useAuthStore = create<AuthState>()(
         });
       },
 
+      setHydrated: () => {
+        set({ hydrated: true });
+      },
+
       // Vérifie si on attend une vérification d'email
       needsEmailVerification: () => {
         const { pendingEmail } = get();
@@ -84,6 +92,16 @@ export const useAuthStore = create<AuthState>()(
         isAuthenticated: state.isAuthenticated,
         pendingEmail: state.pendingEmail,
       }),
+      onRehydrateStorage: () => (state) => {
+        console.log("Rehydrating auth store:", state);
+        if (state?.user) {
+          console.log("User found in storage:", state.user);
+        }
+        // Marquer comme hydraté après la réhydratation
+        setTimeout(() => {
+          useAuthStore.getState().setHydrated();
+        }, 0);
+      },
     }
   )
 );

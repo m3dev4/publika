@@ -16,9 +16,9 @@ export function middleware(request: NextRequest) {
 
   // Routes protégées qui nécessitent une authentification complète
   const protectedRoutes = [
-    '/home',
-    '/profiles',
-    '/dashboard'
+    '/pages/home',
+    '/pages/profiles',
+    '/pages/dashboard'
   ];
 
   // Routes qui nécessitent seulement une vérification d'email
@@ -82,7 +82,7 @@ export function middleware(request: NextRequest) {
     // La page onboarding elle-même gérera la redirection si nécessaire
     if (authData && hasCompletedOnboarding) {
       // Onboarding déjà terminé -> rediriger vers home
-      return NextResponse.redirect(new URL('/home', request.url));
+      return NextResponse.redirect(new URL('/pages/home', request.url));
     }
     // Laisser passer pour que la page onboarding gère l'authentification côté client
   }
@@ -90,7 +90,7 @@ export function middleware(request: NextRequest) {
   // Empêcher les utilisateurs authentifiés d'accéder aux pages d'auth
   if (isAuthenticated && (pathname.startsWith('/auth/login') || pathname.startsWith('/auth/register'))) {
     if (hasCompletedOnboarding) {
-      return NextResponse.redirect(new URL('/home', request.url));
+      return NextResponse.redirect(new URL('/pages/home', request.url));
     } else {
       return NextResponse.redirect(new URL('/onboarding', request.url));
     }
@@ -103,7 +103,7 @@ export function middleware(request: NextRequest) {
     } else if (!hasCompletedOnboarding) {
       return NextResponse.redirect(new URL('/onboarding', request.url));
     } else {
-      return NextResponse.redirect(new URL('/home', request.url));
+      return NextResponse.redirect(new URL('/pages/home', request.url));
     }
   }
 

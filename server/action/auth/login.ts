@@ -1,10 +1,8 @@
-import { PrismaClient } from "@/lib/prisma-client-js";
+import prisma from "@/lib/prisma";
 import { User, UserLogin } from "@/types/user.type";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
-
-const prisma = new PrismaClient();
 
 export const login = async (data: UserLogin, request: Request): Promise<User | null> => {
   try {
