@@ -34,6 +34,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 
 const ProfileEditPage = () => {
   const params = useParams();
@@ -136,22 +138,55 @@ const ProfileEditPage = () => {
     }
   };
 
-  const onSubmit = async (data: updateProfileFormValue) => {
+  const saveSpecificFields = async (fieldsToSave: (keyof updateProfileFormValue)[]) => {
     try {
-      // Only send modified fields
+      const data = watch();
       const modifiedData: Partial<updateProfileFormValue> = {};
 
-      Object.keys(dirtyFields).forEach((key) => {
-        const fieldKey = key as keyof updateProfileFormValue;
-        if (dirtyFields[fieldKey]) {
-          modifiedData[fieldKey] = data[fieldKey];
+      // Ne vérifier que les champs spécifiés
+      fieldsToSave.forEach(field => {
+        if (data[field] !== user?.[field]) {
+          modifiedData[field] = data[field];
         }
       });
 
-      // Don't send empty password
       if (modifiedData.password === "") {
         delete modifiedData.password;
       }
+
+      if (Object.keys(modifiedData).length === 0) {
+        toast.error("Aucune modification détectée");
+        return;
+      }
+
+      await updateProfileMutation.mutateAsync(modifiedData);
+      toast.success("Profil mis à jour avec succès!");
+
+    } catch (error: any) {
+      toast.error(error.message || "Erreur lors de la mise à jour du profil");
+    }
+  };
+
+  const onSubmit = async (data: updateProfileFormValue) => {
+    try {
+      console.log('Current form data:', data);
+      console.log('User data:', user);
+      console.log('Dirty fields:', dirtyFields);
+      
+      // Only send modified fields
+      const modifiedData: Partial<updateProfileFormValue> = {};
+
+      // Comparer manuellement avec les données utilisateur
+      if (data.firstName !== user?.firstName) modifiedData.firstName = data.firstName;
+      if (data.lastName !== user?.lastName) modifiedData.lastName = data.lastName;
+      if (data.username !== user?.username) modifiedData.username = data.username;
+      if (data.city !== user?.city) modifiedData.city = data.city;
+      if (data.description !== user?.description) modifiedData.description = data.description;
+      if (data.isTalent !== user?.isTalent) modifiedData.isTalent = data.isTalent;
+      if (data.isAnnouncer !== user?.isAnnouncer) modifiedData.isAnnouncer = data.isAnnouncer;
+      if (data.password && data.password.trim() !== "") modifiedData.password = data.password;
+
+      console.log('Modified data:', modifiedData);
 
       if (Object.keys(modifiedData).length === 0) {
         toast.error("Aucune modification détectée");
@@ -225,10 +260,7 @@ const ProfileEditPage = () => {
             <CardFooter className="flex justify-between">
               <Button
                 type="button"
-                onClick={async () => {
-                  const formData = watch();
-                  await onSubmit(formData);
-                }}
+                onClick={() => saveSpecificFields(['firstName', 'lastName', 'username', 'city'])}
                 className=""
               >
                 {updateProfileMutation.isPending ? (
@@ -314,6 +346,89 @@ const ProfileEditPage = () => {
               </Button>
             </CardFooter>
           </Card>
+
+          {/* Form 3 */}
+          <div className="py-10">
+            <Card>
+              <CardHeader>
+                <CardTitle>Changer le role de votre profile</CardTitle>
+                <CardDescription>
+                  Vous pouvez changer le role actuel de votre profile
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <Label>Talent</Label>
+                    <Checkbox
+                      id="isTalent"
+                      checked={watchedValues.isTalent}
+                      onCheckedChange={(checked) => setValue("isTalent", checked as boolean)}
+                    />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Label>Announcer</Label>
+                    <Checkbox
+                      id="isAnnouncer"
+                      checked={watchedValues.isAnnouncer}
+                      onCheckedChange={(checked) => setValue("isAnnouncer", checked as boolean)}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button
+                  type="button"
+                  onClick={() => saveSpecificFields(['isTalent', 'isAnnouncer'])}
+                >
+                  {updateProfileMutation.isPending ? (
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    "Changer le role"
+                  )}
+                </Button>
+                <Button type="button" onClick={handleCancel}>
+                  Annuler
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+
+          {/* Form 4 */}
+          <div className="py-10">
+            <Card>
+              <CardHeader>
+                <CardTitle>Changer votre description</CardTitle>
+                <CardDescription>
+                  Vous pouvez changer votre description pour vous identifier
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex space-x-2 flex-wrap items-center">
+                  <div className="space-y-2 py-2">
+                    <Label>Description</Label>
+                    <Textarea rows={50} placeholder="Description" {...register("description")} className="w-96 h-[200px]"/>
+                    {errors.description && <p className="text-red-500">{errors.description.message}</p>}
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button
+                  type="button"
+                  onClick={() => saveSpecificFields(['description'])}
+                >
+                  {updateProfileMutation.isPending ? (
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    "Changer la description"
+                  )}
+                </Button>
+                <Button type="button" onClick={handleCancel}>
+                  Annuler
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
         </form>
       </div>
     </div>
