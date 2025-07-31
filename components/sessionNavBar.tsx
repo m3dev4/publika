@@ -29,7 +29,7 @@ import {
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton"
+import { useAuthStore } from "@/app/api/store/auth.store";
 
 const sidebarVariants = {
   open: {
@@ -90,10 +91,19 @@ const staggerVariants = {
 export function SessionNavBar() {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const pathname = usePathname();
+  const { user, logout } = useAuthStore()
+  const router = useRouter()
+  
+  const handleLogout = () => {
+    logout()
+    router.push("/auth/login")
+  }
+
+
   return (
     <motion.div
       className={cn(
-        "sidebar fixed left-0 z-40 h-full shrink-0 border-r fixed",
+        "sidebar left-0 z-40 h-full top-0 shrink-0 border-r fixed",
       )}
       initial={isCollapsed ? "closed" : "open"}
       animate={isCollapsed ? "closed" : "open"}
@@ -312,14 +322,16 @@ export function SessionNavBar() {
                         asChild
                         className="flex items-center gap-2"
                       >
-                        <Link href="/pages/account/profile">
+                        <Link href={`/pages/account/profile/${user?.id}`}>
                           <UserCircle className="h-4 w-4" /> Profile
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="flex items-center gap-2"
                       >
-                        <LogOut className="h-4 w-4" /> Sign out
+                        <Button onClick={handleLogout} className="flex items-center gap-2">
+                          <LogOut className="h-4 w-4" /> Sign out
+                        </Button>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

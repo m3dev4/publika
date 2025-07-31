@@ -65,3 +65,17 @@ export interface UserOnboarding {
   isTalent: boolean;
   isAnnouncer: boolean;
 }
+
+
+export interface UserUpdateProfile {
+  id: string; 
+  firstName?: string;
+  lastName?: string;
+  username?: string;
+  avatar?: string | null;
+  city?: string;
+  description?: string;
+  isTalent?: boolean;
+  isAnnouncer?: boolean;
+  password?: string;
+}

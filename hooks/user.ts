@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/app/api/store/auth.store";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
-import { UserLogin, UserRegister } from "@/types/user.type";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { UserLogin, UserRegister, UserUpdateProfile } from "@/types/user.type";
 import { register } from "@/server/action/auth/register";
 import { verifyEmail } from "@/server/action/auth/verifyEmail";
 import { login } from "@/server/action/auth/login";
@@ -82,13 +82,13 @@ export const userLogin = () => {
       console.log("Login success - User data:", user);
       setLoading(false);
       setUser(user);
-      
+
       // Vérifier que le store est bien mis à jour
       setTimeout(() => {
         const storeState = useAuthStore.getState();
         console.log("Store state after login:", storeState);
       }, 100);
-      
+
       // Redirection basée sur l'état de l'onboarding
       if (!user.onboarding) {
         router.push("/onboarding");
@@ -99,6 +99,54 @@ export const userLogin = () => {
     onError: (error) => {
       setLoading(false);
       console.error("Login error:", error);
+    },
+  });
+};
+
+export const getUserProfile = () => {
+  const { user } = useAuthStore();
+
+  return useQuery({
+    queryKey: ["user-profile", user?.id],
+    queryFn: async () => {
+      const res = await fetch(`/api/auth/me/${user?.id}`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch profile');
+      }
+      const data = await res.json();
+      return data.user;
+    },
+    enabled: !!user,
+  });
+};
+
+export const updateProfile = () => {
+  const { user, setUser } = useAuthStore();
+
+  return useMutation({
+    mutationFn: async (data: Partial<UserUpdateProfile>) => {
+      const res = await fetch(`/api/auth/userUpdate?id=${user?.id}`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const result = await res.json();
+      
+      if (!res.ok || !result.success) {
+        throw new Error(result.error || "Update profile failed");
+      }
+
+      return result;
+    },
+    onSuccess: (result) => {
+      console.log("Update profile success:", result);
+      if (result.user) {
+        setUser(result.user);
+      }
+    },
+    onError: (error) => {
+      console.error("Update profile error:", error);
     },
   });
 };
