@@ -21,6 +21,7 @@ import {
   MessageCircleWarning,
   TriangleAlert,
   Shield,
+  UserRound,
 } from "lucide-react";
 import { toast, Toaster } from "sonner";
 import {
@@ -36,6 +37,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Switch } from "@/components/ui/switch";
 
 const ProfileEditPage = () => {
   const params = useParams();
@@ -98,81 +101,50 @@ const ProfileEditPage = () => {
     }
   }, [user, params.id, router]);
 
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
 
-    // Validate file type
-    if (!file.type.startsWith("image/")) {
-      toast.error("Veuillez sélectionner une image valide");
+
+ const saveSpecificFields = async (fieldsToSave: (keyof updateProfileFormValue)[]) => {
+  try {
+    console.log('saveSpecificFields called with:', fieldsToSave);
+    const data = watch();
+    console.log('Current form data:', data);
+    console.log('User data:', user);
+    
+    const modifiedData: Partial<updateProfileFormValue> = {};
+
+    fieldsToSave.forEach(field => {
+      console.log(`Checking field ${field}: form=${data[field]}, user=${user?.[field]}`);
+      if (data[field] !== user?.[field]) {
+        modifiedData[field] = data[field];
+        console.log(`Field ${field} modified:`, data[field]);
+      }
+    });
+
+    console.log('Modified data to send:', modifiedData);
+
+    if (Object.keys(modifiedData).length === 0) {
+      toast.error("Aucune modification détectée");
       return;
     }
 
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("L'image ne peut pas dépasser 5MB");
-      return;
-    }
+    console.log('Sending update request...');
+    await updateProfileMutation.mutateAsync(modifiedData);
+    console.log('Update successful');
+    toast.success("Profil mis à jour avec succès!");
 
-    setIsUploading(true);
+  } catch (error: any) {
+    console.error('Update error:', error);
+    toast.error(error.message || "Erreur lors de la mise à jour du profil");
+  }
+};
 
-    try {
-      // Create preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewImage(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-
-      // Here you would typically upload to a service like Cloudinary, AWS S3, etc.
-      // For now, we'll use a placeholder URL
-      const imageUrl = URL.createObjectURL(file);
-      setValue("avatar", imageUrl, { shouldDirty: true });
-
-      toast.success("Image uploadée avec succès");
-    } catch (error) {
-      toast.error("Erreur lors de l'upload de l'image");
-      console.error("Upload error:", error);
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  const saveSpecificFields = async (fieldsToSave: (keyof updateProfileFormValue)[]) => {
-    try {
-      const data = watch();
-      const modifiedData: Partial<updateProfileFormValue> = {};
-
-      // Ne vérifier que les champs spécifiés
-      fieldsToSave.forEach(field => {
-        if (data[field] !== user?.[field]) {
-          modifiedData[field] = data[field];
-        }
-      });
-
-      if (modifiedData.password === "") {
-        delete modifiedData.password;
-      }
-
-      if (Object.keys(modifiedData).length === 0) {
-        toast.error("Aucune modification détectée");
-        return;
-      }
-
-      await updateProfileMutation.mutateAsync(modifiedData);
-      toast.success("Profil mis à jour avec succès!");
-
-    } catch (error: any) {
-      toast.error(error.message || "Erreur lors de la mise à jour du profil");
-    }
-  };
 
   const onSubmit = async (data: updateProfileFormValue) => {
     try {
-      console.log('Current form data:', data);
-      console.log('User data:', user);
-      console.log('Dirty fields:', dirtyFields);
-      
+      console.log("Current form data:", data);
+      console.log("User data:", user);
+      console.log("Dirty fields:", dirtyFields);
+
       // Only send modified fields
       const modifiedData: Partial<updateProfileFormValue> = {};
 
@@ -185,8 +157,9 @@ const ProfileEditPage = () => {
       if (data.isTalent !== user?.isTalent) modifiedData.isTalent = data.isTalent;
       if (data.isAnnouncer !== user?.isAnnouncer) modifiedData.isAnnouncer = data.isAnnouncer;
       if (data.password && data.password.trim() !== "") modifiedData.password = data.password;
+      if (data.avatar !== user?.avatar) modifiedData.avatar = data.avatar;
 
-      console.log('Modified data:', modifiedData);
+      console.log("Modified data:", modifiedData);
 
       if (Object.keys(modifiedData).length === 0) {
         toast.error("Aucune modification détectée");
@@ -203,6 +176,49 @@ const ProfileEditPage = () => {
     }
   };
 
+  const handleUploadAvatar = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Veuillez sélectionner une image valide");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("L'image ne peut pas dépasser 5MB");
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        setValue("avatar", data.url, { shouldDirty: true });
+        setPreviewImage(data.url);
+        await saveSpecificFields(["avatar"]);
+
+        toast.success("Avatar uploadé avec succès");
+      }
+    } catch (error) {
+      toast.error("Erreur lors de l'upload de l'avatar");
+      console.error("Upload error:", error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const handleCancel = () => {
     reset();
     setPreviewImage(user?.avatar || null);
@@ -210,225 +226,233 @@ const ProfileEditPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full relative">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-12 px-4 sm:px-6 lg:px-8">
       <Toaster />
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 py-8 w-full">
-        <div className="flex flex-col items-center space-y-2">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold">Modifier votre profil</h2>
-            <p className="text-sm text-gray-500">
-              Remplissez le formulaire ci-dessous pour modifier votre profil
-            </p>
-          </div>
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50">Modifier votre profil</h1>
+          <p className="text-base text-gray-600 dark:text-gray-400">
+            Remplissez le formulaire ci-dessous pour modifier votre profil.
+          </p>
         </div>
-      </div>
 
-      {/* Form 1*/}
-      <div className="w-full p-4 flex">
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full absolute left-0">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Personal Information Card */}
           <Card>
             <CardHeader>
-              <CardTitle>Information personnelle</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <UserRound className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                Informations personnelles
+              </CardTitle>
+              <CardDescription>Mettez à jour votre nom, nom d'utilisateur, ville et avatar.</CardDescription>
             </CardHeader>
-
-            <CardContent>
-              <div className="flex space-x-2 flex-wrap items-center">
-                <div className="space-y-2 py-2">
-                  <Label>Prénom</Label>
-                  <Input type="text" placeholder="Prénom" {...register("firstName")} />
-                  {errors.firstName && <p className="text-red-500">{errors.firstName.message}</p>}
+            <CardContent className="grid gap-6">
+              <div className="flex items-center gap-4">
+                <Avatar className="h-20 w-20 border-2 border-gray-200 dark:border-gray-700">
+                  <AvatarImage
+                    src={watchedValues.avatar || "/placeholder.svg?height=100&width=100&query=user%20avatar"}
+                    alt="Avatar"
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className="grid gap-1.5 flex-1">
+                  <Label htmlFor="avatar-upload">Changer l'avatar</Label>
+                  <Input
+                    id="avatar-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleUploadAvatar}
+                    className="file:text-sm file:font-medium"
+                  />
+                  {isUploading && <Loader className="mr-2 h-4 w-4 animate-spin text-gray-500" />}
                 </div>
-                <div className="space-y-2 py-2">
-                  <Label>Nom</Label>
-                  <Input type="text" placeholder="Nom" {...register("lastName")} />
-                  {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName">Prénom</Label>
+                  <Input id="firstName" type="text" placeholder="Prénom" {...register("firstName")} />
+                  {errors.firstName && <p className="text-sm text-red-500">{errors.firstName.message}</p>}
                 </div>
-
-                <div className="space-y-2 py-2">
-                  <Label>username</Label>
-                  <Input type="text" placeholder="username" {...register("username")} />
-                  {errors.username && <p className="text-red-500">{errors.username.message}</p>}
+                <div className="space-y-2">
+                  <Label htmlFor="lastName">Nom</Label>
+                  <Input id="lastName" type="text" placeholder="Nom" {...register("lastName")} />
+                  {errors.lastName && <p className="text-sm text-red-500">{errors.lastName.message}</p>}
                 </div>
-                <div className="space-y-2 py-2">
-                  <Label>City</Label>
-                  <Input type="text" placeholder="City" {...register("city")} />
-                  {errors.city && <p className="text-red-500">{errors.city.message}</p>}
+                <div className="space-y-2">
+                  <Label htmlFor="username">Nom d'utilisateur</Label>
+                  <Input id="username" type="text" placeholder="Nom d'utilisateur" {...register("username")} />
+                  {errors.username && <p className="text-sm text-red-500">{errors.username.message}</p>}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="city">Ville</Label>
+                  <Input id="city" type="text" placeholder="Ville" {...register("city")} />
+                  {errors.city && <p className="text-sm text-red-500">{errors.city.message}</p>}
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="flex justify-between">
+            <CardFooter className="flex justify-end gap-2">
+              <Button type="button" variant="outline" onClick={handleCancel}>
+                Annuler
+              </Button>
               <Button
                 type="button"
-                onClick={() => saveSpecificFields(['firstName', 'lastName', 'username', 'city'])}
-                className=""
+                onClick={() => saveSpecificFields(["firstName", "lastName", "username", "city", "avatar"])}
+                disabled={updateProfileMutation.isPending}
               >
-                {updateProfileMutation.isPending ? (
-                  <Loader className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  "Sauvegarder"
-                )}
-              </Button>
-              <Button type="button" onClick={handleCancel} className="">
-                Annuler
+                {updateProfileMutation.isPending ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : "Sauvegarder"}
               </Button>
             </CardFooter>
           </Card>
 
-          {/* Message to indicate the email is not modifiable */}
-          <div className="w-ful p-4">
-            <div className="flex flex-col items-center space-y-2">
-              <div className="flex items-center space-x-2">
-                <TriangleAlert className="w-5 h-5 text-yellow-500" />{" "}
-                <p className="text-sm mt-4">
-                  Votre email ne peut pas être modifié pour des raisons de sécurité.
-                </p>
-              </div>
-              <div className="flex items-center space-x-2 w-full">
+          {/* Email Information Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TriangleAlert className="h-5 w-5 text-yellow-500" />
+                Adresse e-mail
+              </CardTitle>
+              <CardDescription>
+                Votre adresse e-mail ne peut pas être modifiée pour des raisons de sécurité.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-2">
                 <Input
                   id="email"
                   type="email"
                   value={user?.email}
                   disabled
-                  className="cursor-not-allowed transition-colors"
-                  placeholder={user?.email || ""}
+                  className="cursor-not-allowed bg-gray-100 dark:bg-gray-800"
                 />
-                <CheckCircle className="w-5 h-5 text-green-500" />{" "}
-                <span className="text-xs">Vérifié</span>
+                <CheckCircle className="w-5 h-5 text-green-500" />
+                <span className="text-sm text-gray-600 dark:text-gray-400">Vérifié</span>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
-          {/* Form 2 */}
-
+          {/* Security Information Card */}
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-3">
-                <Shield className="h-5 w-5" />
-                <div>
-                  <CardTitle>Informations de sécurité</CardTitle>
-                  <CardDescription>
-                    Modifier votre mot de passe pour sécuriser votre compte
-                  </CardDescription>
-                </div>
-              </div>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                Informations de sécurité
+              </CardTitle>
+              <CardDescription>Modifiez votre mot de passe pour sécuriser votre compte.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="password">Nouveau mot de passe</Label>
                 <div className="relative">
                   <Input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     placeholder="Nouveau mot de passe"
                     {...register("password")}
                   />
-                  <button
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 text-gray-500 dark:text-gray-400"
                   >
-                    {showPassword ? <EyeOff /> : <Eye />}
-                  </button>
-                  {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    <span className="sr-only">
+                      {showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                    </span>
+                  </Button>
                 </div>
+                {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
               </div>
             </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button type="submit">
+            <CardFooter className="flex justify-end gap-2">
+              <Button type="button" variant="outline" onClick={handleCancel}>
+                Annuler
+              </Button>
+              <Button type="submit" disabled={updateProfileMutation.isPending}>
                 {updateProfileMutation.isPending ? (
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
                   "Changer le mot de passe"
                 )}
               </Button>
-              <Button type="button" onClick={handleCancel}>
+            </CardFooter>
+          </Card>
+
+          {/* Role Change Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Changer le rôle de votre profil</CardTitle>
+              <CardDescription>Vous pouvez changer le rôle actuel de votre profil.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="isTalent">Talent</Label>
+                <Switch
+                  id="isTalent"
+                  checked={watchedValues.isTalent}
+                  onCheckedChange={(checked) => setValue("isTalent", checked as boolean)}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="isAnnouncer">Annonceur</Label>
+                <Switch
+                  id="isAnnouncer"
+                  checked={watchedValues.isAnnouncer}
+                  onCheckedChange={(checked) => setValue("isAnnouncer", checked as boolean)}
+                />
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end gap-2">
+              <Button type="button" variant="outline" onClick={handleCancel}>
                 Annuler
+              </Button>
+              <Button
+                type="button"
+                onClick={() => saveSpecificFields(["isTalent", "isAnnouncer"])}
+                disabled={updateProfileMutation.isPending}
+              >
+                {updateProfileMutation.isPending ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : "Changer le rôle"}
               </Button>
             </CardFooter>
           </Card>
 
-          {/* Form 3 */}
-          <div className="py-10">
-            <Card>
-              <CardHeader>
-                <CardTitle>Changer le role de votre profile</CardTitle>
-                <CardDescription>
-                  Vous pouvez changer le role actuel de votre profile
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-col space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <Label>Talent</Label>
-                    <Checkbox
-                      id="isTalent"
-                      checked={watchedValues.isTalent}
-                      onCheckedChange={(checked) => setValue("isTalent", checked as boolean)}
-                    />
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Label>Announcer</Label>
-                    <Checkbox
-                      id="isAnnouncer"
-                      checked={watchedValues.isAnnouncer}
-                      onCheckedChange={(checked) => setValue("isAnnouncer", checked as boolean)}
-                    />
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button
-                  type="button"
-                  onClick={() => saveSpecificFields(['isTalent', 'isAnnouncer'])}
-                >
-                  {updateProfileMutation.isPending ? (
-                    <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    "Changer le role"
-                  )}
-                </Button>
-                <Button type="button" onClick={handleCancel}>
-                  Annuler
-                </Button>
-              </CardFooter>
-            </Card>
-          </div>
-
-          {/* Form 4 */}
-          <div className="py-10">
-            <Card>
-              <CardHeader>
-                <CardTitle>Changer votre description</CardTitle>
-                <CardDescription>
-                  Vous pouvez changer votre description pour vous identifier
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex space-x-2 flex-wrap items-center">
-                  <div className="space-y-2 py-2">
-                    <Label>Description</Label>
-                    <Textarea rows={50} placeholder="Description" {...register("description")} className="w-96 h-[200px]"/>
-                    {errors.description && <p className="text-red-500">{errors.description.message}</p>}
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button
-                  type="button"
-                  onClick={() => saveSpecificFields(['description'])}
-                >
-                  {updateProfileMutation.isPending ? (
-                    <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    "Changer la description"
-                  )}
-                </Button>
-                <Button type="button" onClick={handleCancel}>
-                  Annuler
-                </Button>
-              </CardFooter>
-            </Card>
-          </div>
+          {/* Description Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Changer votre description</CardTitle>
+              <CardDescription>Vous pouvez changer votre description pour vous identifier.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  placeholder="Décrivez-vous ici..."
+                  {...register("description")}
+                  className="min-h-[120px]" // Adjusted height
+                />
+                {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end gap-2">
+              <Button type="button" variant="outline" onClick={handleCancel}>
+                Annuler
+              </Button>
+              <Button
+                type="button"
+                onClick={() => saveSpecificFields(["description"])}
+                disabled={updateProfileMutation.isPending}
+              >
+                {updateProfileMutation.isPending ? (
+                  <Loader className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Changer la description"
+                )}
+              </Button>
+            </CardFooter>
+          </Card>
         </form>
       </div>
     </div>
