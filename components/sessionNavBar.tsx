@@ -27,7 +27,7 @@ import {
   UserSearch,
 } from "lucide-react";
 import Image from "next/image";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -108,7 +108,6 @@ export function SessionNavBar() {
       initial={isCollapsed ? "closed" : "open"}
       animate={isCollapsed ? "closed" : "open"}
       variants={sidebarVariants}
-      transition={transitionProps}
       onMouseEnter={() => setIsCollapsed(false)}
       onMouseLeave={() => setIsCollapsed(true)}
     >
@@ -284,8 +283,9 @@ export function SessionNavBar() {
                     <DropdownMenuTrigger className="w-full">
                       <div className="flex h-8 w-full flex-row items-center gap-2 rounded-md px-2 py-1.5  transition hover:bg-muted hover:text-primary">
                         <Avatar className="size-4">
+                        <AvatarImage src={user?.avatar} alt={user?.username} />
                           <AvatarFallback>
-                            A
+                            {user?.firstName?.charAt(0) + user?.lastName?.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
                         <motion.li
@@ -304,16 +304,17 @@ export function SessionNavBar() {
                     <DropdownMenuContent sideOffset={5}>
                       <div className="flex flex-row items-center gap-2 p-2">
                         <Avatar className="size-6">
+                        <AvatarImage src={user?.avatar} alt={user?.username} />
                           <AvatarFallback>
-                            AL
+                            {user?.firstName?.charAt(0) + user?.lastName?.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col text-left">
                           <span className="text-sm font-medium">
-                            {`Andrew Luo`}
+                            {user?.username}
                           </span>
                           <span className="line-clamp-1 text-xs text-muted-foreground">
-                            {`andrew@usehindsight.com`}
+                            {user?.email}
                           </span>
                         </div>
                       </div>

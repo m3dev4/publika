@@ -101,43 +101,39 @@ const ProfileEditPage = () => {
     }
   }, [user, params.id, router]);
 
+  const saveSpecificFields = async (fieldsToSave: (keyof updateProfileFormValue)[]) => {
+    try {
+      console.log("saveSpecificFields called with:", fieldsToSave);
+      const data = watch();
+      console.log("Current form data:", data);
+      console.log("User data:", user);
 
+      const modifiedData: Partial<updateProfileFormValue> = {};
 
- const saveSpecificFields = async (fieldsToSave: (keyof updateProfileFormValue)[]) => {
-  try {
-    console.log('saveSpecificFields called with:', fieldsToSave);
-    const data = watch();
-    console.log('Current form data:', data);
-    console.log('User data:', user);
-    
-    const modifiedData: Partial<updateProfileFormValue> = {};
+      fieldsToSave.forEach((field) => {
+        console.log(`Checking field ${field}: form=${data[field]}, user=${user?.[field]}`);
+        if (data[field] !== user?.[field]) {
+          modifiedData[field] = data[field];
+          console.log(`Field ${field} modified:`, data[field]);
+        }
+      });
 
-    fieldsToSave.forEach(field => {
-      console.log(`Checking field ${field}: form=${data[field]}, user=${user?.[field]}`);
-      if (data[field] !== user?.[field]) {
-        modifiedData[field] = data[field];
-        console.log(`Field ${field} modified:`, data[field]);
+      console.log("Modified data to send:", modifiedData);
+
+      if (Object.keys(modifiedData).length === 0) {
+        toast.error("Aucune modification détectée");
+        return;
       }
-    });
 
-    console.log('Modified data to send:', modifiedData);
-
-    if (Object.keys(modifiedData).length === 0) {
-      toast.error("Aucune modification détectée");
-      return;
+      console.log("Sending update request...");
+      await updateProfileMutation.mutateAsync(modifiedData);
+      console.log("Update successful");
+      toast.success("Profil mis à jour avec succès!");
+    } catch (error: any) {
+      console.error("Update error:", error);
+      toast.error(error.message || "Erreur lors de la mise à jour du profil");
     }
-
-    console.log('Sending update request...');
-    await updateProfileMutation.mutateAsync(modifiedData);
-    console.log('Update successful');
-    toast.success("Profil mis à jour avec succès!");
-
-  } catch (error: any) {
-    console.error('Update error:', error);
-    toast.error(error.message || "Erreur lors de la mise à jour du profil");
-  }
-};
-
+  };
 
   const onSubmit = async (data: updateProfileFormValue) => {
     try {
@@ -231,7 +227,9 @@ const ProfileEditPage = () => {
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50">Modifier votre profil</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
+            Modifier votre profil
+          </h1>
           <p className="text-base text-gray-600 dark:text-gray-400">
             Remplissez le formulaire ci-dessous pour modifier votre profil.
           </p>
@@ -245,19 +243,24 @@ const ProfileEditPage = () => {
                 <UserRound className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                 Informations personnelles
               </CardTitle>
-              <CardDescription>Mettez à jour votre nom, nom d'utilisateur, ville et avatar.</CardDescription>
+              <CardDescription>
+                Mettez à jour votre nom, nom d&lsquo;utilisateur, ville et avatar.
+              </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-6">
               <div className="flex items-center gap-4">
                 <Avatar className="h-20 w-20 border-2 border-gray-200 dark:border-gray-700">
                   <AvatarImage
-                    src={watchedValues.avatar || "/placeholder.svg?height=100&width=100&query=user%20avatar"}
+                    src={
+                      watchedValues.avatar ||
+                      "/placeholder.svg?height=100&width=100&query=user%20avatar"
+                    }
                     alt="Avatar"
                   />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-1.5 flex-1">
-                  <Label htmlFor="avatar-upload">Changer l'avatar</Label>
+                  <Label htmlFor="avatar-upload">Changer l&lsquo;avatar</Label>
                   <Input
                     id="avatar-upload"
                     type="file"
@@ -271,18 +274,34 @@ const ProfileEditPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">Prénom</Label>
-                  <Input id="firstName" type="text" placeholder="Prénom" {...register("firstName")} />
-                  {errors.firstName && <p className="text-sm text-red-500">{errors.firstName.message}</p>}
+                  <Input
+                    id="firstName"
+                    type="text"
+                    placeholder="Prénom"
+                    {...register("firstName")}
+                  />
+                  {errors.firstName && (
+                    <p className="text-sm text-red-500">{errors.firstName.message}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Nom</Label>
                   <Input id="lastName" type="text" placeholder="Nom" {...register("lastName")} />
-                  {errors.lastName && <p className="text-sm text-red-500">{errors.lastName.message}</p>}
+                  {errors.lastName && (
+                    <p className="text-sm text-red-500">{errors.lastName.message}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="username">Nom d'utilisateur</Label>
-                  <Input id="username" type="text" placeholder="Nom d'utilisateur" {...register("username")} />
-                  {errors.username && <p className="text-sm text-red-500">{errors.username.message}</p>}
+                  <Label htmlFor="username">Nom d&rsquo;utilisateur</Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    placeholder="Nom d'utilisateur"
+                    {...register("username")}
+                  />
+                  {errors.username && (
+                    <p className="text-sm text-red-500">{errors.username.message}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="city">Ville</Label>
@@ -297,10 +316,16 @@ const ProfileEditPage = () => {
               </Button>
               <Button
                 type="button"
-                onClick={() => saveSpecificFields(["firstName", "lastName", "username", "city", "avatar"])}
+                onClick={() =>
+                  saveSpecificFields(["firstName", "lastName", "username", "city", "avatar"])
+                }
                 disabled={updateProfileMutation.isPending}
               >
-                {updateProfileMutation.isPending ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : "Sauvegarder"}
+                {updateProfileMutation.isPending ? (
+                  <Loader className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Sauvegarder"
+                )}
               </Button>
             </CardFooter>
           </Card>
@@ -338,7 +363,9 @@ const ProfileEditPage = () => {
                 <Shield className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                 Informations de sécurité
               </CardTitle>
-              <CardDescription>Modifiez votre mot de passe pour sécuriser votre compte.</CardDescription>
+              <CardDescription>
+                Modifiez votre mot de passe pour sécuriser votre compte.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -363,7 +390,9 @@ const ProfileEditPage = () => {
                     </span>
                   </Button>
                 </div>
-                {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+                {errors.password && (
+                  <p className="text-sm text-red-500">{errors.password.message}</p>
+                )}
               </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
@@ -413,7 +442,11 @@ const ProfileEditPage = () => {
                 onClick={() => saveSpecificFields(["isTalent", "isAnnouncer"])}
                 disabled={updateProfileMutation.isPending}
               >
-                {updateProfileMutation.isPending ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : "Changer le rôle"}
+                {updateProfileMutation.isPending ? (
+                  <Loader className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Changer le rôle"
+                )}
               </Button>
             </CardFooter>
           </Card>
@@ -422,7 +455,9 @@ const ProfileEditPage = () => {
           <Card>
             <CardHeader>
               <CardTitle>Changer votre description</CardTitle>
-              <CardDescription>Vous pouvez changer votre description pour vous identifier.</CardDescription>
+              <CardDescription>
+                Vous pouvez changer votre description pour vous identifier.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
@@ -433,7 +468,9 @@ const ProfileEditPage = () => {
                   {...register("description")}
                   className="min-h-[120px]" // Adjusted height
                 />
-                {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
+                {errors.description && (
+                  <p className="text-sm text-red-500">{errors.description.message}</p>
+                )}
               </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
