@@ -1,0 +1,168 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { addSecurityHeaders, securityMiddleware } from '@/lib/security-middleware';
+
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  
+  // Appliquer les vérifications de sécurité
+  const securityResponse = await securityMiddleware(request);
+  if (securityResponse) {
+    return addSecurityHeaders(securityResponse);
+  }
+  
+  // Routes publiques qui ne nécessitent pas d'authentification
+  const publicRoutes = [
+    '/auth/login',
+    '/auth/register', 
+    '/auth/verify-email',
+    '/auth/verify-success',
+    '/api',
+    '/_next',
+    '/favicon.ico'
+  ];
+
+  // Routes protégées qui nécessitent une authentification complète
+  const protectedRoutes = [
+    '/pages/home', // TEMPORAIREMENT DÉSACTIVÉ - la page gère sa propre auth
+    '/pages/profiles',
+    '/pages/dashboard'
+  ];
+
+  // Routes admin qui nécessitent le rôle ADMIN
+  const adminRoutes = [
+    '/admin'
+  ];
+
+  // Routes qui nécessitent seulement une vérification d'email
+  const emailVerifiedRoutes = [
+    '/onboarding'
+  ];
+
+  // Vérifier si la route est publique
+  const isPublicRoute = publicRoutes.some(route => 
+    pathname.startsWith(route)
+  );
+
+  // Si c'est une route publique, laisser passer
+  if (isPublicRoute) {
+    return NextResponse.next();
+  }
+
+  // Récupérer les données d'authentification depuis les cookies ou headers
+  console.log('=== MIDDLEWARE DEBUG ===');
+  console.log('Path:', pathname);
+  
+  const authCookie = request.cookies.get('auth-storage');
+  console.log('Auth cookie exists:', !!authCookie);
+  console.log('Auth cookie value:', authCookie?.value);
+  
+  let authData = null;
+
+  if (authCookie) {
+    try {
+      const parsedData = JSON.parse(authCookie.value);
+      authData = parsedData.state;
+      console.log('Parsed auth data:', authData);
+    } catch (error) {
+      console.error('Erreur parsing auth cookie:', error);
+    }
+  } else {
+    console.log('NO AUTH COOKIE FOUND');
+  }
+
+  const isAuthenticated = authData?.isAuthenticated || false;
+  const user = authData?.user;
+  const hasCompletedOnboarding = user?.onboarding || false;
+  const userRole = user?.role || 'USER';
+
+  // Vérifier les routes protégées
+  const isProtectedRoute = protectedRoutes.some(route => 
+    pathname.startsWith(route)
+  );
+
+  const isEmailVerifiedRoute = emailVerifiedRoutes.some(route => 
+    pathname.startsWith(route)
+  );
+
+  const isAdminRoute = adminRoutes.some(route => 
+    pathname.startsWith(route)
+  );
+
+  // Vérifier les routes admin en premier
+  if (isAdminRoute) {
+    if (!isAuthenticated) {
+      console.log('Admin route - not authenticated, redirecting to login');
+      return NextResponse.redirect(new URL('/auth/login', request.url));
+    }
+    
+    if (userRole !== 'ADMIN') {
+      console.log('Admin route - insufficient permissions, redirecting to unauthorized');
+      return NextResponse.redirect(new URL('/unauthorized', request.url));
+    }
+    
+    if (!hasCompletedOnboarding) {
+      console.log('Admin route - onboarding not completed, redirecting to onboarding');
+      return NextResponse.redirect(new URL('/onboarding', request.url));
+    }
+  }
+
+  // Si l'utilisateur essaie d'accéder à une route protégée
+  if (isProtectedRoute) {
+    if (!isAuthenticated) {
+      // Pas authentifié -> rediriger vers login
+      return NextResponse.redirect(new URL('/auth/login', request.url));
+    }
+    
+    if (!hasCompletedOnboarding) {
+      // Authentifié mais pas d'onboarding -> rediriger vers onboarding
+      return NextResponse.redirect(new URL('/onboarding', request.url));
+    }
+  }
+
+  // Si l'utilisateur essaie d'accéder à l'onboarding
+  if (isEmailVerifiedRoute) {
+    // Permettre l'accès à onboarding même sans cookie
+    // La page onboarding elle-même gérera la redirection si nécessaire
+    if (authData && hasCompletedOnboarding) {
+      // Onboarding déjà terminé -> rediriger vers home
+      return NextResponse.redirect(new URL('/pages/home', request.url));
+    }
+    // Laisser passer pour que la page onboarding gère l'authentification côté client
+  }
+
+  // Empêcher les utilisateurs authentifiés d'accéder aux pages d'auth
+  if (isAuthenticated && (pathname.startsWith('/auth/login') || pathname.startsWith('/auth/register'))) {
+    if (hasCompletedOnboarding) {
+      return NextResponse.redirect(new URL('/pages/home', request.url));
+    } else {
+      return NextResponse.redirect(new URL('/onboarding', request.url));
+    }
+  }
+
+  // Redirection de la page racine
+  if (pathname === '/') {
+    if (!isAuthenticated) {
+      return NextResponse.redirect(new URL('/auth/login', request.url));
+    } else if (!hasCompletedOnboarding) {
+      return NextResponse.redirect(new URL('/onboarding', request.url));
+    } else {
+      return NextResponse.redirect(new URL('/pages/home', request.url));
+    }
+  }
+
+  const response = NextResponse.next();
+  return addSecurityHeaders(response);
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
+};

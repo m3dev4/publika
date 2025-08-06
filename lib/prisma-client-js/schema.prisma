@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  firstName   String?
+  lastName    String?
+  username    String?  @unique
+  avatar      String?
+  city        String?
+  isTalent    Boolean  @default(false)
+  isAnnouncer Boolean  @default(false)
+  description String?
+  isVerify    Boolean  @default(false)
+  role        UserRole @default(USER)
+
+  // Champs pour reset de mot de passe
+  passwordResetToken          String?
+  passwordResetTokenExpiresAt DateTime?
+
+  // Champs pour vérification d'email
+  emailVerificationToken          String?
+  emailVerificationTokenExpiresAt DateTime?
+
+  // Champ obligatoire pour l'onboarding
+  onboarding Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions   Session[]
+  categories Category[]
+  posts      Posts[]
+}
+
+model Session {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  ipAddress      String
+  userAgent      String
+  token          String   @unique
+  lastActivityAt DateTime @default(now())
+  isOnline       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  expiresAt      DateTime
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  name      String
+  tags      Tag[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Posts[]
+}
+
+model Tag {
+  id         String   @id @default(cuid())
+  name       String
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Posts {
+  id         String     @id @default(cuid())
+  title      String
+  content    String
+  userId     String
+  user       User       @relation(fields: [userId], references: [id])
+  categoryId String
+  category   Category   @relation(fields: [categoryId], references: [id])
+  type       PostType
+  status     PostStatus
+  photo      String?
+  prices     Float?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PostType {
+  GENERAL
+  MISSION
+}
