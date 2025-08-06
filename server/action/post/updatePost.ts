@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { Post } from "@/types/post.type";
 import { PrismaClient } from "@/lib/prisma-client-js";

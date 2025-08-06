@@ -11,11 +11,15 @@ export async function PUT(
     const content = body.get("content") as string;
     const type = body.get("type") as "GENERAL" | "MISSION";
     if (!type) {
-      return NextResponse.json({ error: "Le champ type est requis" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Le champ type est requis" },
+        { status: 400 },
+      );
     }
     const categoryId = body.get("categoryId") as string;
     const photo = body.get("photo") as string;
-    const status = (body.get("status") as "DRAFT" | "PUBLISHED" | "ARCHIVED") || "DRAFT";
+    const status =
+      (body.get("status") as "DRAFT" | "PUBLISHED" | "ARCHIVED") || "DRAFT";
     const prices = body.get("prices") as string;
 
     const post = {

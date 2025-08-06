@@ -24,16 +24,16 @@ export const createPost = async (post: Post, userId: string) => {
         status: post.status,
         prices: post.prices,
         user: {
-          connect: { id: userId }
+          connect: { id: userId },
         },
         category: {
-          connect: { id: post.categoryId }
-        }
+          connect: { id: post.categoryId },
+        },
       },
       include: {
         user: true,
         category: true,
-      }
+      },
     });
 
     return newPost;
