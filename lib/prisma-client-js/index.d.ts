@@ -38,6 +38,16 @@ export type Tag = $Result.DefaultSelection<Prisma.$TagPayload>
  * 
  */
 export type Posts = $Result.DefaultSelection<Prisma.$PostsPayload>
+/**
+ * Model City
+ * 
+ */
+export type City = $Result.DefaultSelection<Prisma.$CityPayload>
+/**
+ * Model Region
+ * 
+ */
+export type Region = $Result.DefaultSelection<Prisma.$RegionPayload>
 
 /**
  * Enums
@@ -255,6 +265,26 @@ export class PrismaClient<
     * ```
     */
   get posts(): Prisma.PostsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.city`: Exposes CRUD operations for the **City** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Cities
+    * const cities = await prisma.city.findMany()
+    * ```
+    */
+  get city(): Prisma.CityDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.region`: Exposes CRUD operations for the **Region** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Regions
+    * const regions = await prisma.region.findMany()
+    * ```
+    */
+  get region(): Prisma.RegionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -699,7 +729,9 @@ export namespace Prisma {
     Session: 'Session',
     Category: 'Category',
     Tag: 'Tag',
-    Posts: 'Posts'
+    Posts: 'Posts',
+    City: 'City',
+    Region: 'Region'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -718,7 +750,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "category" | "tag" | "posts"
+      modelProps: "user" | "session" | "category" | "tag" | "posts" | "city" | "region"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1092,6 +1124,154 @@ export namespace Prisma {
           }
         }
       }
+      City: {
+        payload: Prisma.$CityPayload<ExtArgs>
+        fields: Prisma.CityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload>
+          }
+          findFirst: {
+            args: Prisma.CityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload>
+          }
+          findMany: {
+            args: Prisma.CityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload>[]
+          }
+          create: {
+            args: Prisma.CityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload>
+          }
+          createMany: {
+            args: Prisma.CityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload>[]
+          }
+          delete: {
+            args: Prisma.CityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload>
+          }
+          update: {
+            args: Prisma.CityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload>
+          }
+          deleteMany: {
+            args: Prisma.CityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload>[]
+          }
+          upsert: {
+            args: Prisma.CityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CityPayload>
+          }
+          aggregate: {
+            args: Prisma.CityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCity>
+          }
+          groupBy: {
+            args: Prisma.CityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CityCountArgs<ExtArgs>
+            result: $Utils.Optional<CityCountAggregateOutputType> | number
+          }
+        }
+      }
+      Region: {
+        payload: Prisma.$RegionPayload<ExtArgs>
+        fields: Prisma.RegionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RegionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RegionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload>
+          }
+          findFirst: {
+            args: Prisma.RegionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RegionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload>
+          }
+          findMany: {
+            args: Prisma.RegionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload>[]
+          }
+          create: {
+            args: Prisma.RegionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload>
+          }
+          createMany: {
+            args: Prisma.RegionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RegionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload>[]
+          }
+          delete: {
+            args: Prisma.RegionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload>
+          }
+          update: {
+            args: Prisma.RegionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload>
+          }
+          deleteMany: {
+            args: Prisma.RegionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RegionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RegionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload>[]
+          }
+          upsert: {
+            args: Prisma.RegionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegionPayload>
+          }
+          aggregate: {
+            args: Prisma.RegionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRegion>
+          }
+          groupBy: {
+            args: Prisma.RegionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RegionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RegionCountArgs<ExtArgs>
+            result: $Utils.Optional<RegionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1189,6 +1369,8 @@ export namespace Prisma {
     category?: CategoryOmit
     tag?: TagOmit
     posts?: PostsOmit
+    city?: CityOmit
+    region?: RegionOmit
   }
 
   /* Types for Logging */
@@ -1373,6 +1555,68 @@ export namespace Prisma {
 
 
   /**
+   * Count Type CityCountOutputType
+   */
+
+  export type CityCountOutputType = {
+    users: number
+  }
+
+  export type CityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | CityCountOutputTypeCountUsersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CityCountOutputType without action
+   */
+  export type CityCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CityCountOutputType
+     */
+    select?: CityCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CityCountOutputType without action
+   */
+  export type CityCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+  }
+
+
+  /**
+   * Count Type RegionCountOutputType
+   */
+
+  export type RegionCountOutputType = {
+    cities: number
+  }
+
+  export type RegionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cities?: boolean | RegionCountOutputTypeCountCitiesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RegionCountOutputType without action
+   */
+  export type RegionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegionCountOutputType
+     */
+    select?: RegionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RegionCountOutputType without action
+   */
+  export type RegionCountOutputTypeCountCitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CityWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -1394,12 +1638,12 @@ export namespace Prisma {
     lastName: string | null
     username: string | null
     avatar: string | null
-    city: string | null
     isTalent: boolean | null
     isAnnouncer: boolean | null
     description: string | null
     isVerify: boolean | null
     role: $Enums.UserRole | null
+    cityId: string | null
     passwordResetToken: string | null
     passwordResetTokenExpiresAt: Date | null
     emailVerificationToken: string | null
@@ -1417,12 +1661,12 @@ export namespace Prisma {
     lastName: string | null
     username: string | null
     avatar: string | null
-    city: string | null
     isTalent: boolean | null
     isAnnouncer: boolean | null
     description: string | null
     isVerify: boolean | null
     role: $Enums.UserRole | null
+    cityId: string | null
     passwordResetToken: string | null
     passwordResetTokenExpiresAt: Date | null
     emailVerificationToken: string | null
@@ -1440,12 +1684,12 @@ export namespace Prisma {
     lastName: number
     username: number
     avatar: number
-    city: number
     isTalent: number
     isAnnouncer: number
     description: number
     isVerify: number
     role: number
+    cityId: number
     passwordResetToken: number
     passwordResetTokenExpiresAt: number
     emailVerificationToken: number
@@ -1465,12 +1709,12 @@ export namespace Prisma {
     lastName?: true
     username?: true
     avatar?: true
-    city?: true
     isTalent?: true
     isAnnouncer?: true
     description?: true
     isVerify?: true
     role?: true
+    cityId?: true
     passwordResetToken?: true
     passwordResetTokenExpiresAt?: true
     emailVerificationToken?: true
@@ -1488,12 +1732,12 @@ export namespace Prisma {
     lastName?: true
     username?: true
     avatar?: true
-    city?: true
     isTalent?: true
     isAnnouncer?: true
     description?: true
     isVerify?: true
     role?: true
+    cityId?: true
     passwordResetToken?: true
     passwordResetTokenExpiresAt?: true
     emailVerificationToken?: true
@@ -1511,12 +1755,12 @@ export namespace Prisma {
     lastName?: true
     username?: true
     avatar?: true
-    city?: true
     isTalent?: true
     isAnnouncer?: true
     description?: true
     isVerify?: true
     role?: true
+    cityId?: true
     passwordResetToken?: true
     passwordResetTokenExpiresAt?: true
     emailVerificationToken?: true
@@ -1607,12 +1851,12 @@ export namespace Prisma {
     lastName: string | null
     username: string | null
     avatar: string | null
-    city: string | null
     isTalent: boolean
     isAnnouncer: boolean
     description: string | null
     isVerify: boolean
     role: $Enums.UserRole
+    cityId: string | null
     passwordResetToken: string | null
     passwordResetTokenExpiresAt: Date | null
     emailVerificationToken: string | null
@@ -1647,12 +1891,12 @@ export namespace Prisma {
     lastName?: boolean
     username?: boolean
     avatar?: boolean
-    city?: boolean
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: boolean
     isVerify?: boolean
     role?: boolean
+    cityId?: boolean
     passwordResetToken?: boolean
     passwordResetTokenExpiresAt?: boolean
     emailVerificationToken?: boolean
@@ -1660,6 +1904,7 @@ export namespace Prisma {
     onboarding?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    city?: boolean | User$cityArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
@@ -1674,12 +1919,12 @@ export namespace Prisma {
     lastName?: boolean
     username?: boolean
     avatar?: boolean
-    city?: boolean
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: boolean
     isVerify?: boolean
     role?: boolean
+    cityId?: boolean
     passwordResetToken?: boolean
     passwordResetTokenExpiresAt?: boolean
     emailVerificationToken?: boolean
@@ -1687,6 +1932,7 @@ export namespace Prisma {
     onboarding?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    city?: boolean | User$cityArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1697,12 +1943,12 @@ export namespace Prisma {
     lastName?: boolean
     username?: boolean
     avatar?: boolean
-    city?: boolean
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: boolean
     isVerify?: boolean
     role?: boolean
+    cityId?: boolean
     passwordResetToken?: boolean
     passwordResetTokenExpiresAt?: boolean
     emailVerificationToken?: boolean
@@ -1710,6 +1956,7 @@ export namespace Prisma {
     onboarding?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    city?: boolean | User$cityArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1720,12 +1967,12 @@ export namespace Prisma {
     lastName?: boolean
     username?: boolean
     avatar?: boolean
-    city?: boolean
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: boolean
     isVerify?: boolean
     role?: boolean
+    cityId?: boolean
     passwordResetToken?: boolean
     passwordResetTokenExpiresAt?: boolean
     emailVerificationToken?: boolean
@@ -1735,19 +1982,25 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "firstName" | "lastName" | "username" | "avatar" | "city" | "isTalent" | "isAnnouncer" | "description" | "isVerify" | "role" | "passwordResetToken" | "passwordResetTokenExpiresAt" | "emailVerificationToken" | "emailVerificationTokenExpiresAt" | "onboarding" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "firstName" | "lastName" | "username" | "avatar" | "isTalent" | "isAnnouncer" | "description" | "isVerify" | "role" | "cityId" | "passwordResetToken" | "passwordResetTokenExpiresAt" | "emailVerificationToken" | "emailVerificationTokenExpiresAt" | "onboarding" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    city?: boolean | User$cityArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    city?: boolean | User$cityArgs<ExtArgs>
+  }
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    city?: boolean | User$cityArgs<ExtArgs>
+  }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      city: Prisma.$CityPayload<ExtArgs> | null
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       posts: Prisma.$PostsPayload<ExtArgs>[]
@@ -1760,12 +2013,12 @@ export namespace Prisma {
       lastName: string | null
       username: string | null
       avatar: string | null
-      city: string | null
       isTalent: boolean
       isAnnouncer: boolean
       description: string | null
       isVerify: boolean
       role: $Enums.UserRole
+      cityId: string | null
       passwordResetToken: string | null
       passwordResetTokenExpiresAt: Date | null
       emailVerificationToken: string | null
@@ -2167,6 +2420,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    city<T extends User$cityArgs<ExtArgs> = {}>(args?: Subset<T, User$cityArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends User$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, User$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2206,12 +2460,12 @@ export namespace Prisma {
     readonly lastName: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
     readonly avatar: FieldRef<"User", 'String'>
-    readonly city: FieldRef<"User", 'String'>
     readonly isTalent: FieldRef<"User", 'Boolean'>
     readonly isAnnouncer: FieldRef<"User", 'Boolean'>
     readonly description: FieldRef<"User", 'String'>
     readonly isVerify: FieldRef<"User", 'Boolean'>
     readonly role: FieldRef<"User", 'UserRole'>
+    readonly cityId: FieldRef<"User", 'String'>
     readonly passwordResetToken: FieldRef<"User", 'String'>
     readonly passwordResetTokenExpiresAt: FieldRef<"User", 'DateTime'>
     readonly emailVerificationToken: FieldRef<"User", 'String'>
@@ -2468,6 +2722,10 @@ export namespace Prisma {
      */
     data: UserCreateManyInput | UserCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2538,6 +2796,10 @@ export namespace Prisma {
      * Limit how many Users to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2604,6 +2866,25 @@ export namespace Prisma {
      * Limit how many Users to delete.
      */
     limit?: number
+  }
+
+  /**
+   * User.city
+   */
+  export type User$cityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    where?: CityWhereInput
   }
 
   /**
@@ -7173,6 +7454,2215 @@ export namespace Prisma {
 
 
   /**
+   * Model City
+   */
+
+  export type AggregateCity = {
+    _count: CityCountAggregateOutputType | null
+    _avg: CityAvgAggregateOutputType | null
+    _sum: CitySumAggregateOutputType | null
+    _min: CityMinAggregateOutputType | null
+    _max: CityMaxAggregateOutputType | null
+  }
+
+  export type CityAvgAggregateOutputType = {
+    longitude: number | null
+    latitude: number | null
+  }
+
+  export type CitySumAggregateOutputType = {
+    longitude: number | null
+    latitude: number | null
+  }
+
+  export type CityMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    longitude: number | null
+    latitude: number | null
+    regionId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CityMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    longitude: number | null
+    latitude: number | null
+    regionId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CityCountAggregateOutputType = {
+    id: number
+    name: number
+    longitude: number
+    latitude: number
+    regionId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CityAvgAggregateInputType = {
+    longitude?: true
+    latitude?: true
+  }
+
+  export type CitySumAggregateInputType = {
+    longitude?: true
+    latitude?: true
+  }
+
+  export type CityMinAggregateInputType = {
+    id?: true
+    name?: true
+    longitude?: true
+    latitude?: true
+    regionId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CityMaxAggregateInputType = {
+    id?: true
+    name?: true
+    longitude?: true
+    latitude?: true
+    regionId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CityCountAggregateInputType = {
+    id?: true
+    name?: true
+    longitude?: true
+    latitude?: true
+    regionId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which City to aggregate.
+     */
+    where?: CityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Cities to fetch.
+     */
+    orderBy?: CityOrderByWithRelationInput | CityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Cities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Cities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Cities
+    **/
+    _count?: true | CityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CityAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CitySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CityMaxAggregateInputType
+  }
+
+  export type GetCityAggregateType<T extends CityAggregateArgs> = {
+        [P in keyof T & keyof AggregateCity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCity[P]>
+      : GetScalarType<T[P], AggregateCity[P]>
+  }
+
+
+
+
+  export type CityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CityWhereInput
+    orderBy?: CityOrderByWithAggregationInput | CityOrderByWithAggregationInput[]
+    by: CityScalarFieldEnum[] | CityScalarFieldEnum
+    having?: CityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CityCountAggregateInputType | true
+    _avg?: CityAvgAggregateInputType
+    _sum?: CitySumAggregateInputType
+    _min?: CityMinAggregateInputType
+    _max?: CityMaxAggregateInputType
+  }
+
+  export type CityGroupByOutputType = {
+    id: string
+    name: string
+    longitude: number | null
+    latitude: number | null
+    regionId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: CityCountAggregateOutputType | null
+    _avg: CityAvgAggregateOutputType | null
+    _sum: CitySumAggregateOutputType | null
+    _min: CityMinAggregateOutputType | null
+    _max: CityMaxAggregateOutputType | null
+  }
+
+  type GetCityGroupByPayload<T extends CityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CityGroupByOutputType[P]>
+            : GetScalarType<T[P], CityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    longitude?: boolean
+    latitude?: boolean
+    regionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    region?: boolean | RegionDefaultArgs<ExtArgs>
+    users?: boolean | City$usersArgs<ExtArgs>
+    _count?: boolean | CityCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["city"]>
+
+  export type CitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    longitude?: boolean
+    latitude?: boolean
+    regionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    region?: boolean | RegionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["city"]>
+
+  export type CitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    longitude?: boolean
+    latitude?: boolean
+    regionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    region?: boolean | RegionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["city"]>
+
+  export type CitySelectScalar = {
+    id?: boolean
+    name?: boolean
+    longitude?: boolean
+    latitude?: boolean
+    regionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "longitude" | "latitude" | "regionId" | "createdAt" | "updatedAt", ExtArgs["result"]["city"]>
+  export type CityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    region?: boolean | RegionDefaultArgs<ExtArgs>
+    users?: boolean | City$usersArgs<ExtArgs>
+    _count?: boolean | CityCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    region?: boolean | RegionDefaultArgs<ExtArgs>
+  }
+  export type CityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    region?: boolean | RegionDefaultArgs<ExtArgs>
+  }
+
+  export type $CityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "City"
+    objects: {
+      region: Prisma.$RegionPayload<ExtArgs>
+      users: Prisma.$UserPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      longitude: number | null
+      latitude: number | null
+      regionId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["city"]>
+    composites: {}
+  }
+
+  type CityGetPayload<S extends boolean | null | undefined | CityDefaultArgs> = $Result.GetResult<Prisma.$CityPayload, S>
+
+  type CityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CityCountAggregateInputType | true
+    }
+
+  export interface CityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['City'], meta: { name: 'City' } }
+    /**
+     * Find zero or one City that matches the filter.
+     * @param {CityFindUniqueArgs} args - Arguments to find a City
+     * @example
+     * // Get one City
+     * const city = await prisma.city.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CityFindUniqueArgs>(args: SelectSubset<T, CityFindUniqueArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one City that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CityFindUniqueOrThrowArgs} args - Arguments to find a City
+     * @example
+     * // Get one City
+     * const city = await prisma.city.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CityFindUniqueOrThrowArgs>(args: SelectSubset<T, CityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first City that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CityFindFirstArgs} args - Arguments to find a City
+     * @example
+     * // Get one City
+     * const city = await prisma.city.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CityFindFirstArgs>(args?: SelectSubset<T, CityFindFirstArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first City that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CityFindFirstOrThrowArgs} args - Arguments to find a City
+     * @example
+     * // Get one City
+     * const city = await prisma.city.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CityFindFirstOrThrowArgs>(args?: SelectSubset<T, CityFindFirstOrThrowArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Cities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Cities
+     * const cities = await prisma.city.findMany()
+     * 
+     * // Get first 10 Cities
+     * const cities = await prisma.city.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cityWithIdOnly = await prisma.city.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CityFindManyArgs>(args?: SelectSubset<T, CityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a City.
+     * @param {CityCreateArgs} args - Arguments to create a City.
+     * @example
+     * // Create one City
+     * const City = await prisma.city.create({
+     *   data: {
+     *     // ... data to create a City
+     *   }
+     * })
+     * 
+     */
+    create<T extends CityCreateArgs>(args: SelectSubset<T, CityCreateArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Cities.
+     * @param {CityCreateManyArgs} args - Arguments to create many Cities.
+     * @example
+     * // Create many Cities
+     * const city = await prisma.city.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CityCreateManyArgs>(args?: SelectSubset<T, CityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Cities and returns the data saved in the database.
+     * @param {CityCreateManyAndReturnArgs} args - Arguments to create many Cities.
+     * @example
+     * // Create many Cities
+     * const city = await prisma.city.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Cities and only return the `id`
+     * const cityWithIdOnly = await prisma.city.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CityCreateManyAndReturnArgs>(args?: SelectSubset<T, CityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a City.
+     * @param {CityDeleteArgs} args - Arguments to delete one City.
+     * @example
+     * // Delete one City
+     * const City = await prisma.city.delete({
+     *   where: {
+     *     // ... filter to delete one City
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CityDeleteArgs>(args: SelectSubset<T, CityDeleteArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one City.
+     * @param {CityUpdateArgs} args - Arguments to update one City.
+     * @example
+     * // Update one City
+     * const city = await prisma.city.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CityUpdateArgs>(args: SelectSubset<T, CityUpdateArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Cities.
+     * @param {CityDeleteManyArgs} args - Arguments to filter Cities to delete.
+     * @example
+     * // Delete a few Cities
+     * const { count } = await prisma.city.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CityDeleteManyArgs>(args?: SelectSubset<T, CityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Cities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Cities
+     * const city = await prisma.city.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CityUpdateManyArgs>(args: SelectSubset<T, CityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Cities and returns the data updated in the database.
+     * @param {CityUpdateManyAndReturnArgs} args - Arguments to update many Cities.
+     * @example
+     * // Update many Cities
+     * const city = await prisma.city.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Cities and only return the `id`
+     * const cityWithIdOnly = await prisma.city.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CityUpdateManyAndReturnArgs>(args: SelectSubset<T, CityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one City.
+     * @param {CityUpsertArgs} args - Arguments to update or create a City.
+     * @example
+     * // Update or create a City
+     * const city = await prisma.city.upsert({
+     *   create: {
+     *     // ... data to create a City
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the City we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CityUpsertArgs>(args: SelectSubset<T, CityUpsertArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Cities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CityCountArgs} args - Arguments to filter Cities to count.
+     * @example
+     * // Count the number of Cities
+     * const count = await prisma.city.count({
+     *   where: {
+     *     // ... the filter for the Cities we want to count
+     *   }
+     * })
+    **/
+    count<T extends CityCountArgs>(
+      args?: Subset<T, CityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a City.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CityAggregateArgs>(args: Subset<T, CityAggregateArgs>): Prisma.PrismaPromise<GetCityAggregateType<T>>
+
+    /**
+     * Group by City.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CityGroupByArgs['orderBy'] }
+        : { orderBy?: CityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the City model
+   */
+  readonly fields: CityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for City.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    region<T extends RegionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RegionDefaultArgs<ExtArgs>>): Prisma__RegionClient<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    users<T extends City$usersArgs<ExtArgs> = {}>(args?: Subset<T, City$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the City model
+   */
+  interface CityFieldRefs {
+    readonly id: FieldRef<"City", 'String'>
+    readonly name: FieldRef<"City", 'String'>
+    readonly longitude: FieldRef<"City", 'Float'>
+    readonly latitude: FieldRef<"City", 'Float'>
+    readonly regionId: FieldRef<"City", 'String'>
+    readonly createdAt: FieldRef<"City", 'DateTime'>
+    readonly updatedAt: FieldRef<"City", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * City findUnique
+   */
+  export type CityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    /**
+     * Filter, which City to fetch.
+     */
+    where: CityWhereUniqueInput
+  }
+
+  /**
+   * City findUniqueOrThrow
+   */
+  export type CityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    /**
+     * Filter, which City to fetch.
+     */
+    where: CityWhereUniqueInput
+  }
+
+  /**
+   * City findFirst
+   */
+  export type CityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    /**
+     * Filter, which City to fetch.
+     */
+    where?: CityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Cities to fetch.
+     */
+    orderBy?: CityOrderByWithRelationInput | CityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Cities.
+     */
+    cursor?: CityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Cities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Cities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Cities.
+     */
+    distinct?: CityScalarFieldEnum | CityScalarFieldEnum[]
+  }
+
+  /**
+   * City findFirstOrThrow
+   */
+  export type CityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    /**
+     * Filter, which City to fetch.
+     */
+    where?: CityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Cities to fetch.
+     */
+    orderBy?: CityOrderByWithRelationInput | CityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Cities.
+     */
+    cursor?: CityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Cities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Cities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Cities.
+     */
+    distinct?: CityScalarFieldEnum | CityScalarFieldEnum[]
+  }
+
+  /**
+   * City findMany
+   */
+  export type CityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    /**
+     * Filter, which Cities to fetch.
+     */
+    where?: CityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Cities to fetch.
+     */
+    orderBy?: CityOrderByWithRelationInput | CityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Cities.
+     */
+    cursor?: CityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Cities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Cities.
+     */
+    skip?: number
+    distinct?: CityScalarFieldEnum | CityScalarFieldEnum[]
+  }
+
+  /**
+   * City create
+   */
+  export type CityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a City.
+     */
+    data: XOR<CityCreateInput, CityUncheckedCreateInput>
+  }
+
+  /**
+   * City createMany
+   */
+  export type CityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Cities.
+     */
+    data: CityCreateManyInput | CityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * City createManyAndReturn
+   */
+  export type CityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * The data used to create many Cities.
+     */
+    data: CityCreateManyInput | CityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * City update
+   */
+  export type CityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a City.
+     */
+    data: XOR<CityUpdateInput, CityUncheckedUpdateInput>
+    /**
+     * Choose, which City to update.
+     */
+    where: CityWhereUniqueInput
+  }
+
+  /**
+   * City updateMany
+   */
+  export type CityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Cities.
+     */
+    data: XOR<CityUpdateManyMutationInput, CityUncheckedUpdateManyInput>
+    /**
+     * Filter which Cities to update
+     */
+    where?: CityWhereInput
+    /**
+     * Limit how many Cities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * City updateManyAndReturn
+   */
+  export type CityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * The data used to update Cities.
+     */
+    data: XOR<CityUpdateManyMutationInput, CityUncheckedUpdateManyInput>
+    /**
+     * Filter which Cities to update
+     */
+    where?: CityWhereInput
+    /**
+     * Limit how many Cities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * City upsert
+   */
+  export type CityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the City to update in case it exists.
+     */
+    where: CityWhereUniqueInput
+    /**
+     * In case the City found by the `where` argument doesn't exist, create a new City with this data.
+     */
+    create: XOR<CityCreateInput, CityUncheckedCreateInput>
+    /**
+     * In case the City was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CityUpdateInput, CityUncheckedUpdateInput>
+  }
+
+  /**
+   * City delete
+   */
+  export type CityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    /**
+     * Filter which City to delete.
+     */
+    where: CityWhereUniqueInput
+  }
+
+  /**
+   * City deleteMany
+   */
+  export type CityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Cities to delete
+     */
+    where?: CityWhereInput
+    /**
+     * Limit how many Cities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * City.users
+   */
+  export type City$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * City without action
+   */
+  export type CityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Region
+   */
+
+  export type AggregateRegion = {
+    _count: RegionCountAggregateOutputType | null
+    _min: RegionMinAggregateOutputType | null
+    _max: RegionMaxAggregateOutputType | null
+  }
+
+  export type RegionMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RegionMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RegionCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RegionMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RegionMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RegionCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RegionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Region to aggregate.
+     */
+    where?: RegionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Regions to fetch.
+     */
+    orderBy?: RegionOrderByWithRelationInput | RegionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RegionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Regions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Regions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Regions
+    **/
+    _count?: true | RegionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RegionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RegionMaxAggregateInputType
+  }
+
+  export type GetRegionAggregateType<T extends RegionAggregateArgs> = {
+        [P in keyof T & keyof AggregateRegion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRegion[P]>
+      : GetScalarType<T[P], AggregateRegion[P]>
+  }
+
+
+
+
+  export type RegionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RegionWhereInput
+    orderBy?: RegionOrderByWithAggregationInput | RegionOrderByWithAggregationInput[]
+    by: RegionScalarFieldEnum[] | RegionScalarFieldEnum
+    having?: RegionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RegionCountAggregateInputType | true
+    _min?: RegionMinAggregateInputType
+    _max?: RegionMaxAggregateInputType
+  }
+
+  export type RegionGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    _count: RegionCountAggregateOutputType | null
+    _min: RegionMinAggregateOutputType | null
+    _max: RegionMaxAggregateOutputType | null
+  }
+
+  type GetRegionGroupByPayload<T extends RegionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RegionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RegionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RegionGroupByOutputType[P]>
+            : GetScalarType<T[P], RegionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RegionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    cities?: boolean | Region$citiesArgs<ExtArgs>
+    _count?: boolean | RegionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["region"]>
+
+  export type RegionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["region"]>
+
+  export type RegionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["region"]>
+
+  export type RegionSelectScalar = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RegionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["region"]>
+  export type RegionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cities?: boolean | Region$citiesArgs<ExtArgs>
+    _count?: boolean | RegionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RegionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type RegionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $RegionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Region"
+    objects: {
+      cities: Prisma.$CityPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["region"]>
+    composites: {}
+  }
+
+  type RegionGetPayload<S extends boolean | null | undefined | RegionDefaultArgs> = $Result.GetResult<Prisma.$RegionPayload, S>
+
+  type RegionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RegionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RegionCountAggregateInputType | true
+    }
+
+  export interface RegionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Region'], meta: { name: 'Region' } }
+    /**
+     * Find zero or one Region that matches the filter.
+     * @param {RegionFindUniqueArgs} args - Arguments to find a Region
+     * @example
+     * // Get one Region
+     * const region = await prisma.region.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RegionFindUniqueArgs>(args: SelectSubset<T, RegionFindUniqueArgs<ExtArgs>>): Prisma__RegionClient<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Region that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RegionFindUniqueOrThrowArgs} args - Arguments to find a Region
+     * @example
+     * // Get one Region
+     * const region = await prisma.region.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RegionFindUniqueOrThrowArgs>(args: SelectSubset<T, RegionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RegionClient<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Region that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegionFindFirstArgs} args - Arguments to find a Region
+     * @example
+     * // Get one Region
+     * const region = await prisma.region.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RegionFindFirstArgs>(args?: SelectSubset<T, RegionFindFirstArgs<ExtArgs>>): Prisma__RegionClient<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Region that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegionFindFirstOrThrowArgs} args - Arguments to find a Region
+     * @example
+     * // Get one Region
+     * const region = await prisma.region.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RegionFindFirstOrThrowArgs>(args?: SelectSubset<T, RegionFindFirstOrThrowArgs<ExtArgs>>): Prisma__RegionClient<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Regions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Regions
+     * const regions = await prisma.region.findMany()
+     * 
+     * // Get first 10 Regions
+     * const regions = await prisma.region.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const regionWithIdOnly = await prisma.region.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RegionFindManyArgs>(args?: SelectSubset<T, RegionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Region.
+     * @param {RegionCreateArgs} args - Arguments to create a Region.
+     * @example
+     * // Create one Region
+     * const Region = await prisma.region.create({
+     *   data: {
+     *     // ... data to create a Region
+     *   }
+     * })
+     * 
+     */
+    create<T extends RegionCreateArgs>(args: SelectSubset<T, RegionCreateArgs<ExtArgs>>): Prisma__RegionClient<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Regions.
+     * @param {RegionCreateManyArgs} args - Arguments to create many Regions.
+     * @example
+     * // Create many Regions
+     * const region = await prisma.region.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RegionCreateManyArgs>(args?: SelectSubset<T, RegionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Regions and returns the data saved in the database.
+     * @param {RegionCreateManyAndReturnArgs} args - Arguments to create many Regions.
+     * @example
+     * // Create many Regions
+     * const region = await prisma.region.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Regions and only return the `id`
+     * const regionWithIdOnly = await prisma.region.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RegionCreateManyAndReturnArgs>(args?: SelectSubset<T, RegionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Region.
+     * @param {RegionDeleteArgs} args - Arguments to delete one Region.
+     * @example
+     * // Delete one Region
+     * const Region = await prisma.region.delete({
+     *   where: {
+     *     // ... filter to delete one Region
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RegionDeleteArgs>(args: SelectSubset<T, RegionDeleteArgs<ExtArgs>>): Prisma__RegionClient<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Region.
+     * @param {RegionUpdateArgs} args - Arguments to update one Region.
+     * @example
+     * // Update one Region
+     * const region = await prisma.region.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RegionUpdateArgs>(args: SelectSubset<T, RegionUpdateArgs<ExtArgs>>): Prisma__RegionClient<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Regions.
+     * @param {RegionDeleteManyArgs} args - Arguments to filter Regions to delete.
+     * @example
+     * // Delete a few Regions
+     * const { count } = await prisma.region.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RegionDeleteManyArgs>(args?: SelectSubset<T, RegionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Regions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Regions
+     * const region = await prisma.region.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RegionUpdateManyArgs>(args: SelectSubset<T, RegionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Regions and returns the data updated in the database.
+     * @param {RegionUpdateManyAndReturnArgs} args - Arguments to update many Regions.
+     * @example
+     * // Update many Regions
+     * const region = await prisma.region.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Regions and only return the `id`
+     * const regionWithIdOnly = await prisma.region.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RegionUpdateManyAndReturnArgs>(args: SelectSubset<T, RegionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Region.
+     * @param {RegionUpsertArgs} args - Arguments to update or create a Region.
+     * @example
+     * // Update or create a Region
+     * const region = await prisma.region.upsert({
+     *   create: {
+     *     // ... data to create a Region
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Region we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RegionUpsertArgs>(args: SelectSubset<T, RegionUpsertArgs<ExtArgs>>): Prisma__RegionClient<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Regions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegionCountArgs} args - Arguments to filter Regions to count.
+     * @example
+     * // Count the number of Regions
+     * const count = await prisma.region.count({
+     *   where: {
+     *     // ... the filter for the Regions we want to count
+     *   }
+     * })
+    **/
+    count<T extends RegionCountArgs>(
+      args?: Subset<T, RegionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RegionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Region.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RegionAggregateArgs>(args: Subset<T, RegionAggregateArgs>): Prisma.PrismaPromise<GetRegionAggregateType<T>>
+
+    /**
+     * Group by Region.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RegionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RegionGroupByArgs['orderBy'] }
+        : { orderBy?: RegionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RegionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRegionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Region model
+   */
+  readonly fields: RegionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Region.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RegionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    cities<T extends Region$citiesArgs<ExtArgs> = {}>(args?: Subset<T, Region$citiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Region model
+   */
+  interface RegionFieldRefs {
+    readonly id: FieldRef<"Region", 'String'>
+    readonly name: FieldRef<"Region", 'String'>
+    readonly createdAt: FieldRef<"Region", 'DateTime'>
+    readonly updatedAt: FieldRef<"Region", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Region findUnique
+   */
+  export type RegionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RegionInclude<ExtArgs> | null
+    /**
+     * Filter, which Region to fetch.
+     */
+    where: RegionWhereUniqueInput
+  }
+
+  /**
+   * Region findUniqueOrThrow
+   */
+  export type RegionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RegionInclude<ExtArgs> | null
+    /**
+     * Filter, which Region to fetch.
+     */
+    where: RegionWhereUniqueInput
+  }
+
+  /**
+   * Region findFirst
+   */
+  export type RegionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RegionInclude<ExtArgs> | null
+    /**
+     * Filter, which Region to fetch.
+     */
+    where?: RegionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Regions to fetch.
+     */
+    orderBy?: RegionOrderByWithRelationInput | RegionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Regions.
+     */
+    cursor?: RegionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Regions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Regions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Regions.
+     */
+    distinct?: RegionScalarFieldEnum | RegionScalarFieldEnum[]
+  }
+
+  /**
+   * Region findFirstOrThrow
+   */
+  export type RegionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RegionInclude<ExtArgs> | null
+    /**
+     * Filter, which Region to fetch.
+     */
+    where?: RegionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Regions to fetch.
+     */
+    orderBy?: RegionOrderByWithRelationInput | RegionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Regions.
+     */
+    cursor?: RegionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Regions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Regions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Regions.
+     */
+    distinct?: RegionScalarFieldEnum | RegionScalarFieldEnum[]
+  }
+
+  /**
+   * Region findMany
+   */
+  export type RegionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RegionInclude<ExtArgs> | null
+    /**
+     * Filter, which Regions to fetch.
+     */
+    where?: RegionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Regions to fetch.
+     */
+    orderBy?: RegionOrderByWithRelationInput | RegionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Regions.
+     */
+    cursor?: RegionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Regions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Regions.
+     */
+    skip?: number
+    distinct?: RegionScalarFieldEnum | RegionScalarFieldEnum[]
+  }
+
+  /**
+   * Region create
+   */
+  export type RegionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RegionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Region.
+     */
+    data: XOR<RegionCreateInput, RegionUncheckedCreateInput>
+  }
+
+  /**
+   * Region createMany
+   */
+  export type RegionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Regions.
+     */
+    data: RegionCreateManyInput | RegionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Region createManyAndReturn
+   */
+  export type RegionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Regions.
+     */
+    data: RegionCreateManyInput | RegionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Region update
+   */
+  export type RegionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RegionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Region.
+     */
+    data: XOR<RegionUpdateInput, RegionUncheckedUpdateInput>
+    /**
+     * Choose, which Region to update.
+     */
+    where: RegionWhereUniqueInput
+  }
+
+  /**
+   * Region updateMany
+   */
+  export type RegionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Regions.
+     */
+    data: XOR<RegionUpdateManyMutationInput, RegionUncheckedUpdateManyInput>
+    /**
+     * Filter which Regions to update
+     */
+    where?: RegionWhereInput
+    /**
+     * Limit how many Regions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Region updateManyAndReturn
+   */
+  export type RegionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * The data used to update Regions.
+     */
+    data: XOR<RegionUpdateManyMutationInput, RegionUncheckedUpdateManyInput>
+    /**
+     * Filter which Regions to update
+     */
+    where?: RegionWhereInput
+    /**
+     * Limit how many Regions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Region upsert
+   */
+  export type RegionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RegionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Region to update in case it exists.
+     */
+    where: RegionWhereUniqueInput
+    /**
+     * In case the Region found by the `where` argument doesn't exist, create a new Region with this data.
+     */
+    create: XOR<RegionCreateInput, RegionUncheckedCreateInput>
+    /**
+     * In case the Region was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RegionUpdateInput, RegionUncheckedUpdateInput>
+  }
+
+  /**
+   * Region delete
+   */
+  export type RegionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RegionInclude<ExtArgs> | null
+    /**
+     * Filter which Region to delete.
+     */
+    where: RegionWhereUniqueInput
+  }
+
+  /**
+   * Region deleteMany
+   */
+  export type RegionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Regions to delete
+     */
+    where?: RegionWhereInput
+    /**
+     * Limit how many Regions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Region.cities
+   */
+  export type Region$citiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    where?: CityWhereInput
+    orderBy?: CityOrderByWithRelationInput | CityOrderByWithRelationInput[]
+    cursor?: CityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CityScalarFieldEnum | CityScalarFieldEnum[]
+  }
+
+  /**
+   * Region without action
+   */
+  export type RegionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Region
+     */
+    select?: RegionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Region
+     */
+    omit?: RegionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RegionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7194,12 +9684,12 @@ export namespace Prisma {
     lastName: 'lastName',
     username: 'username',
     avatar: 'avatar',
-    city: 'city',
     isTalent: 'isTalent',
     isAnnouncer: 'isAnnouncer',
     description: 'description',
     isVerify: 'isVerify',
     role: 'role',
+    cityId: 'cityId',
     passwordResetToken: 'passwordResetToken',
     passwordResetTokenExpiresAt: 'passwordResetTokenExpiresAt',
     emailVerificationToken: 'emailVerificationToken',
@@ -7265,6 +9755,29 @@ export namespace Prisma {
   };
 
   export type PostsScalarFieldEnum = (typeof PostsScalarFieldEnum)[keyof typeof PostsScalarFieldEnum]
+
+
+  export const CityScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    longitude: 'longitude',
+    latitude: 'latitude',
+    regionId: 'regionId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CityScalarFieldEnum = (typeof CityScalarFieldEnum)[keyof typeof CityScalarFieldEnum]
+
+
+  export const RegionScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RegionScalarFieldEnum = (typeof RegionScalarFieldEnum)[keyof typeof RegionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7415,12 +9928,12 @@ export namespace Prisma {
     lastName?: StringNullableFilter<"User"> | string | null
     username?: StringNullableFilter<"User"> | string | null
     avatar?: StringNullableFilter<"User"> | string | null
-    city?: StringNullableFilter<"User"> | string | null
     isTalent?: BoolFilter<"User"> | boolean
     isAnnouncer?: BoolFilter<"User"> | boolean
     description?: StringNullableFilter<"User"> | string | null
     isVerify?: BoolFilter<"User"> | boolean
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    cityId?: StringNullableFilter<"User"> | string | null
     passwordResetToken?: StringNullableFilter<"User"> | string | null
     passwordResetTokenExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     emailVerificationToken?: StringNullableFilter<"User"> | string | null
@@ -7428,6 +9941,7 @@ export namespace Prisma {
     onboarding?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
     sessions?: SessionListRelationFilter
     categories?: CategoryListRelationFilter
     posts?: PostsListRelationFilter
@@ -7441,12 +9955,12 @@ export namespace Prisma {
     lastName?: SortOrderInput | SortOrder
     username?: SortOrderInput | SortOrder
     avatar?: SortOrderInput | SortOrder
-    city?: SortOrderInput | SortOrder
     isTalent?: SortOrder
     isAnnouncer?: SortOrder
     description?: SortOrderInput | SortOrder
     isVerify?: SortOrder
     role?: SortOrder
+    cityId?: SortOrderInput | SortOrder
     passwordResetToken?: SortOrderInput | SortOrder
     passwordResetTokenExpiresAt?: SortOrderInput | SortOrder
     emailVerificationToken?: SortOrderInput | SortOrder
@@ -7454,6 +9968,7 @@ export namespace Prisma {
     onboarding?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    city?: CityOrderByWithRelationInput
     sessions?: SessionOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
     posts?: PostsOrderByRelationAggregateInput
@@ -7470,12 +9985,12 @@ export namespace Prisma {
     firstName?: StringNullableFilter<"User"> | string | null
     lastName?: StringNullableFilter<"User"> | string | null
     avatar?: StringNullableFilter<"User"> | string | null
-    city?: StringNullableFilter<"User"> | string | null
     isTalent?: BoolFilter<"User"> | boolean
     isAnnouncer?: BoolFilter<"User"> | boolean
     description?: StringNullableFilter<"User"> | string | null
     isVerify?: BoolFilter<"User"> | boolean
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    cityId?: StringNullableFilter<"User"> | string | null
     passwordResetToken?: StringNullableFilter<"User"> | string | null
     passwordResetTokenExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     emailVerificationToken?: StringNullableFilter<"User"> | string | null
@@ -7483,6 +9998,7 @@ export namespace Prisma {
     onboarding?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
     sessions?: SessionListRelationFilter
     categories?: CategoryListRelationFilter
     posts?: PostsListRelationFilter
@@ -7496,12 +10012,12 @@ export namespace Prisma {
     lastName?: SortOrderInput | SortOrder
     username?: SortOrderInput | SortOrder
     avatar?: SortOrderInput | SortOrder
-    city?: SortOrderInput | SortOrder
     isTalent?: SortOrder
     isAnnouncer?: SortOrder
     description?: SortOrderInput | SortOrder
     isVerify?: SortOrder
     role?: SortOrder
+    cityId?: SortOrderInput | SortOrder
     passwordResetToken?: SortOrderInput | SortOrder
     passwordResetTokenExpiresAt?: SortOrderInput | SortOrder
     emailVerificationToken?: SortOrderInput | SortOrder
@@ -7525,12 +10041,12 @@ export namespace Prisma {
     lastName?: StringNullableWithAggregatesFilter<"User"> | string | null
     username?: StringNullableWithAggregatesFilter<"User"> | string | null
     avatar?: StringNullableWithAggregatesFilter<"User"> | string | null
-    city?: StringNullableWithAggregatesFilter<"User"> | string | null
     isTalent?: BoolWithAggregatesFilter<"User"> | boolean
     isAnnouncer?: BoolWithAggregatesFilter<"User"> | boolean
     description?: StringNullableWithAggregatesFilter<"User"> | string | null
     isVerify?: BoolWithAggregatesFilter<"User"> | boolean
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
+    cityId?: StringNullableWithAggregatesFilter<"User"> | string | null
     passwordResetToken?: StringNullableWithAggregatesFilter<"User"> | string | null
     passwordResetTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     emailVerificationToken?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -7826,6 +10342,126 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Posts"> | Date | string
   }
 
+  export type CityWhereInput = {
+    AND?: CityWhereInput | CityWhereInput[]
+    OR?: CityWhereInput[]
+    NOT?: CityWhereInput | CityWhereInput[]
+    id?: StringFilter<"City"> | string
+    name?: StringFilter<"City"> | string
+    longitude?: FloatNullableFilter<"City"> | number | null
+    latitude?: FloatNullableFilter<"City"> | number | null
+    regionId?: StringFilter<"City"> | string
+    createdAt?: DateTimeFilter<"City"> | Date | string
+    updatedAt?: DateTimeFilter<"City"> | Date | string
+    region?: XOR<RegionScalarRelationFilter, RegionWhereInput>
+    users?: UserListRelationFilter
+  }
+
+  export type CityOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    longitude?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    regionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    region?: RegionOrderByWithRelationInput
+    users?: UserOrderByRelationAggregateInput
+  }
+
+  export type CityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CityWhereInput | CityWhereInput[]
+    OR?: CityWhereInput[]
+    NOT?: CityWhereInput | CityWhereInput[]
+    name?: StringFilter<"City"> | string
+    longitude?: FloatNullableFilter<"City"> | number | null
+    latitude?: FloatNullableFilter<"City"> | number | null
+    regionId?: StringFilter<"City"> | string
+    createdAt?: DateTimeFilter<"City"> | Date | string
+    updatedAt?: DateTimeFilter<"City"> | Date | string
+    region?: XOR<RegionScalarRelationFilter, RegionWhereInput>
+    users?: UserListRelationFilter
+  }, "id">
+
+  export type CityOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    longitude?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    regionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CityCountOrderByAggregateInput
+    _avg?: CityAvgOrderByAggregateInput
+    _max?: CityMaxOrderByAggregateInput
+    _min?: CityMinOrderByAggregateInput
+    _sum?: CitySumOrderByAggregateInput
+  }
+
+  export type CityScalarWhereWithAggregatesInput = {
+    AND?: CityScalarWhereWithAggregatesInput | CityScalarWhereWithAggregatesInput[]
+    OR?: CityScalarWhereWithAggregatesInput[]
+    NOT?: CityScalarWhereWithAggregatesInput | CityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"City"> | string
+    name?: StringWithAggregatesFilter<"City"> | string
+    longitude?: FloatNullableWithAggregatesFilter<"City"> | number | null
+    latitude?: FloatNullableWithAggregatesFilter<"City"> | number | null
+    regionId?: StringWithAggregatesFilter<"City"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"City"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"City"> | Date | string
+  }
+
+  export type RegionWhereInput = {
+    AND?: RegionWhereInput | RegionWhereInput[]
+    OR?: RegionWhereInput[]
+    NOT?: RegionWhereInput | RegionWhereInput[]
+    id?: StringFilter<"Region"> | string
+    name?: StringFilter<"Region"> | string
+    createdAt?: DateTimeFilter<"Region"> | Date | string
+    updatedAt?: DateTimeFilter<"Region"> | Date | string
+    cities?: CityListRelationFilter
+  }
+
+  export type RegionOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    cities?: CityOrderByRelationAggregateInput
+  }
+
+  export type RegionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RegionWhereInput | RegionWhereInput[]
+    OR?: RegionWhereInput[]
+    NOT?: RegionWhereInput | RegionWhereInput[]
+    name?: StringFilter<"Region"> | string
+    createdAt?: DateTimeFilter<"Region"> | Date | string
+    updatedAt?: DateTimeFilter<"Region"> | Date | string
+    cities?: CityListRelationFilter
+  }, "id">
+
+  export type RegionOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RegionCountOrderByAggregateInput
+    _max?: RegionMaxOrderByAggregateInput
+    _min?: RegionMinOrderByAggregateInput
+  }
+
+  export type RegionScalarWhereWithAggregatesInput = {
+    AND?: RegionScalarWhereWithAggregatesInput | RegionScalarWhereWithAggregatesInput[]
+    OR?: RegionScalarWhereWithAggregatesInput[]
+    NOT?: RegionScalarWhereWithAggregatesInput | RegionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Region"> | string
+    name?: StringWithAggregatesFilter<"Region"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Region"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Region"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -7834,7 +10470,6 @@ export namespace Prisma {
     lastName?: string | null
     username?: string | null
     avatar?: string | null
-    city?: string | null
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: string | null
@@ -7847,6 +10482,7 @@ export namespace Prisma {
     onboarding?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    city?: CityCreateNestedOneWithoutUsersInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutUserInput
@@ -7860,12 +10496,12 @@ export namespace Prisma {
     lastName?: string | null
     username?: string | null
     avatar?: string | null
-    city?: string | null
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: string | null
     isVerify?: boolean
     role?: $Enums.UserRole
+    cityId?: string | null
     passwordResetToken?: string | null
     passwordResetTokenExpiresAt?: Date | string | null
     emailVerificationToken?: string | null
@@ -7886,7 +10522,6 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
     isTalent?: BoolFieldUpdateOperationsInput | boolean
     isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7899,6 +10534,7 @@ export namespace Prisma {
     onboarding?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: CityUpdateOneWithoutUsersNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutUserNestedInput
@@ -7912,12 +10548,12 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
     isTalent?: BoolFieldUpdateOperationsInput | boolean
     isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isVerify?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7938,12 +10574,12 @@ export namespace Prisma {
     lastName?: string | null
     username?: string | null
     avatar?: string | null
-    city?: string | null
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: string | null
     isVerify?: boolean
     role?: $Enums.UserRole
+    cityId?: string | null
     passwordResetToken?: string | null
     passwordResetTokenExpiresAt?: Date | string | null
     emailVerificationToken?: string | null
@@ -7961,7 +10597,6 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
     isTalent?: BoolFieldUpdateOperationsInput | boolean
     isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7984,12 +10619,12 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
     isTalent?: BoolFieldUpdateOperationsInput | boolean
     isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isVerify?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8303,6 +10938,132 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CityCreateInput = {
+    id?: string
+    name: string
+    longitude?: number | null
+    latitude?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    region: RegionCreateNestedOneWithoutCitiesInput
+    users?: UserCreateNestedManyWithoutCityInput
+  }
+
+  export type CityUncheckedCreateInput = {
+    id?: string
+    name: string
+    longitude?: number | null
+    latitude?: number | null
+    regionId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCityInput
+  }
+
+  export type CityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    region?: RegionUpdateOneRequiredWithoutCitiesNestedInput
+    users?: UserUpdateManyWithoutCityNestedInput
+  }
+
+  export type CityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    regionId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCityNestedInput
+  }
+
+  export type CityCreateManyInput = {
+    id?: string
+    name: string
+    longitude?: number | null
+    latitude?: number | null
+    regionId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    regionId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RegionCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    cities?: CityCreateNestedManyWithoutRegionInput
+  }
+
+  export type RegionUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    cities?: CityUncheckedCreateNestedManyWithoutRegionInput
+  }
+
+  export type RegionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cities?: CityUpdateManyWithoutRegionNestedInput
+  }
+
+  export type RegionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cities?: CityUncheckedUpdateManyWithoutRegionNestedInput
+  }
+
+  export type RegionCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RegionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RegionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -8367,6 +11128,11 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type CityNullableScalarRelationFilter = {
+    is?: CityWhereInput | null
+    isNot?: CityWhereInput | null
+  }
+
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
@@ -8410,12 +11176,12 @@ export namespace Prisma {
     lastName?: SortOrder
     username?: SortOrder
     avatar?: SortOrder
-    city?: SortOrder
     isTalent?: SortOrder
     isAnnouncer?: SortOrder
     description?: SortOrder
     isVerify?: SortOrder
     role?: SortOrder
+    cityId?: SortOrder
     passwordResetToken?: SortOrder
     passwordResetTokenExpiresAt?: SortOrder
     emailVerificationToken?: SortOrder
@@ -8433,12 +11199,12 @@ export namespace Prisma {
     lastName?: SortOrder
     username?: SortOrder
     avatar?: SortOrder
-    city?: SortOrder
     isTalent?: SortOrder
     isAnnouncer?: SortOrder
     description?: SortOrder
     isVerify?: SortOrder
     role?: SortOrder
+    cityId?: SortOrder
     passwordResetToken?: SortOrder
     passwordResetTokenExpiresAt?: SortOrder
     emailVerificationToken?: SortOrder
@@ -8456,12 +11222,12 @@ export namespace Prisma {
     lastName?: SortOrder
     username?: SortOrder
     avatar?: SortOrder
-    city?: SortOrder
     isTalent?: SortOrder
     isAnnouncer?: SortOrder
     description?: SortOrder
     isVerify?: SortOrder
     role?: SortOrder
+    cityId?: SortOrder
     passwordResetToken?: SortOrder
     passwordResetTokenExpiresAt?: SortOrder
     emailVerificationToken?: SortOrder
@@ -8771,6 +11537,98 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type RegionScalarRelationFilter = {
+    is?: RegionWhereInput
+    isNot?: RegionWhereInput
+  }
+
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
+  }
+
+  export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CityCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    longitude?: SortOrder
+    latitude?: SortOrder
+    regionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CityAvgOrderByAggregateInput = {
+    longitude?: SortOrder
+    latitude?: SortOrder
+  }
+
+  export type CityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    longitude?: SortOrder
+    latitude?: SortOrder
+    regionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CityMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    longitude?: SortOrder
+    latitude?: SortOrder
+    regionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CitySumOrderByAggregateInput = {
+    longitude?: SortOrder
+    latitude?: SortOrder
+  }
+
+  export type CityListRelationFilter = {
+    every?: CityWhereInput
+    some?: CityWhereInput
+    none?: CityWhereInput
+  }
+
+  export type CityOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RegionCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RegionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RegionMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CityCreateNestedOneWithoutUsersInput = {
+    create?: XOR<CityCreateWithoutUsersInput, CityUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: CityCreateOrConnectWithoutUsersInput
+    connect?: CityWhereUniqueInput
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -8835,6 +11693,16 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type CityUpdateOneWithoutUsersNestedInput = {
+    create?: XOR<CityCreateWithoutUsersInput, CityUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: CityCreateOrConnectWithoutUsersInput
+    upsert?: CityUpsertWithoutUsersInput
+    disconnect?: CityWhereInput | boolean
+    delete?: CityWhereInput | boolean
+    connect?: CityWhereUniqueInput
+    update?: XOR<XOR<CityUpdateToOneWithWhereWithoutUsersInput, CityUpdateWithoutUsersInput>, CityUncheckedUpdateWithoutUsersInput>
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -9091,6 +11959,104 @@ export namespace Prisma {
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutPostsInput, CategoryUpdateWithoutPostsInput>, CategoryUncheckedUpdateWithoutPostsInput>
   }
 
+  export type RegionCreateNestedOneWithoutCitiesInput = {
+    create?: XOR<RegionCreateWithoutCitiesInput, RegionUncheckedCreateWithoutCitiesInput>
+    connectOrCreate?: RegionCreateOrConnectWithoutCitiesInput
+    connect?: RegionWhereUniqueInput
+  }
+
+  export type UserCreateNestedManyWithoutCityInput = {
+    create?: XOR<UserCreateWithoutCityInput, UserUncheckedCreateWithoutCityInput> | UserCreateWithoutCityInput[] | UserUncheckedCreateWithoutCityInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutCityInput | UserCreateOrConnectWithoutCityInput[]
+    createMany?: UserCreateManyCityInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutCityInput = {
+    create?: XOR<UserCreateWithoutCityInput, UserUncheckedCreateWithoutCityInput> | UserCreateWithoutCityInput[] | UserUncheckedCreateWithoutCityInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutCityInput | UserCreateOrConnectWithoutCityInput[]
+    createMany?: UserCreateManyCityInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type RegionUpdateOneRequiredWithoutCitiesNestedInput = {
+    create?: XOR<RegionCreateWithoutCitiesInput, RegionUncheckedCreateWithoutCitiesInput>
+    connectOrCreate?: RegionCreateOrConnectWithoutCitiesInput
+    upsert?: RegionUpsertWithoutCitiesInput
+    connect?: RegionWhereUniqueInput
+    update?: XOR<XOR<RegionUpdateToOneWithWhereWithoutCitiesInput, RegionUpdateWithoutCitiesInput>, RegionUncheckedUpdateWithoutCitiesInput>
+  }
+
+  export type UserUpdateManyWithoutCityNestedInput = {
+    create?: XOR<UserCreateWithoutCityInput, UserUncheckedCreateWithoutCityInput> | UserCreateWithoutCityInput[] | UserUncheckedCreateWithoutCityInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutCityInput | UserCreateOrConnectWithoutCityInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutCityInput | UserUpsertWithWhereUniqueWithoutCityInput[]
+    createMany?: UserCreateManyCityInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutCityInput | UserUpdateWithWhereUniqueWithoutCityInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutCityInput | UserUpdateManyWithWhereWithoutCityInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutCityNestedInput = {
+    create?: XOR<UserCreateWithoutCityInput, UserUncheckedCreateWithoutCityInput> | UserCreateWithoutCityInput[] | UserUncheckedCreateWithoutCityInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutCityInput | UserCreateOrConnectWithoutCityInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutCityInput | UserUpsertWithWhereUniqueWithoutCityInput[]
+    createMany?: UserCreateManyCityInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutCityInput | UserUpdateWithWhereUniqueWithoutCityInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutCityInput | UserUpdateManyWithWhereWithoutCityInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type CityCreateNestedManyWithoutRegionInput = {
+    create?: XOR<CityCreateWithoutRegionInput, CityUncheckedCreateWithoutRegionInput> | CityCreateWithoutRegionInput[] | CityUncheckedCreateWithoutRegionInput[]
+    connectOrCreate?: CityCreateOrConnectWithoutRegionInput | CityCreateOrConnectWithoutRegionInput[]
+    createMany?: CityCreateManyRegionInputEnvelope
+    connect?: CityWhereUniqueInput | CityWhereUniqueInput[]
+  }
+
+  export type CityUncheckedCreateNestedManyWithoutRegionInput = {
+    create?: XOR<CityCreateWithoutRegionInput, CityUncheckedCreateWithoutRegionInput> | CityCreateWithoutRegionInput[] | CityUncheckedCreateWithoutRegionInput[]
+    connectOrCreate?: CityCreateOrConnectWithoutRegionInput | CityCreateOrConnectWithoutRegionInput[]
+    createMany?: CityCreateManyRegionInputEnvelope
+    connect?: CityWhereUniqueInput | CityWhereUniqueInput[]
+  }
+
+  export type CityUpdateManyWithoutRegionNestedInput = {
+    create?: XOR<CityCreateWithoutRegionInput, CityUncheckedCreateWithoutRegionInput> | CityCreateWithoutRegionInput[] | CityUncheckedCreateWithoutRegionInput[]
+    connectOrCreate?: CityCreateOrConnectWithoutRegionInput | CityCreateOrConnectWithoutRegionInput[]
+    upsert?: CityUpsertWithWhereUniqueWithoutRegionInput | CityUpsertWithWhereUniqueWithoutRegionInput[]
+    createMany?: CityCreateManyRegionInputEnvelope
+    set?: CityWhereUniqueInput | CityWhereUniqueInput[]
+    disconnect?: CityWhereUniqueInput | CityWhereUniqueInput[]
+    delete?: CityWhereUniqueInput | CityWhereUniqueInput[]
+    connect?: CityWhereUniqueInput | CityWhereUniqueInput[]
+    update?: CityUpdateWithWhereUniqueWithoutRegionInput | CityUpdateWithWhereUniqueWithoutRegionInput[]
+    updateMany?: CityUpdateManyWithWhereWithoutRegionInput | CityUpdateManyWithWhereWithoutRegionInput[]
+    deleteMany?: CityScalarWhereInput | CityScalarWhereInput[]
+  }
+
+  export type CityUncheckedUpdateManyWithoutRegionNestedInput = {
+    create?: XOR<CityCreateWithoutRegionInput, CityUncheckedCreateWithoutRegionInput> | CityCreateWithoutRegionInput[] | CityUncheckedCreateWithoutRegionInput[]
+    connectOrCreate?: CityCreateOrConnectWithoutRegionInput | CityCreateOrConnectWithoutRegionInput[]
+    upsert?: CityUpsertWithWhereUniqueWithoutRegionInput | CityUpsertWithWhereUniqueWithoutRegionInput[]
+    createMany?: CityCreateManyRegionInputEnvelope
+    set?: CityWhereUniqueInput | CityWhereUniqueInput[]
+    disconnect?: CityWhereUniqueInput | CityWhereUniqueInput[]
+    delete?: CityWhereUniqueInput | CityWhereUniqueInput[]
+    connect?: CityWhereUniqueInput | CityWhereUniqueInput[]
+    update?: CityUpdateWithWhereUniqueWithoutRegionInput | CityUpdateWithWhereUniqueWithoutRegionInput[]
+    updateMany?: CityUpdateManyWithWhereWithoutRegionInput | CityUpdateManyWithWhereWithoutRegionInput[]
+    deleteMany?: CityScalarWhereInput | CityScalarWhereInput[]
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -9316,6 +12282,31 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type CityCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    longitude?: number | null
+    latitude?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    region: RegionCreateNestedOneWithoutCitiesInput
+  }
+
+  export type CityUncheckedCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    longitude?: number | null
+    latitude?: number | null
+    regionId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CityCreateOrConnectWithoutUsersInput = {
+    where: CityWhereUniqueInput
+    create: XOR<CityCreateWithoutUsersInput, CityUncheckedCreateWithoutUsersInput>
+  }
+
   export type SessionCreateWithoutUserInput = {
     id?: string
     ipAddress: string
@@ -9412,6 +12403,37 @@ export namespace Prisma {
   export type PostsCreateManyUserInputEnvelope = {
     data: PostsCreateManyUserInput | PostsCreateManyUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type CityUpsertWithoutUsersInput = {
+    update: XOR<CityUpdateWithoutUsersInput, CityUncheckedUpdateWithoutUsersInput>
+    create: XOR<CityCreateWithoutUsersInput, CityUncheckedCreateWithoutUsersInput>
+    where?: CityWhereInput
+  }
+
+  export type CityUpdateToOneWithWhereWithoutUsersInput = {
+    where?: CityWhereInput
+    data: XOR<CityUpdateWithoutUsersInput, CityUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type CityUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    region?: RegionUpdateOneRequiredWithoutCitiesNestedInput
+  }
+
+  export type CityUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    regionId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -9514,7 +12536,6 @@ export namespace Prisma {
     lastName?: string | null
     username?: string | null
     avatar?: string | null
-    city?: string | null
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: string | null
@@ -9527,6 +12548,7 @@ export namespace Prisma {
     onboarding?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    city?: CityCreateNestedOneWithoutUsersInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutUserInput
   }
@@ -9539,12 +12561,12 @@ export namespace Prisma {
     lastName?: string | null
     username?: string | null
     avatar?: string | null
-    city?: string | null
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: string | null
     isVerify?: boolean
     role?: $Enums.UserRole
+    cityId?: string | null
     passwordResetToken?: string | null
     passwordResetTokenExpiresAt?: Date | string | null
     emailVerificationToken?: string | null
@@ -9580,7 +12602,6 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
     isTalent?: BoolFieldUpdateOperationsInput | boolean
     isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9593,6 +12614,7 @@ export namespace Prisma {
     onboarding?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: CityUpdateOneWithoutUsersNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutUserNestedInput
   }
@@ -9605,12 +12627,12 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
     isTalent?: BoolFieldUpdateOperationsInput | boolean
     isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isVerify?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9630,7 +12652,6 @@ export namespace Prisma {
     lastName?: string | null
     username?: string | null
     avatar?: string | null
-    city?: string | null
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: string | null
@@ -9643,6 +12664,7 @@ export namespace Prisma {
     onboarding?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    city?: CityCreateNestedOneWithoutUsersInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutUserInput
   }
@@ -9655,12 +12677,12 @@ export namespace Prisma {
     lastName?: string | null
     username?: string | null
     avatar?: string | null
-    city?: string | null
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: string | null
     isVerify?: boolean
     role?: $Enums.UserRole
+    cityId?: string | null
     passwordResetToken?: string | null
     passwordResetTokenExpiresAt?: Date | string | null
     emailVerificationToken?: string | null
@@ -9756,7 +12778,6 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
     isTalent?: BoolFieldUpdateOperationsInput | boolean
     isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9769,6 +12790,7 @@ export namespace Prisma {
     onboarding?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: CityUpdateOneWithoutUsersNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutUserNestedInput
   }
@@ -9781,12 +12803,12 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
     isTalent?: BoolFieldUpdateOperationsInput | boolean
     isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isVerify?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9901,7 +12923,6 @@ export namespace Prisma {
     lastName?: string | null
     username?: string | null
     avatar?: string | null
-    city?: string | null
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: string | null
@@ -9914,6 +12935,7 @@ export namespace Prisma {
     onboarding?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    city?: CityCreateNestedOneWithoutUsersInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
   }
@@ -9926,12 +12948,12 @@ export namespace Prisma {
     lastName?: string | null
     username?: string | null
     avatar?: string | null
-    city?: string | null
     isTalent?: boolean
     isAnnouncer?: boolean
     description?: string | null
     isVerify?: boolean
     role?: $Enums.UserRole
+    cityId?: string | null
     passwordResetToken?: string | null
     passwordResetTokenExpiresAt?: Date | string | null
     emailVerificationToken?: string | null
@@ -9990,7 +13012,6 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
     isTalent?: BoolFieldUpdateOperationsInput | boolean
     isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10003,6 +13024,7 @@ export namespace Prisma {
     onboarding?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: CityUpdateOneWithoutUsersNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
   }
@@ -10015,12 +13037,12 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
     isTalent?: BoolFieldUpdateOperationsInput | boolean
     isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isVerify?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10059,6 +13081,211 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type RegionCreateWithoutCitiesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RegionUncheckedCreateWithoutCitiesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RegionCreateOrConnectWithoutCitiesInput = {
+    where: RegionWhereUniqueInput
+    create: XOR<RegionCreateWithoutCitiesInput, RegionUncheckedCreateWithoutCitiesInput>
+  }
+
+  export type UserCreateWithoutCityInput = {
+    id?: string
+    email: string
+    password: string
+    firstName?: string | null
+    lastName?: string | null
+    username?: string | null
+    avatar?: string | null
+    isTalent?: boolean
+    isAnnouncer?: boolean
+    description?: string | null
+    isVerify?: boolean
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetTokenExpiresAt?: Date | string | null
+    emailVerificationToken?: string | null
+    emailVerificationTokenExpiresAt?: Date | string | null
+    onboarding?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCityInput = {
+    id?: string
+    email: string
+    password: string
+    firstName?: string | null
+    lastName?: string | null
+    username?: string | null
+    avatar?: string | null
+    isTalent?: boolean
+    isAnnouncer?: boolean
+    description?: string | null
+    isVerify?: boolean
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetTokenExpiresAt?: Date | string | null
+    emailVerificationToken?: string | null
+    emailVerificationTokenExpiresAt?: Date | string | null
+    onboarding?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCityInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCityInput, UserUncheckedCreateWithoutCityInput>
+  }
+
+  export type UserCreateManyCityInputEnvelope = {
+    data: UserCreateManyCityInput | UserCreateManyCityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RegionUpsertWithoutCitiesInput = {
+    update: XOR<RegionUpdateWithoutCitiesInput, RegionUncheckedUpdateWithoutCitiesInput>
+    create: XOR<RegionCreateWithoutCitiesInput, RegionUncheckedCreateWithoutCitiesInput>
+    where?: RegionWhereInput
+  }
+
+  export type RegionUpdateToOneWithWhereWithoutCitiesInput = {
+    where?: RegionWhereInput
+    data: XOR<RegionUpdateWithoutCitiesInput, RegionUncheckedUpdateWithoutCitiesInput>
+  }
+
+  export type RegionUpdateWithoutCitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RegionUncheckedUpdateWithoutCitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutCityInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutCityInput, UserUncheckedUpdateWithoutCityInput>
+    create: XOR<UserCreateWithoutCityInput, UserUncheckedCreateWithoutCityInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutCityInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutCityInput, UserUncheckedUpdateWithoutCityInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutCityInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutCityInput>
+  }
+
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
+    firstName?: StringNullableFilter<"User"> | string | null
+    lastName?: StringNullableFilter<"User"> | string | null
+    username?: StringNullableFilter<"User"> | string | null
+    avatar?: StringNullableFilter<"User"> | string | null
+    isTalent?: BoolFilter<"User"> | boolean
+    isAnnouncer?: BoolFilter<"User"> | boolean
+    description?: StringNullableFilter<"User"> | string | null
+    isVerify?: BoolFilter<"User"> | boolean
+    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    cityId?: StringNullableFilter<"User"> | string | null
+    passwordResetToken?: StringNullableFilter<"User"> | string | null
+    passwordResetTokenExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    emailVerificationToken?: StringNullableFilter<"User"> | string | null
+    emailVerificationTokenExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    onboarding?: BoolFilter<"User"> | boolean
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+  }
+
+  export type CityCreateWithoutRegionInput = {
+    id?: string
+    name: string
+    longitude?: number | null
+    latitude?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCityInput
+  }
+
+  export type CityUncheckedCreateWithoutRegionInput = {
+    id?: string
+    name: string
+    longitude?: number | null
+    latitude?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCityInput
+  }
+
+  export type CityCreateOrConnectWithoutRegionInput = {
+    where: CityWhereUniqueInput
+    create: XOR<CityCreateWithoutRegionInput, CityUncheckedCreateWithoutRegionInput>
+  }
+
+  export type CityCreateManyRegionInputEnvelope = {
+    data: CityCreateManyRegionInput | CityCreateManyRegionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CityUpsertWithWhereUniqueWithoutRegionInput = {
+    where: CityWhereUniqueInput
+    update: XOR<CityUpdateWithoutRegionInput, CityUncheckedUpdateWithoutRegionInput>
+    create: XOR<CityCreateWithoutRegionInput, CityUncheckedCreateWithoutRegionInput>
+  }
+
+  export type CityUpdateWithWhereUniqueWithoutRegionInput = {
+    where: CityWhereUniqueInput
+    data: XOR<CityUpdateWithoutRegionInput, CityUncheckedUpdateWithoutRegionInput>
+  }
+
+  export type CityUpdateManyWithWhereWithoutRegionInput = {
+    where: CityScalarWhereInput
+    data: XOR<CityUpdateManyMutationInput, CityUncheckedUpdateManyWithoutRegionInput>
+  }
+
+  export type CityScalarWhereInput = {
+    AND?: CityScalarWhereInput | CityScalarWhereInput[]
+    OR?: CityScalarWhereInput[]
+    NOT?: CityScalarWhereInput | CityScalarWhereInput[]
+    id?: StringFilter<"City"> | string
+    name?: StringFilter<"City"> | string
+    longitude?: FloatNullableFilter<"City"> | number | null
+    latitude?: FloatNullableFilter<"City"> | number | null
+    regionId?: StringFilter<"City"> | string
+    createdAt?: DateTimeFilter<"City"> | Date | string
+    updatedAt?: DateTimeFilter<"City"> | Date | string
   }
 
   export type SessionCreateManyUserInput = {
@@ -10269,6 +13496,138 @@ export namespace Prisma {
     status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
     photo?: NullableStringFieldUpdateOperationsInput | string | null
     prices?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateManyCityInput = {
+    id?: string
+    email: string
+    password: string
+    firstName?: string | null
+    lastName?: string | null
+    username?: string | null
+    avatar?: string | null
+    isTalent?: boolean
+    isAnnouncer?: boolean
+    description?: string | null
+    isVerify?: boolean
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetTokenExpiresAt?: Date | string | null
+    emailVerificationToken?: string | null
+    emailVerificationTokenExpiresAt?: Date | string | null
+    onboarding?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserUpdateWithoutCityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    isTalent?: BoolFieldUpdateOperationsInput | boolean
+    isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerify?: BoolFieldUpdateOperationsInput | boolean
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    onboarding?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    isTalent?: BoolFieldUpdateOperationsInput | boolean
+    isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerify?: BoolFieldUpdateOperationsInput | boolean
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    onboarding?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutCityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    isTalent?: BoolFieldUpdateOperationsInput | boolean
+    isAnnouncer?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerify?: BoolFieldUpdateOperationsInput | boolean
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    onboarding?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CityCreateManyRegionInput = {
+    id?: string
+    name: string
+    longitude?: number | null
+    latitude?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CityUpdateWithoutRegionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCityNestedInput
+  }
+
+  export type CityUncheckedUpdateWithoutRegionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCityNestedInput
+  }
+
+  export type CityUncheckedUpdateManyWithoutRegionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

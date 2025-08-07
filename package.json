@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.js\" \"src/**/*.jsx\"",
-    "seed:categories": "tsx server/scripts/index.ts"
+    "seed:categories": "tsx server/scripts/index.ts",
+    "seed:regions": "tsx scripts/seed-region.ts"
   },
   "dependencies": {
     "@auth/core": "^0.40.0",

@@ -16,11 +16,12 @@ import { Separator } from "@/components/ui/separator";
 import { userRegister } from "@/hooks/user";
 import { type registerFormValue, userRegisterSchema } from "@/validations/user.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Loader, Lock, Mail, User, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, Loader, Lock, Mail, User, AlertCircle } from 'lucide-react';
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast, Toaster } from "sonner";
+import Image from "next/image";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -74,64 +75,104 @@ const Register = () => {
           />
         </svg>
       ),
-      color: "hover:bg-red-50 hover:border-red-200 dark:hover:bg-red-950/20",
     },
     {
       name: "GitHub",
       icon: (
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
         </svg>
       ),
-      color: "hover:bg-gray-50 hover:border-gray-200 dark:hover:bg-gray-950/20",
     },
     {
       name: "LinkedIn",
       icon: (
-        <svg className="w-5 h-5" fill="#0A66C2" viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
         </svg>
       ),
-      color: "hover:bg-blue-50 hover:border-blue-200 dark:hover:bg-blue-950/20",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-      <Toaster position="top-center" />
-
-      <div className="flex min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 font-inter">
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .font-inter {
+          font-family: 'Inter', sans-serif;
+        }
+        
+        .animate-input:focus {
+          transform: translateY(-2px);
+        }
+        
+        .social-button {
+          transition: all 0.3s ease;
+        }
+        
+        .social-button:hover {
+          transform: translateY(-2px);
+        }
+        
+        .glass-card {
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .glass-card:hover {
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .submit-button {
+          transition: all 0.3s ease;
+          background-size: 200% auto;
+          background-image: linear-gradient(to right, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
+        }
+        
+        .submit-button:hover {
+          background-position: right center;
+          transform: translateY(-2px);
+        }
+      `}</style>
+      <Toaster position="top-center" theme="dark" />
+      <div className="flex flex-col lg:flex-row min-h-screen">
         {/* Left Side - Illustration */}
-        <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary/10 to-primary/5 items-center justify-center p-12">
-          <div className="max-w-md text-center">
-            <div className="w-32 h-32 mx-auto mb-8 bg-primary/20 rounded-full flex items-center justify-center">
-              <User className="w-16 h-16 text-primary" />
+        <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center overflow-hidden">
+          <Image
+            src="/images/register.jpg"
+            alt="Register"
+            width={1920}
+            height={1080}
+            className="object-cover absolute inset-0 w-full h-full"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-900/70 to-black/80 backdrop-blur-[2px]"></div>
+          <div className="relative z-10 text-center p-8 max-w-md">
+            <div className="glass-card bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-xl p-8 transform transition-all">
+              <h2 className="text-4xl font-light tracking-tight text-white mb-3">
+                <span className="font-semibold">Bienvenue</span> parmi nous
+              </h2>
+              <p className="text-lg text-gray-200/90 leading-relaxed">
+                Créez votre compte pour accéder à toutes nos fonctionnalités et rejoindre notre communauté.
+              </p>
             </div>
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
-              Rejoignez notre communauté
-            </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-lg">
-              Créez votre compte et découvrez toutes les fonctionnalités de notre plateforme
-            </p>
           </div>
         </div>
-
         {/* Right Side - Form */}
         <div className="flex-1 flex items-center justify-center p-4 lg:p-8">
           <div className="w-full max-w-md">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="lg:hidden mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                <User className="w-8 h-8 text-primary" />
+              <div className="lg:hidden mx-auto w-16 h-16 bg-gradient-to-br from-blue-600/30 to-blue-800/30 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm border border-blue-500/20">
+                <User className="h-8 w-8 text-blue-400" />
               </div>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-                Créer un compte
+              <h1 className="text-3xl font-light tracking-tight text-white mb-2">
+                Créer un <span className="font-semibold">compte</span>
               </h1>
-              <p className="text-slate-600 dark:text-slate-400 mt-2">
+              <p className="text-gray-400 mt-2 text-sm">
                 Rejoignez-nous en quelques étapes simples
               </p>
             </div>
-
             {/* Social Login Buttons */}
             <div className="space-y-4 mb-6">
               <div className="grid grid-cols-3 gap-3">
@@ -139,103 +180,100 @@ const Register = () => {
                   <Button
                     key={provider.name}
                     variant="outline"
-                    className={`h-11 border-slate-200 dark:border-slate-700 transition-all duration-200 ${provider.color}`}
+                    className="social-button h-11 border-gray-700/60 bg-gray-800/40 text-gray-100 backdrop-blur-sm rounded-xl shadow-md hover:bg-gray-700/50 hover:border-gray-600"
                     onClick={() => toast.info(`Connexion ${provider.name} bientôt disponible`)}
                   >
-                    {provider.icon}
+                    <div className="flex items-center justify-center w-5 h-5">
+                      {provider.icon}
+                    </div>
                     <span className="sr-only">Se connecter avec {provider.name}</span>
                   </Button>
                 ))}
               </div>
-
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <Separator className="w-full" />
+                  <Separator className="w-full bg-gray-700/50" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white dark:bg-slate-800 px-2 text-slate-500 dark:text-slate-400">
+                  <span className="bg-gray-950 px-2 text-gray-400">
                     Ou continuer avec
                   </span>
                 </div>
               </div>
             </div>
-
             {/* Registration Form */}
-            <Card className="shadow-lg border-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
+            <Card className="glass-card shadow-2xl border border-gray-700/40 bg-gray-800/30 backdrop-blur-xl rounded-2xl">
               <CardHeader className="space-y-1 pb-4">
-                <CardTitle className="text-xl text-center">Informations du compte</CardTitle>
-                <CardDescription className="text-center">
+                <CardTitle className="text-xl text-center text-white font-normal">Informations du compte</CardTitle>
+                <CardDescription className="text-center text-gray-400 text-sm">
                   Remplissez les champs ci-dessous pour créer votre compte
                 </CardDescription>
               </CardHeader>
-
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   {/* Error Message */}
                   {errorMessage && (
                     <Alert
                       variant="destructive"
-                      className="border-red-200 bg-red-50 dark:bg-red-950/20"
+                      className="border-red-600/40 bg-red-900/20 text-red-300 rounded-xl animate-in fade-in duration-300"
                     >
                       <AlertCircle className="h-4 w-4" />
                       <AlertDescription>{errorMessage}</AlertDescription>
                     </Alert>
                   )}
-
                   {/* Email Field */}
                   <div className="space-y-2">
                     <Label
                       htmlFor="email"
-                      className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                      className="text-sm font-medium text-gray-300"
                     >
                       Adresse email
                     </Label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                       <Input
                         {...registerForm("email")}
                         type="email"
                         id="email"
                         placeholder="votre@email.com"
-                        className="pl-10 h-11 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary/20 rounded-lg transition-all duration-200"
+                        className="animate-input pl-10 h-11 border-gray-700/60 bg-gray-900/50 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-800/30 rounded-xl transition-all duration-300 hover:border-gray-600"
                       />
                     </div>
                     {errors.email && (
-                      <p className="text-sm text-red-500 flex items-center gap-1">
+                      <p className="text-sm text-red-400 flex items-center gap-1 animate-in fade-in duration-300">
                         <AlertCircle className="h-3 w-3" />
                         {errors.email.message}
                       </p>
                     )}
                   </div>
-
                   {/* Password Field */}
                   <div className="space-y-2">
                     <Label
                       htmlFor="password"
-                      className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                      className="text-sm font-medium text-gray-300"
                     >
                       Mot de passe
                     </Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                       <Input
                         {...registerForm("password")}
                         type={showPassword ? "text" : "password"}
                         id="password"
                         placeholder="••••••••"
-                        className="pl-10 pr-10 h-11 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary/20 rounded-lg transition-all duration-200"
+                        className="animate-input pl-10 pr-10 h-11 border-gray-700/60 bg-gray-900/50 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-800/30 rounded-xl transition-all duration-300 hover:border-gray-600"
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-slate-100 dark:hover:bg-slate-700"
+                        className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-gray-800/70 text-gray-400 rounded-lg transition-colors duration-200"
                       >
                         {showPassword ? (
-                          <EyeOff className="h-4 w-4 text-slate-400" />
+                          <EyeOff className="h-4 w-4" />
                         ) : (
-                          <Eye className="h-4 w-4 text-slate-400" />
+                          <Eye className="h-4 w-4" />
                         )}
                         <span className="sr-only">
                           {showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
@@ -243,41 +281,40 @@ const Register = () => {
                       </Button>
                     </div>
                     {errors.password && (
-                      <p className="text-sm text-red-500 flex items-center gap-1">
+                      <p className="text-sm text-red-400 flex items-center gap-1 animate-in fade-in duration-300">
                         <AlertCircle className="h-3 w-3" />
                         {errors.password.message}
                       </p>
                     )}
                   </div>
-
                   {/* Confirm Password Field */}
                   <div className="space-y-2">
                     <Label
                       htmlFor="confirmPassword"
-                      className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                      className="text-sm font-medium text-gray-300"
                     >
                       Confirmer le mot de passe
                     </Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                       <Input
                         {...registerForm("confirmPassword")}
                         type={showPasswordConfirm ? "text" : "password"}
                         id="confirmPassword"
                         placeholder="••••••••"
-                        className="pl-10 pr-10 h-11 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary/20 rounded-lg transition-all duration-200"
+                        className="animate-input pl-10 pr-10 h-11 border-gray-700/60 bg-gray-900/50 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-800/30 rounded-xl transition-all duration-300 hover:border-gray-600"
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
                         onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
-                        className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-slate-100 dark:hover:bg-slate-700"
+                        className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-gray-800/70 text-gray-400 rounded-lg transition-colors duration-200"
                       >
                         {showPasswordConfirm ? (
-                          <EyeOff className="h-4 w-4 text-slate-400" />
+                          <EyeOff className="h-4 w-4" />
                         ) : (
-                          <Eye className="h-4 w-4 text-slate-400" />
+                          <Eye className="h-4 w-4" />
                         )}
                         <span className="sr-only">
                           {showPasswordConfirm
@@ -287,34 +324,32 @@ const Register = () => {
                       </Button>
                     </div>
                     {errors.confirmPassword && (
-                      <p className="text-sm text-red-500 flex items-center gap-1">
+                      <p className="text-sm text-red-400 flex items-center gap-1 animate-in fade-in duration-300">
                         <AlertCircle className="h-3 w-3" />
                         {errors.confirmPassword.message}
                       </p>
                     )}
                   </div>
-
                   {/* Terms and Conditions */}
-                  <div className="text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg">
+                  <div className="text-xs text-gray-400 bg-gray-900/30 p-4 rounded-xl border border-gray-700/30 backdrop-blur-sm">
                     En créant un compte, vous acceptez nos{" "}
-                    <Link href="/terms" className="text-primary hover:text-primary/80 font-medium">
+                    <Link href="/terms" className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200">
                       conditions d'utilisation
                     </Link>{" "}
                     et notre{" "}
                     <Link
                       href="/privacy"
-                      className="text-primary hover:text-primary/80 font-medium"
+                      className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
                     >
                       politique de confidentialité
                     </Link>
                   </div>
                 </CardContent>
-
                 <CardFooter className="flex flex-col space-y-4">
                   <Button
                     type="submit"
                     disabled={register.isPending}
-                    className="w-full h-11 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md disabled:opacity-50"
+                    className="submit-button w-full h-11 text-white font-medium rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {register.isPending ? (
                       <>
@@ -325,13 +360,12 @@ const Register = () => {
                       "Créer mon compte"
                     )}
                   </Button>
-
                   {/* Login Link */}
-                  <div className="text-center text-sm text-slate-600 dark:text-slate-400">
+                  <div className="text-center text-sm text-gray-400">
                     Vous avez déjà un compte ?{" "}
                     <Link
                       href="/auth/login"
-                      className="text-primary hover:text-primary/80 font-medium transition-colors"
+                      className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
                     >
                       Se connecter
                     </Link>

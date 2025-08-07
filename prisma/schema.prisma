@@ -17,12 +17,13 @@ model User {
   lastName    String?
   username    String?  @unique
   avatar      String?
-  city        String?
+  city        City? @relation(fields: [cityId], references: [id])
   isTalent    Boolean  @default(false)
   isAnnouncer Boolean  @default(false)
   description String?
   isVerify    Boolean  @default(false)
   role        UserRole @default(USER)
+  cityId      String?
 
   // Champs pour reset de mot de passe
   passwordResetToken          String?
@@ -41,6 +42,7 @@ model User {
   sessions   Session[]
   categories Category[]
   posts      Posts[]
+  
 }
 
 model Session {
@@ -107,4 +109,27 @@ enum PostStatus {
 enum PostType {
   GENERAL
   MISSION
+}
+
+
+model City {
+  id        String @id @default(cuid())
+  name      String
+  longitude Float?
+  latitude  Float?
+  regionId  String
+  region    Region @relation(fields: [regionId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  users User[]
+}
+
+model Region {
+  id        String @id @default(cuid())
+  name      String
+  cities    City[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
 }
