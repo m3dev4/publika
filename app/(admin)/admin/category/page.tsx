@@ -9,6 +9,9 @@ import { useRouter } from "next/navigation";
 const CategoryPage = () => {
   const { error, isLoading, categories } = useCategoryStore();
   const router = useRouter();
+  
+  // Charger les catégories depuis l'API
+  const { data: categoriesData, isLoading: categoriesLoading, error: categoriesError } = useCategories();
 
   return (
     <div className="w-full overflow-hidden">

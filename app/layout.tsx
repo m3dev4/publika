@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={latofont.className}>
+      <body className={latofont.className} suppressHydrationWarning={true}>
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

@@ -28,7 +28,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   // }
 
   return (
-    <main className="min-h-screen w-full max-w-md mx-auto">
+    <main className="min-h-screen w-full bg-gray-950">
       <div className="flex items-center w-full justify-between">
         <div>
           <SessionNavBar />
