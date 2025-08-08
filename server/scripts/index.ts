@@ -35,22 +35,26 @@ const insertCategories = async () => {
 
     // Vérifier et ajouter les tags manquants pour les catégories existantes
     for (const constantCategory of categories) {
-      const existingCategory = existingCategories.find(cat => cat.name === constantCategory.name);
-      
+      const existingCategory = existingCategories.find(
+        (cat) => cat.name === constantCategory.name,
+      );
+
       if (existingCategory && constantCategory.tags) {
-        const existingTagNames = existingCategory.tags.map(tag => tag.name);
+        const existingTagNames = existingCategory.tags.map((tag) => tag.name);
         const missingTags = constantCategory.tags.filter(
-          tag => !existingTagNames.includes(tag.name)
+          (tag) => !existingTagNames.includes(tag.name),
         );
-        
+
         if (missingTags.length > 0) {
           await prisma.tag.createMany({
-            data: missingTags.map(tag => ({
+            data: missingTags.map((tag) => ({
               name: tag.name,
               categoryId: existingCategory.id,
             })),
           });
-          console.log(`✅ ${missingTags.length} tags ajoutés à la catégorie "${existingCategory.name}"`);
+          console.log(
+            `✅ ${missingTags.length} tags ajoutés à la catégorie "${existingCategory.name}"`,
+          );
         }
       }
     }
@@ -61,7 +65,8 @@ const insertCategories = async () => {
     }
 
     const missingCategories = categories.filter(
-      (category) => !existingCategories.some((existing) => existing.name === category.name)
+      (category) =>
+        !existingCategories.some((existing) => existing.name === category.name),
     );
 
     if (missingCategories.length > 0) {
@@ -83,7 +88,9 @@ const insertCategories = async () => {
           });
         }
       }
-      console.log(`✅ ${missingCategories.length} nouvelles catégories avec leurs tags ajoutées avec succès`);
+      console.log(
+        `✅ ${missingCategories.length} nouvelles catégories avec leurs tags ajoutées avec succès`,
+      );
     }
   } catch (error: any) {
     console.error(`❌ Erreur: ${error.message}`);

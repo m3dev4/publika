@@ -2,14 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   experimental: {
-    serverComponentsExternalPackages: ['cloudinary']
+    serverComponentsExternalPackages: ["cloudinary"],
   },
   webpack: (config) => {
     config.externals.push({
-      'lodash': 'lodash'
+      lodash: "lodash",
     });
     return config;
-  }
+  },
 };
 
 export default nextConfig;

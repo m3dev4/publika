@@ -3,9 +3,9 @@
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion } from "motion/react";
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 import {
-    Bell,
+  Bell,
   Blocks,
   BookmarkCheck,
   ChevronsUpDown,
@@ -27,7 +27,7 @@ import {
   UserSearch,
 } from "lucide-react";
 import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -40,7 +40,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthStore } from "@/app/api/store/auth.store";
 
 const sidebarVariants = {
@@ -87,24 +87,20 @@ const staggerVariants = {
   },
 };
 
-
 export function SessionNavBar() {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const pathname = usePathname();
-  const { user, logout } = useAuthStore()
-  const router = useRouter()
-  
-  const handleLogout = () => {
-    logout()
-    router.push("/auth/login")
-  }
+  const { user, logout } = useAuthStore();
+  const router = useRouter();
 
+  const handleLogout = () => {
+    logout();
+    router.push("/auth/login");
+  };
 
   return (
     <motion.div
-      className={cn(
-        "sidebar left-0 z-40 h-full top-0 shrink-0 border-r fixed",
-      )}
+      className={cn("sidebar left-0 z-40 h-full top-0 shrink-0 border-r fixed")}
       initial={isCollapsed ? "closed" : "open"}
       animate={isCollapsed ? "closed" : "open"}
       variants={sidebarVariants}
@@ -119,14 +115,14 @@ export function SessionNavBar() {
           <div className="flex grow flex-col items-center">
             <div className="flex h-[54px] w-full shrink-0  border-b p-2">
               <div className=" mt-[1.5px] flex w-full">
-              <DropdownMenu modal={false}>
+                <DropdownMenu modal={false}>
                   <DropdownMenuTrigger className="w-full" asChild>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="flex w-fit items-center gap-2  px-2" 
+                      className="flex w-fit items-center gap-2  px-2"
                     >
-                      <Avatar className='rounded size-4'>
+                      <Avatar className="rounded size-4">
                         <AvatarFallback>P</AvatarFallback>
                       </Avatar>
                       <motion.li
@@ -135,9 +131,7 @@ export function SessionNavBar() {
                       >
                         {!isCollapsed && (
                           <>
-                            <p className="text-sm font-medium  ">
-                              {"Publika"}
-                            </p>
+                            <p className="text-sm font-medium  ">{"Publika"}</p>
                             <ChevronsUpDown className="h-4 w-4 text-muted-foreground/50" />
                           </>
                         )}
@@ -153,7 +147,6 @@ export function SessionNavBar() {
                         <Bell className="h-4 w-4" /> Notifications
                       </Link>
                     </DropdownMenuItem>{" "}
-                   
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
@@ -218,13 +211,16 @@ export function SessionNavBar() {
                       className={cn(
                         "flex h-8 w-full flex-row items-center rounded-md px-2 py-1.5   transition hover:bg-muted hover:text-primary",
 
-                        pathname?.includes("propositions") && "bg-muted text-blue-600",
+                        pathname?.includes("propositions") &&
+                          "bg-muted text-blue-600",
                       )}
                     >
                       <BookmarkCheck className="h-4 w-4" />{" "}
                       <motion.li variants={variants}>
                         {!isCollapsed && (
-                          <p className="ml-2 text-sm font-medium">Propositions</p>
+                          <p className="ml-2 text-sm font-medium">
+                            Propositions
+                          </p>
                         )}
                       </motion.li>
                     </Link>
@@ -249,16 +245,13 @@ export function SessionNavBar() {
                       className={cn(
                         "flex h-8 w-full flex-row items-center rounded-md px-2 py-1.5   transition hover:bg-muted hover:text-primary",
 
-                        pathname?.includes("chat") &&
-                          "bg-muted text-blue-600",
+                        pathname?.includes("chat") && "bg-muted text-blue-600",
                       )}
                     >
                       <MessageCircle className="h-4 w-4" />
                       <motion.li variants={variants}>
                         {!isCollapsed && (
-                          <p className="ml-2 text-sm font-medium">
-                            Messages
-                          </p>
+                          <p className="ml-2 text-sm font-medium">Messages</p>
                         )}
                       </motion.li>
                     </Link>
@@ -283,9 +276,13 @@ export function SessionNavBar() {
                     <DropdownMenuTrigger className="w-full">
                       <div className="flex h-8 w-full flex-row items-center gap-2 rounded-md px-2 py-1.5  transition hover:bg-muted hover:text-primary">
                         <Avatar className="size-4">
-                        <AvatarImage src={user?.avatar} alt={user?.username} />
+                          <AvatarImage
+                            src={user?.avatar}
+                            alt={user?.username}
+                          />
                           <AvatarFallback>
-                            {user?.firstName?.charAt(0) + user?.lastName?.charAt(0)}
+                            {user?.firstName?.charAt(0) +
+                              user?.lastName?.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
                         <motion.li
@@ -304,9 +301,13 @@ export function SessionNavBar() {
                     <DropdownMenuContent sideOffset={5}>
                       <div className="flex flex-row items-center gap-2 p-2">
                         <Avatar className="size-6">
-                        <AvatarImage src={user?.avatar} alt={user?.username} />
+                          <AvatarImage
+                            src={user?.avatar}
+                            alt={user?.username}
+                          />
                           <AvatarFallback>
-                            {user?.firstName?.charAt(0) + user?.lastName?.charAt(0)}
+                            {user?.firstName?.charAt(0) +
+                              user?.lastName?.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col text-left">
@@ -327,10 +328,11 @@ export function SessionNavBar() {
                           <UserCircle className="h-4 w-4" /> Profile
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className="flex items-center gap-2"
-                      >
-                        <Button onClick={handleLogout} className="flex items-center gap-2">
+                      <DropdownMenuItem className="flex items-center gap-2">
+                        <Button
+                          onClick={handleLogout}
+                          className="flex items-center gap-2"
+                        >
                           <LogOut className="h-4 w-4" /> Sign out
                         </Button>
                       </DropdownMenuItem>

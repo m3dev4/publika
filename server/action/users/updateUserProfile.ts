@@ -1,4 +1,4 @@
-"use server"
+"use server";
 import { PrismaClient } from "@/lib/prisma-client-js";
 import { UserUpdateProfile } from "@/types/user.type";
 import bcrypt from "bcryptjs";
@@ -24,9 +24,11 @@ export const updateUserProfile = async (data: UserUpdateProfile) => {
     if (data.city) updateUser.city = data.city;
     if (data.description) updateUser.description = data.description;
     if (data.isTalent !== undefined) updateUser.isTalent = data.isTalent;
-    if (data.isAnnouncer !== undefined) updateUser.isAnnouncer = data.isAnnouncer;
+    if (data.isAnnouncer !== undefined)
+      updateUser.isAnnouncer = data.isAnnouncer;
 
-    if (data.password && data.password.trim() !== "") updateUser.passwordHash = await bcrypt.hash(data.password, 10);
+    if (data.password && data.password.trim() !== "")
+      updateUser.passwordHash = await bcrypt.hash(data.password, 10);
 
     await prisma.user.update({
       where: { id: data.id },
@@ -41,8 +43,8 @@ export const updateUserProfile = async (data: UserUpdateProfile) => {
         description: true,
         isTalent: true,
         isAnnouncer: true,
-       createdAt: true,
-       updatedAt: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
 

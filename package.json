@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.js\" \"src/**/*.jsx\"",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx}\" \"!node_modules/**\" \"!.next/**\" \"!lib/prisma-client-js/**\"",
     "seed:categories": "tsx server/scripts/index.ts",
     "seed:categories-new": "tsx scripts/seed-categories.ts",
     "seed:regions": "tsx scripts/seed-region.ts"

@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     if (!email || !password) {
       return NextResponse.json(
         { error: "Email et mot de passe requis" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     console.error("Login API error:", error);
     return NextResponse.json(
       { error: error.message || "Erreur lors de la connexion" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 }

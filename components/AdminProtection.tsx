@@ -9,8 +9,12 @@ interface AdminProtectionProps {
   fallback?: ReactNode;
 }
 
-export default function AdminProtection({ children, fallback }: AdminProtectionProps) {
-  const { isAuthenticated, isAdmin, user, hydrated, isLoading } = useAuthStore();
+export default function AdminProtection({
+  children,
+  fallback,
+}: AdminProtectionProps) {
+  const { isAuthenticated, isAdmin, user, hydrated, isLoading } =
+    useAuthStore();
   const router = useRouter();
 
   useEffect(() => {

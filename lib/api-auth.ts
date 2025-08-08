@@ -15,7 +15,9 @@ export interface AuthenticatedRequest extends NextRequest {
   };
 }
 
-export async function requireAuth(request: NextRequest): Promise<{ user: any; error?: string }> {
+export async function requireAuth(
+  request: NextRequest,
+): Promise<{ user: any; error?: string }> {
   try {
     log.debug("API authentication attempt");
 
@@ -40,7 +42,9 @@ export async function requireAuth(request: NextRequest): Promise<{ user: any; er
 
       if (cookieHeader) {
         // Extract session token from cookies
-        const sessionTokenMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/);
+        const sessionTokenMatch = cookieHeader.match(
+          /better-auth\.session_token=([^;]+)/,
+        );
         if (sessionTokenMatch) {
           const sessionToken = sessionTokenMatch[1];
 
@@ -114,7 +118,9 @@ export async function requireAuth(request: NextRequest): Promise<{ user: any; er
   }
 }
 
-export async function requireAdmin(request: NextRequest): Promise<{ user: any; error?: string }> {
+export async function requireAdmin(
+  request: NextRequest,
+): Promise<{ user: any; error?: string }> {
   const { user, error } = await requireAuth(request);
 
   if (error || !user) {
@@ -129,7 +135,7 @@ export async function requireAdmin(request: NextRequest): Promise<{ user: any; e
 }
 
 export async function requireEmailVerified(
-  request: NextRequest
+  request: NextRequest,
 ): Promise<{ user: any; error?: string }> {
   const { user, error } = await requireAuth(request);
 
@@ -145,7 +151,7 @@ export async function requireEmailVerified(
 }
 
 export async function requireOnboarding(
-  request: NextRequest
+  request: NextRequest,
 ): Promise<{ user: any; error?: string }> {
   const { user, error } = await requireEmailVerified(request);
 

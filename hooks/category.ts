@@ -54,7 +54,8 @@ export const createCategory = () => {
 
 // Hook pour récupérer les catégories
 export const useCategories = () => {
-  const { setCategories, setLoading, setError, clearError } = useCategoryStore();
+  const { setCategories, setLoading, setError, clearError } =
+    useCategoryStore();
 
   return useQuery({
     queryKey: ["categories"],
@@ -87,7 +88,8 @@ export const useCategories = () => {
 
         return [];
       } catch (error: any) {
-        const errorMessage = error.message || "Une erreur est survenue lors du chargement";
+        const errorMessage =
+          error.message || "Une erreur est survenue lors du chargement";
         setError(errorMessage);
         console.error("Erreur lors du chargement des catégories:", error);
         throw error;
@@ -107,7 +109,10 @@ export const updateCategory = () => {
   } = useCategoryStore();
 
   return useMutation({
-    mutationFn: async (data: { name: string; id: string }): Promise<Category> => {
+    mutationFn: async (data: {
+      name: string;
+      id: string;
+    }): Promise<Category> => {
       setLoading(true);
       clearError();
 
@@ -136,7 +141,8 @@ export const updateCategory = () => {
 
         throw new Error("Invalid response format");
       } catch (error: any) {
-        const errorMessage = error.message || "Une erreur est survenue lors de la mise à jour";
+        const errorMessage =
+          error.message || "Une erreur est survenue lors de la mise à jour";
         setError(errorMessage);
         throw error;
       } finally {

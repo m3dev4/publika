@@ -9,9 +9,13 @@ import { useRouter } from "next/navigation";
 const CategoryPage = () => {
   const { error, isLoading, categories } = useCategoryStore();
   const router = useRouter();
-  
+
   // Charger les catégories depuis l'API
-  const { data: categoriesData, isLoading: categoriesLoading, error: categoriesError } = useCategories();
+  const {
+    data: categoriesData,
+    isLoading: categoriesLoading,
+    error: categoriesError,
+  } = useCategories();
 
   return (
     <div className="w-full overflow-hidden">
@@ -34,19 +38,25 @@ const CategoryPage = () => {
                 {isLoading && (
                   <div className="text-center py-4">
                     <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600" />
-                    <p className="text-sm text-gray-500">Chargement des catégories...</p>
+                    <p className="text-sm text-gray-500">
+                      Chargement des catégories...
+                    </p>
                   </div>
                 )}
 
                 {error && (
                   <div className="text-center py-4">
-                    <p className="text-sm text-red-500">Erreur lors du chargement des catégories</p>
+                    <p className="text-sm text-red-500">
+                      Erreur lors du chargement des catégories
+                    </p>
                   </div>
                 )}
 
                 {categories.length === 0 && !isLoading ? (
                   <div>
-                    <p className="text-sm text-gray-500">Aucune catégorie trouvée</p>
+                    <p className="text-sm text-gray-500">
+                      Aucune catégorie trouvée
+                    </p>
                   </div>
                 ) : (
                   <div className="grid gap-3">
@@ -55,15 +65,22 @@ const CategoryPage = () => {
                         key={category.id}
                         className="border rounded p-4 hover:scale-105 transition-all    "
                       >
-                       <div className="flex justify-between">
-                       <h3 className="font-medium">{category.name}</h3>
-                       <button 
-                       onClick={() => router.push(`/admin/category/${category.id}`)}
-                       
-                       className="bg-blue-500 text-white px-4 py-2 rounded">Modifier</button>
-                       </div>
+                        <div className="flex justify-between">
+                          <h3 className="font-medium">{category.name}</h3>
+                          <button
+                            onClick={() =>
+                              router.push(`/admin/category/${category.id}`)
+                            }
+                            className="bg-blue-500 text-white px-4 py-2 rounded"
+                          >
+                            Modifier
+                          </button>
+                        </div>
                         <p className="text-xs">
-                          Crée le {new Date(category.createdAt).toLocaleDateString("fr-FR")}
+                          Crée le{" "}
+                          {new Date(category.createdAt).toLocaleDateString(
+                            "fr-FR",
+                          )}
                         </p>
                       </div>
                     ))}

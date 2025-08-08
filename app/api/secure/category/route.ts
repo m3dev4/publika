@@ -12,7 +12,9 @@ const prisma = new PrismaClient();
 
 // Schema de validation pour la création de catégorie
 const createCategorySchema = z.object({
-  name: secureTextSchema.min(1, "Nom de catégorie requis").max(100, "Nom trop long"),
+  name: secureTextSchema
+    .min(1, "Nom de catégorie requis")
+    .max(100, "Nom trop long"),
 });
 
 export async function POST(request: NextRequest) {
@@ -38,9 +40,10 @@ export async function POST(request: NextRequest) {
         {
           status: 429,
           headers: {
-            "X-RateLimit-Remaining": rateLimitResult.remaining?.toString() || "0",
+            "X-RateLimit-Remaining":
+              rateLimitResult.remaining?.toString() || "0",
           },
-        }
+        },
       );
     }
 
@@ -56,7 +59,10 @@ export async function POST(request: NextRequest) {
         errorMessage: authResult.error,
       });
 
-      return NextResponse.json({ error: authResult.error || "Non autorisé" }, { status: 401 });
+      return NextResponse.json(
+        { error: authResult.error || "Non autorisé" },
+        { status: 401 },
+      );
     }
 
     // 3. Validation des données
@@ -115,7 +121,10 @@ export async function POST(request: NextRequest) {
       errorMessage: error instanceof Error ? error.message : "Erreur inconnue",
     });
 
-    return NextResponse.json({ error: "Erreur interne du serveur" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Erreur interne du serveur" },
+      { status: 500 },
+    );
   }
 }
 
@@ -127,13 +136,19 @@ export async function GET(request: NextRequest) {
     // Rate limiting
     const rateLimitResult = await apiRateLimit(request);
     if (!rateLimitResult.success) {
-      return NextResponse.json({ error: rateLimitResult.error }, { status: 429 });
+      return NextResponse.json(
+        { error: rateLimitResult.error },
+        { status: 429 },
+      );
     }
 
     // Authentification
     const authResult = await requireOnboarding(request);
     if (authResult.error || !authResult.user) {
-      return NextResponse.json({ error: authResult.error || "Non autorisé" }, { status: 401 });
+      return NextResponse.json(
+        { error: authResult.error || "Non autorisé" },
+        { status: 401 },
+      );
     }
 
     // Récupération des catégories de l'utilisateur
@@ -149,6 +164,9 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     log.error("Category fetch failed", error);
-    return NextResponse.json({ error: "Erreur interne du serveur" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Erreur interne du serveur" },
+      { status: 500 },
+    );
   }
 }

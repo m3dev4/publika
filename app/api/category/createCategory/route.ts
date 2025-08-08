@@ -27,7 +27,9 @@ export async function POST(request: NextRequest) {
 
       if (cookieHeader) {
         // Extract session token from cookies
-        const sessionTokenMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/);
+        const sessionTokenMatch = cookieHeader.match(
+          /better-auth\.session_token=([^;]+)/,
+        );
         if (sessionTokenMatch) {
           const sessionToken = sessionTokenMatch[1];
           console.log("Found session token:", sessionToken);
@@ -75,7 +77,10 @@ export async function POST(request: NextRequest) {
     }
 
     if (!userId) {
-      return NextResponse.json({ error: "Unauthorized - User not authenticated" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized - User not authenticated" },
+        { status: 401 },
+      );
     }
 
     console.log("Authenticated user ID:", userId);
@@ -86,7 +91,7 @@ export async function POST(request: NextRequest) {
     if (!name || typeof name !== "string" || name.trim().length === 0) {
       return NextResponse.json(
         { error: "Le nom de la catégorie est requis et ne peut pas être vide" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -101,12 +106,15 @@ export async function POST(request: NextRequest) {
 
     // Handle specific error messages
     if (error.message === "Category already exists") {
-      return NextResponse.json({ error: "Une catégorie avec ce nom existe déjà" }, { status: 409 });
+      return NextResponse.json(
+        { error: "Une catégorie avec ce nom existe déjà" },
+        { status: 409 },
+      );
     }
 
     return NextResponse.json(
       { error: "Erreur lors de la création de la catégorie" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

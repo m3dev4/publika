@@ -41,7 +41,9 @@ class SecureLogger {
       const sanitized: any = {};
       for (const [key, value] of Object.entries(data)) {
         const lowerKey = key.toLowerCase();
-        const isSensitive = this.sensitiveFields.some((field) => lowerKey.includes(field));
+        const isSensitive = this.sensitiveFields.some((field) =>
+          lowerKey.includes(field),
+        );
 
         if (isSensitive) {
           sanitized[key] = this.maskSensitiveValue(value);
@@ -78,10 +80,16 @@ class SecureLogger {
     return false;
   }
 
-  private formatMessage(message: string, options: LogOptions, data?: any): string {
+  private formatMessage(
+    message: string,
+    options: LogOptions,
+    data?: any,
+  ): string {
     const timestamp = new Date().toISOString();
     const context = options.context ? `[${options.context}]` : "";
-    const userId = options.userId ? `[User:${this.maskSensitiveValue(options.userId)}]` : "";
+    const userId = options.userId
+      ? `[User:${this.maskSensitiveValue(options.userId)}]`
+      : "";
     const action = options.action ? `[${options.action}]` : "";
 
     let logMessage = `${timestamp} ${options.level.toUpperCase()} ${context}${userId}${action} ${message}`;
@@ -96,19 +104,25 @@ class SecureLogger {
 
   debug(message: string, data?: any, options: Partial<LogOptions> = {}) {
     if (this.shouldLog("debug")) {
-      console.log(this.formatMessage(message, { level: "debug", ...options }, data));
+      console.log(
+        this.formatMessage(message, { level: "debug", ...options }, data),
+      );
     }
   }
 
   info(message: string, data?: any, options: Partial<LogOptions> = {}) {
     if (this.shouldLog("info")) {
-      console.log(this.formatMessage(message, { level: "info", ...options }, data));
+      console.log(
+        this.formatMessage(message, { level: "info", ...options }, data),
+      );
     }
   }
 
   warn(message: string, data?: any, options: Partial<LogOptions> = {}) {
     if (this.shouldLog("warn")) {
-      console.warn(this.formatMessage(message, { level: "warn", ...options }, data));
+      console.warn(
+        this.formatMessage(message, { level: "warn", ...options }, data),
+      );
     }
   }
 
@@ -122,7 +136,9 @@ class SecureLogger {
             }
           : error;
 
-      console.error(this.formatMessage(message, { level: "error", ...options }, errorData));
+      console.error(
+        this.formatMessage(message, { level: "error", ...options }, errorData),
+      );
     }
   }
 
@@ -143,7 +159,7 @@ class SecureLogger {
         context: "API",
         userId,
         action: "API_ACCESS",
-      }
+      },
     );
   }
 
@@ -165,7 +181,8 @@ export const log = {
   info: (msg: string, data?: any) => secureLogger.info(msg, data),
   warn: (msg: string, data?: any) => secureLogger.warn(msg, data),
   error: (msg: string, error?: any) => secureLogger.error(msg, error),
-  auth: (success: boolean, userId?: string) => secureLogger.authAttempt(success, userId),
+  auth: (success: boolean, userId?: string) =>
+    secureLogger.authAttempt(success, userId),
   api: (endpoint: string, userId?: string, success?: boolean) =>
     secureLogger.apiAccess(endpoint, userId, success),
   security: (type: string, details?: any, userId?: string) =>

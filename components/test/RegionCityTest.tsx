@@ -4,8 +4,16 @@ import { useListRegions } from "@/hooks/region";
 import { useListCities } from "@/hooks/city";
 
 export default function RegionCityTest() {
-  const { data: regions, isLoading: regionsLoading, error: regionsError } = useListRegions();
-  const { data: cities, isLoading: citiesLoading, error: citiesError } = useListCities();
+  const {
+    data: regions,
+    isLoading: regionsLoading,
+    error: regionsError,
+  } = useListRegions();
+  const {
+    data: cities,
+    isLoading: citiesLoading,
+    error: citiesError,
+  } = useListCities();
 
   if (regionsLoading || citiesLoading) {
     return <div className="p-4 text-white">Chargement des données...</div>;
@@ -22,7 +30,9 @@ export default function RegionCityTest() {
   return (
     <div className="p-4 space-y-6 text-white">
       <div>
-        <h2 className="text-xl font-bold mb-2">Régions ({regions?.length || 0})</h2>
+        <h2 className="text-xl font-bold mb-2">
+          Régions ({regions?.length || 0})
+        </h2>
         <div className="space-y-2">
           {regions?.map((region) => (
             <div key={region.id} className="p-2 bg-gray-800 rounded">
@@ -33,7 +43,9 @@ export default function RegionCityTest() {
       </div>
 
       <div>
-        <h2 className="text-xl font-bold mb-2">Villes ({cities?.length || 0})</h2>
+        <h2 className="text-xl font-bold mb-2">
+          Villes ({cities?.length || 0})
+        </h2>
         <div className="space-y-2">
           {cities?.map((city) => (
             <div key={city.id} className="p-2 bg-gray-800 rounded">

@@ -9,7 +9,7 @@ async function createTestUser() {
 
     // Vérifier si l'utilisateur existe déjà
     const existingUser = await prisma.user.findUnique({
-      where: { email: "test@example.com" }
+      where: { email: "test@example.com" },
     });
 
     if (existingUser) {
@@ -43,7 +43,10 @@ async function createTestUser() {
 
     return user;
   } catch (error) {
-    console.error("❌ Erreur lors de la création de l'utilisateur de test:", error);
+    console.error(
+      "❌ Erreur lors de la création de l'utilisateur de test:",
+      error,
+    );
     throw error;
   } finally {
     await prisma.$disconnect();

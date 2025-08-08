@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export async function verifyEmail(token: string) {
   try {
     console.log("Vérification du token:", token);
-    
+
     const user = await prisma.user.findFirst({
       where: { emailVerificationToken: token },
     });
@@ -16,7 +16,10 @@ export async function verifyEmail(token: string) {
 
     if (!user) {
       console.log("Aucun utilisateur trouvé avec ce token");
-      return { success: false, message: "Code de vérification invalide ou expiré" };
+      return {
+        success: false,
+        message: "Code de vérification invalide ou expiré",
+      };
     }
 
     const updatedUser = await prisma.user.update({
@@ -29,9 +32,16 @@ export async function verifyEmail(token: string) {
     });
 
     console.log("Email vérifié avec succès pour:", user.email);
-    return { success: true, message: "Email vérifié avec succès", user: updatedUser };
+    return {
+      success: true,
+      message: "Email vérifié avec succès",
+      user: updatedUser,
+    };
   } catch (error) {
     console.error("Erreur lors de la vérification:", error);
-    return { success: false, message: "Erreur lors de la vérification de l'email" };
+    return {
+      success: false,
+      message: "Erreur lors de la vérification de l'email",
+    };
   }
 }

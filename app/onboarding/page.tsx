@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { UserOnboarding } from "@/types/user.type";
 import { steps } from "@/constants"; // Assuming this file exists and defines steps
 import { useOnboarding } from "@/hooks/onboarding";
-import { Check, Loader } from 'lucide-react';
+import { Check, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StepOnboarding, { StepOnboardingRef } from "@/components/stepOnboarding";
 import { Toaster } from "sonner"; // Added Toaster for consistency
@@ -32,11 +32,18 @@ const Onboarding = () => {
       console.log("Onboarding - Auth state:", {
         isAuthenticated,
         user: user
-          ? { id: user.id, email: user.email, isVerify: user.isVerify, onboarding: user.onboarding }
+          ? {
+              id: user.id,
+              email: user.email,
+              isVerify: user.isVerify,
+              onboarding: user.onboarding,
+            }
           : null,
       });
       if (!isAuthenticated || !user || !user.isVerify) {
-        console.log("Redirecting to login - not authenticated or email not verified");
+        console.log(
+          "Redirecting to login - not authenticated or email not verified",
+        );
         router.push("/auth/login");
         return;
       }
@@ -133,8 +140,8 @@ const Onboarding = () => {
                       status === "current"
                         ? "bg-blue-600/30 text-blue-300 border border-blue-500/20 shadow-lg"
                         : status === "completed"
-                        ? "bg-green-600/20 text-green-300 border border-green-500/20 shadow-md"
-                        : "bg-gray-800/30 text-gray-400 border border-gray-700/50 hover:bg-gray-700/50"
+                          ? "bg-green-600/20 text-green-300 border border-green-500/20 shadow-md"
+                          : "bg-gray-800/30 text-gray-400 border border-gray-700/50 hover:bg-gray-700/50"
                     }
                   `}
                 >
@@ -145,11 +152,15 @@ const Onboarding = () => {
                         status === "completed"
                           ? "bg-green-600 text-white"
                           : status === "current"
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-700 text-gray-300"
+                            ? "bg-blue-600 text-white"
+                            : "bg-gray-700 text-gray-300"
                       }`}
                   >
-                    {status === "completed" ? <Check className="h-5 w-5" /> : step.id}
+                    {status === "completed" ? (
+                      <Check className="h-5 w-5" />
+                    ) : (
+                      step.id
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div
@@ -157,8 +168,8 @@ const Onboarding = () => {
                         status === "current"
                           ? "text-white font-semibold"
                           : status === "completed"
-                          ? "text-gray-200 font-medium"
-                          : "text-gray-300 font-medium"
+                            ? "text-gray-200 font-medium"
+                            : "text-gray-300 font-medium"
                       }`}
                     >
                       <Icon className="h-4 w-4 flex-shrink-0" />
@@ -195,7 +206,9 @@ const Onboarding = () => {
                 </Button>
               )}
               <Button
-                onClick={currentStep === steps.length ? handleSubmit : handleNext}
+                onClick={
+                  currentStep === steps.length ? handleSubmit : handleNext
+                }
                 className="submit-button px-8 h-11 ml-auto rounded-xl shadow-lg"
               >
                 {currentStep === steps.length ? (

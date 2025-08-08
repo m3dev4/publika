@@ -16,10 +16,12 @@ const rateLimitStore = new Map<string, RateLimitEntry>();
 
 export function rateLimit(config: RateLimitConfig) {
   return async (
-    request: NextRequest
+    request: NextRequest,
   ): Promise<{ success: boolean; error?: string; remaining?: number }> => {
     const ip =
-      request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
+      request.headers.get("x-forwarded-for") ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
     const key = `rate_limit:${ip}`;
     const now = Date.now();
 

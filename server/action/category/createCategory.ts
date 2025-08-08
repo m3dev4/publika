@@ -5,7 +5,10 @@ import { Category } from "@/types/category.types";
 
 const prisma = new PrismaClient();
 
-export const createCategory = async (data: { name: string; userId: string }) => {
+export const createCategory = async (data: {
+  name: string;
+  userId: string;
+}) => {
   try {
     const foundExistingCategory = await prisma.category.findFirst({
       where: {
@@ -24,8 +27,8 @@ export const createCategory = async (data: { name: string; userId: string }) => 
         name: data.name,
       },
       include: {
-        tags: true
-      }
+        tags: true,
+      },
     });
     return category;
   } catch (error) {

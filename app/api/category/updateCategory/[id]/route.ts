@@ -4,7 +4,10 @@ import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
   try {
     let userId: string | null = null;
 
@@ -22,7 +25,9 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       console.log("Cookie header:", cookieHeader);
 
       if (cookieHeader) {
-        const sessionTokenMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/);
+        const sessionTokenMatch = cookieHeader.match(
+          /better-auth\.session_token=([^;]+)/,
+        );
         if (sessionTokenMatch) {
           const sessionToken = sessionTokenMatch[1];
           console.log("Found session token:", sessionToken);
@@ -65,7 +70,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     }
 
     if (!userId) {
-      return NextResponse.json({ error: "Unauthorized - User not authenticated" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized - User not authenticated" },
+        { status: 401 },
+      );
     }
 
     const body = await request.json();
@@ -74,7 +82,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     if (!name || typeof name !== "string" || name.trim().length === 0) {
       return NextResponse.json(
         { error: "Le nom de la catégorie est requis et ne peut pas être vide" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -90,8 +98,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   } catch (error) {
     console.error("Error updating category:", error);
     return NextResponse.json(
-      { error: "Une erreur est survenue lors de la mise à jour de la catégorie" },
-      { status: 500 }
+      {
+        error: "Une erreur est survenue lors de la mise à jour de la catégorie",
+      },
+      { status: 500 },
     );
   }
 }

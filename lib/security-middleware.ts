@@ -9,12 +9,15 @@ export function addSecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set("X-XSS-Protection", "1; mode=block");
 
   // HSTS (HTTPS uniquement)
-  response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  response.headers.set(
+    "Strict-Transport-Security",
+    "max-age=31536000; includeSubDomains",
+  );
 
   // CSP basique
   response.headers.set(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:;"
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:;",
   );
 
   // Referrer Policy
@@ -24,7 +27,9 @@ export function addSecurityHeaders(response: NextResponse): NextResponse {
 }
 
 // Détection d'attaques basiques
-export async function detectSuspiciousActivity(request: NextRequest): Promise<boolean> {
+export async function detectSuspiciousActivity(
+  request: NextRequest,
+): Promise<boolean> {
   const url = request.url;
   const userAgent = request.headers.get("user-agent") || "";
   const ip = request.headers.get("x-forwarded-for") || "unknown";
@@ -59,7 +64,13 @@ export async function detectSuspiciousActivity(request: NextRequest): Promise<bo
   }
 
   // User agents suspects
-  const suspiciousUserAgents = [/sqlmap/i, /nikto/i, /nessus/i, /burp/i, /nmap/i];
+  const suspiciousUserAgents = [
+    /sqlmap/i,
+    /nikto/i,
+    /nessus/i,
+    /burp/i,
+    /nmap/i,
+  ];
 
   for (const pattern of suspiciousUserAgents) {
     if (pattern.test(userAgent)) {
@@ -81,7 +92,10 @@ export async function detectSuspiciousActivity(request: NextRequest): Promise<bo
 }
 
 // Validation des headers
-export function validateHeaders(request: NextRequest): { valid: boolean; error?: string } {
+export function validateHeaders(request: NextRequest): {
+  valid: boolean;
+  error?: string;
+} {
   const contentType = request.headers.get("content-type");
   const method = request.method;
 
@@ -98,7 +112,7 @@ export function validateHeaders(request: NextRequest): { valid: boolean; error?:
   // Vérifier la taille des headers
   const headerSize = Array.from(request.headers.entries()).reduce(
     (size, [key, value]) => size + key.length + value.length,
-    0
+    0,
   );
 
   if (headerSize > 8192) {
@@ -113,17 +127,25 @@ export function validateHeaders(request: NextRequest): { valid: boolean; error?:
 }
 
 // Middleware de sécurité complet
-export async function securityMiddleware(request: NextRequest): Promise<NextResponse | null> {
+export async function securityMiddleware(
+  request: NextRequest,
+): Promise<NextResponse | null> {
   // Détecter les activités suspectes
   const isSuspicious = await detectSuspiciousActivity(request);
   if (isSuspicious) {
-    return NextResponse.json({ error: "Activité suspecte détectée" }, { status: 403 });
+    return NextResponse.json(
+      { error: "Activité suspecte détectée" },
+      { status: 403 },
+    );
   }
 
   // Valider les headers
   const headerValidation = validateHeaders(request);
   if (!headerValidation.valid) {
-    return NextResponse.json({ error: headerValidation.error }, { status: 400 });
+    return NextResponse.json(
+      { error: headerValidation.error },
+      { status: 400 },
+    );
   }
 
   return null; // Continuer le traitement

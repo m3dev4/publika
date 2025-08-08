@@ -8,13 +8,12 @@ const latofont = Lato({
   weight: ["400", "700"],
 });
 
-
 export const metadata: Metadata = {
   title: "Publika",
   description: "",
   icons: {
-    icon: "/images/logo.png"
-  }
+    icon: "/images/logo.png",
+  },
 };
 
 export default function RootLayout({

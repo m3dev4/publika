@@ -44,7 +44,7 @@ export const useCategoryStore = create<CategoryState>()(
       updateCategory: (id, updatedCategory) =>
         set((state) => ({
           categories: state.categories.map((cat) =>
-            cat.id === id ? { ...cat, ...updatedCategory } : cat
+            cat.id === id ? { ...cat, ...updatedCategory } : cat,
           ),
           error: null,
         })),
@@ -75,6 +75,6 @@ export const useCategoryStore = create<CategoryState>()(
       }),
       // Optionnel : gestion des versions pour les migrations
       version: 1,
-    }
-  )
+    },
+  ),
 );

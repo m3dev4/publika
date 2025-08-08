@@ -15,7 +15,9 @@ async function testSecuritySync() {
     console.log(`   ✅ ${adminCount} admin(s) trouvé(s)`);
 
     if (adminCount === 0) {
-      console.log("   ⚠️  ATTENTION: Aucun admin trouvé. Utilisez le script promote-admin.ts");
+      console.log(
+        "   ⚠️  ATTENTION: Aucun admin trouvé. Utilisez le script promote-admin.ts",
+      );
     }
 
     // 2. Vérifier les routes API
@@ -92,7 +94,9 @@ async function testSecuritySync() {
 
     if (adminCount === 0) {
       console.log("\n⚠️  ACTION REQUISE:");
-      console.log("Créez un admin avec: npx tsx scripts/promote-admin.ts <email>");
+      console.log(
+        "Créez un admin avec: npx tsx scripts/promote-admin.ts <email>",
+      );
     }
   } catch (error) {
     console.error("❌ Erreur lors du test:", error);

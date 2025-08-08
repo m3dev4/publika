@@ -24,12 +24,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Loader } from 'lucide-react';
+import { Loader } from "lucide-react";
 import { toast, Toaster } from "sonner";
 
 const PostPage = () => {
   const [error, setError] = useState<string | null>(null);
-  const [status, setStatus] = useState<'DRAFT' | 'PUBLISHED'>('DRAFT');
+  const [status, setStatus] = useState<"DRAFT" | "PUBLISHED">("DRAFT");
   const [showPreview, setShowPreview] = useState(false);
   const createPost = UseCreatePost();
   const { categories } = useCategoryStore();
@@ -68,8 +68,8 @@ const PostPage = () => {
 
   const handlePublish = async (data: PostValidationValue) => {
     try {
-      await createPost.mutateAsync({ ...data, status: 'PUBLISHED' });
-      setStatus('PUBLISHED');
+      await createPost.mutateAsync({ ...data, status: "PUBLISHED" });
+      setStatus("PUBLISHED");
       toast.success("Post publié avec succès");
       setShowPreview(false);
     } catch (error) {
@@ -80,7 +80,7 @@ const PostPage = () => {
   const handleReset = () => {
     reset();
     setShowPreview(false);
-    setStatus('DRAFT');
+    setStatus("DRAFT");
   };
 
   return (
@@ -93,14 +93,23 @@ const PostPage = () => {
             <CardContent className="pt-10 pb-4 px-8">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h1 className="text-3xl font-black tracking-tight text-white">Créer un post</h1>
-                  <p className="text-gray-400 text-sm mt-1">Complète les champs puis prévisualise avant de publier.</p>
+                  <h1 className="text-3xl font-black tracking-tight text-white">
+                    Créer un post
+                  </h1>
+                  <p className="text-gray-400 text-sm mt-1">
+                    Complète les champs puis prévisualise avant de publier.
+                  </p>
                 </div>
-                <span className={`px-4 py-1 rounded-full text-xs font-semibold shadow ${status === 'DRAFT' ? 'bg-yellow-600/20 text-yellow-300 border border-yellow-600' : 'bg-green-600/20 text-green-300 border border-green-600'}`}>
-                  {status === 'DRAFT' ? 'Brouillon' : 'Publié'}
+                <span
+                  className={`px-4 py-1 rounded-full text-xs font-semibold shadow ${status === "DRAFT" ? "bg-yellow-600/20 text-yellow-300 border border-yellow-600" : "bg-green-600/20 text-green-300 border border-green-600"}`}
+                >
+                  {status === "DRAFT" ? "Brouillon" : "Publié"}
                 </span>
               </div>
-              <form className="space-y-6" onSubmit={handleSubmit(handlePreview)}>
+              <form
+                className="space-y-6"
+                onSubmit={handleSubmit(handlePreview)}
+              >
                 <div>
                   <Label className="text-xs text-gray-300">Titre</Label>
                   <Input
@@ -133,7 +142,9 @@ const PostPage = () => {
                       </SelectTrigger>
                       <SelectContent className="bg-gray-800 text-white border border-gray-700">
                         <SelectGroup>
-                          <SelectLabel className="text-gray-400">Type</SelectLabel>
+                          <SelectLabel className="text-gray-400">
+                            Type
+                          </SelectLabel>
                           <SelectItem value="GENERAL">General</SelectItem>
                           <SelectItem value="MISSION">Mission</SelectItem>
                         </SelectGroup>
@@ -154,14 +165,23 @@ const PostPage = () => {
                         </SelectTrigger>
                         <SelectContent className="bg-gray-800 text-white border border-gray-700">
                           <SelectGroup>
-                            <SelectLabel className="text-gray-400">Categorie</SelectLabel>
+                            <SelectLabel className="text-gray-400">
+                              Categorie
+                            </SelectLabel>
                             {categoriesLoading ? (
-                              <p className="text-xs text-center text-gray-400">Chargement...</p>
+                              <p className="text-xs text-center text-gray-400">
+                                Chargement...
+                              </p>
                             ) : categories.length === 0 ? (
-                              <p className="text-xs text-center text-gray-400">Aucune catégorie</p>
+                              <p className="text-xs text-center text-gray-400">
+                                Aucune catégorie
+                              </p>
                             ) : (
                               categories.map((category) => (
-                                <SelectItem key={category.id} value={category.id}>
+                                <SelectItem
+                                  key={category.id}
+                                  value={category.id}
+                                >
                                   {category.name}
                                 </SelectItem>
                               ))
@@ -174,7 +194,10 @@ const PostPage = () => {
                 </div>
                 <div>
                   <Label className="text-xs text-gray-300">Photos</Label>
-                  <Input {...register("photos")} type="file" multiple
+                  <Input
+                    {...register("photos")}
+                    type="file"
+                    multiple
                     className="mt-2 rounded-xl border border-gray-700 bg-gray-900/60 text-white file:text-white file:bg-blue-600 file:border-0 file:rounded-md file:py-1 file:px-3 file:mr-2 hover:file:bg-blue-700 transition-colors"
                   />
                   <p className="text-red-500 text-sm mt-2">
@@ -199,10 +222,14 @@ const PostPage = () => {
                     type="button"
                     className="w-1/3 rounded-xl bg-blue-600 text-white hover:bg-blue-700 hover:scale-[1.03] transition-all shadow"
                     variant="default"
-                    disabled={status === 'PUBLISHED' || createPost.isPending}
+                    disabled={status === "PUBLISHED" || createPost.isPending}
                     onClick={handleSubmit(handlePublish)}
                   >
-                    {createPost.isPending ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : 'Publier'}
+                    {createPost.isPending ? (
+                      <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      "Publier"
+                    )}
                   </Button>
                   <Button
                     type="button"
@@ -223,37 +250,66 @@ const PostPage = () => {
             <CardContent className="pt-10 pb-6 px-8">
               <h2 className="text-2xl font-black tracking-tight text-white mb-4 flex items-center gap-2">
                 Aperçu du post
-                {status === 'DRAFT' && <span className="bg-yellow-600/20 text-yellow-300 border border-yellow-600 rounded px-2 py-0.5 text-xs ml-2">Brouillon</span>}
-                {status === 'PUBLISHED' && <span className="bg-green-600/20 text-green-300 border border-green-600 rounded px-2 py-0.5 text-xs ml-2">Publié</span>}
+                {status === "DRAFT" && (
+                  <span className="bg-yellow-600/20 text-yellow-300 border border-yellow-600 rounded px-2 py-0.5 text-xs ml-2">
+                    Brouillon
+                  </span>
+                )}
+                {status === "PUBLISHED" && (
+                  <span className="bg-green-600/20 text-green-300 border border-green-600 rounded px-2 py-0.5 text-xs ml-2">
+                    Publié
+                  </span>
+                )}
               </h2>
               {showPreview ? (
                 <article className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">{formValues.title || <span className="text-gray-500">(Aucun titre)</span>}</h3>
+                    <h3 className="text-xl font-bold text-white mb-1">
+                      {formValues.title || (
+                        <span className="text-gray-500">(Aucun titre)</span>
+                      )}
+                    </h3>
                   </div>
                   <div className="prose prose-invert max-w-none text-gray-300 bg-gray-800/30 rounded-xl p-4 border border-gray-700/60 backdrop-blur-sm">
-                    {formValues.content || <span className="text-gray-500">(Aucun contenu)</span>}
+                    {formValues.content || (
+                      <span className="text-gray-500">(Aucun contenu)</span>
+                    )}
                   </div>
                   <div className="flex flex-wrap gap-4 mt-3">
                     <div className="flex items-center gap-1 text-sm">
-                      <span className="font-semibold text-gray-400">Type :</span>
-                      <span className="ml-1 text-blue-300 font-bold">{formValues.type === 'MISSION' ? 'Mission' : 'Général'}</span>
+                      <span className="font-semibold text-gray-400">
+                        Type :
+                      </span>
+                      <span className="ml-1 text-blue-300 font-bold">
+                        {formValues.type === "MISSION" ? "Mission" : "Général"}
+                      </span>
                     </div>
                     <div className="flex items-center gap-1 text-sm">
-                      <span className="font-semibold text-gray-400">Catégorie :</span>
+                      <span className="font-semibold text-gray-400">
+                        Catégorie :
+                      </span>
                       <span className="ml-1 text-blue-300 font-bold">
-                        {categories.find((c) => c.id === formValues.categoryId)?.name || <span className="text-gray-500">(Aucune)</span>}
+                        {categories.find((c) => c.id === formValues.categoryId)
+                          ?.name || (
+                          <span className="text-gray-500">(Aucune)</span>
+                        )}
                       </span>
                     </div>
                   </div>
                   {/* Affichage des photos sélectionnées (juste le nom) */}
                   {formValues.photos && formValues.photos.length > 0 && (
                     <div className="mt-2">
-                      <span className="font-semibold text-gray-400">Photos :</span>
+                      <span className="font-semibold text-gray-400">
+                        Photos :
+                      </span>
                       <ul className="list-disc ml-6 mt-1">
-                        {Array.from(formValues.photos as any).map((file: any, idx: number) => (
-                          <li key={idx} className="text-gray-300 text-sm">{file.name || file}</li>
-                        ))}
+                        {Array.from(formValues.photos as any).map(
+                          (file: any, idx: number) => (
+                            <li key={idx} className="text-gray-300 text-sm">
+                              {file.name || file}
+                            </li>
+                          ),
+                        )}
                       </ul>
                     </div>
                   )}
@@ -263,7 +319,10 @@ const PostPage = () => {
                   </div> */}
                 </article>
               ) : (
-                <div className="text-gray-500 text-center py-12 font-medium">Remplis le formulaire et clique sur "Preview" pour voir l’aperçu de ton post.</div>
+                <div className="text-gray-500 text-center py-12 font-medium">
+                  Remplis le formulaire et clique sur "Preview" pour voir
+                  l’aperçu de ton post.
+                </div>
               )}
             </CardContent>
           </Card>

@@ -5,7 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/app/api/store/auth.store";
 import { updateProfile } from "@/hooks/user";
-import { userUpdateProfileSchema, updateProfileFormValue } from "@/validations/user.validation";
+import {
+  userUpdateProfileSchema,
+  updateProfileFormValue,
+} from "@/validations/user.validation";
 import { useParams, useRouter } from "next/navigation";
 import {
   Camera,
@@ -101,7 +104,9 @@ const ProfileEditPage = () => {
     }
   }, [user, params.id, router]);
 
-  const saveSpecificFields = async (fieldsToSave: (keyof updateProfileFormValue)[]) => {
+  const saveSpecificFields = async (
+    fieldsToSave: (keyof updateProfileFormValue)[],
+  ) => {
     try {
       console.log("saveSpecificFields called with:", fieldsToSave);
       const data = watch();
@@ -111,7 +116,9 @@ const ProfileEditPage = () => {
       const modifiedData: Partial<updateProfileFormValue> = {};
 
       fieldsToSave.forEach((field) => {
-        console.log(`Checking field ${field}: form=${data[field]}, user=${user?.[field]}`);
+        console.log(
+          `Checking field ${field}: form=${data[field]}, user=${user?.[field]}`,
+        );
         if (data[field] !== user?.[field]) {
           modifiedData[field] = data[field];
           console.log(`Field ${field} modified:`, data[field]);
@@ -145,14 +152,21 @@ const ProfileEditPage = () => {
       const modifiedData: Partial<updateProfileFormValue> = {};
 
       // Comparer manuellement avec les données utilisateur
-      if (data.firstName !== user?.firstName) modifiedData.firstName = data.firstName;
-      if (data.lastName !== user?.lastName) modifiedData.lastName = data.lastName;
-      if (data.username !== user?.username) modifiedData.username = data.username;
+      if (data.firstName !== user?.firstName)
+        modifiedData.firstName = data.firstName;
+      if (data.lastName !== user?.lastName)
+        modifiedData.lastName = data.lastName;
+      if (data.username !== user?.username)
+        modifiedData.username = data.username;
       if (data.city !== user?.city) modifiedData.city = data.city;
-      if (data.description !== user?.description) modifiedData.description = data.description;
-      if (data.isTalent !== user?.isTalent) modifiedData.isTalent = data.isTalent;
-      if (data.isAnnouncer !== user?.isAnnouncer) modifiedData.isAnnouncer = data.isAnnouncer;
-      if (data.password && data.password.trim() !== "") modifiedData.password = data.password;
+      if (data.description !== user?.description)
+        modifiedData.description = data.description;
+      if (data.isTalent !== user?.isTalent)
+        modifiedData.isTalent = data.isTalent;
+      if (data.isAnnouncer !== user?.isAnnouncer)
+        modifiedData.isAnnouncer = data.isAnnouncer;
+      if (data.password && data.password.trim() !== "")
+        modifiedData.password = data.password;
       if (data.avatar !== user?.avatar) modifiedData.avatar = data.avatar;
 
       console.log("Modified data:", modifiedData);
@@ -172,7 +186,9 @@ const ProfileEditPage = () => {
     }
   };
 
-  const handleUploadAvatar = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadAvatar = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
 
     if (!file) return;
@@ -244,7 +260,8 @@ const ProfileEditPage = () => {
                 Informations personnelles
               </CardTitle>
               <CardDescription>
-                Mettez à jour votre nom, nom d&lsquo;utilisateur, ville et avatar.
+                Mettez à jour votre nom, nom d&lsquo;utilisateur, ville et
+                avatar.
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-6">
@@ -268,7 +285,9 @@ const ProfileEditPage = () => {
                     onChange={handleUploadAvatar}
                     className="file:text-sm file:font-medium"
                   />
-                  {isUploading && <Loader className="mr-2 h-4 w-4 animate-spin text-gray-500" />}
+                  {isUploading && (
+                    <Loader className="mr-2 h-4 w-4 animate-spin text-gray-500" />
+                  )}
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -281,14 +300,23 @@ const ProfileEditPage = () => {
                     {...register("firstName")}
                   />
                   {errors.firstName && (
-                    <p className="text-sm text-red-500">{errors.firstName.message}</p>
+                    <p className="text-sm text-red-500">
+                      {errors.firstName.message}
+                    </p>
                   )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Nom</Label>
-                  <Input id="lastName" type="text" placeholder="Nom" {...register("lastName")} />
+                  <Input
+                    id="lastName"
+                    type="text"
+                    placeholder="Nom"
+                    {...register("lastName")}
+                  />
                   {errors.lastName && (
-                    <p className="text-sm text-red-500">{errors.lastName.message}</p>
+                    <p className="text-sm text-red-500">
+                      {errors.lastName.message}
+                    </p>
                   )}
                 </div>
                 <div className="space-y-2">
@@ -300,13 +328,24 @@ const ProfileEditPage = () => {
                     {...register("username")}
                   />
                   {errors.username && (
-                    <p className="text-sm text-red-500">{errors.username.message}</p>
+                    <p className="text-sm text-red-500">
+                      {errors.username.message}
+                    </p>
                   )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="city">Ville</Label>
-                  <Input id="city" type="text" placeholder="Ville" {...register("city")} />
-                  {errors.city && <p className="text-sm text-red-500">{errors.city.message}</p>}
+                  <Input
+                    id="city"
+                    type="text"
+                    placeholder="Ville"
+                    {...register("city")}
+                  />
+                  {errors.city && (
+                    <p className="text-sm text-red-500">
+                      {errors.city.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </CardContent>
@@ -317,7 +356,13 @@ const ProfileEditPage = () => {
               <Button
                 type="button"
                 onClick={() =>
-                  saveSpecificFields(["firstName", "lastName", "username", "city", "avatar"])
+                  saveSpecificFields([
+                    "firstName",
+                    "lastName",
+                    "username",
+                    "city",
+                    "avatar",
+                  ])
                 }
                 disabled={updateProfileMutation.isPending}
               >
@@ -338,7 +383,8 @@ const ProfileEditPage = () => {
                 Adresse e-mail
               </CardTitle>
               <CardDescription>
-                Votre adresse e-mail ne peut pas être modifiée pour des raisons de sécurité.
+                Votre adresse e-mail ne peut pas être modifiée pour des raisons
+                de sécurité.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -351,7 +397,9 @@ const ProfileEditPage = () => {
                   className="cursor-not-allowed bg-gray-100 dark:bg-gray-800"
                 />
                 <CheckCircle className="w-5 h-5 text-green-500" />
-                <span className="text-sm text-gray-600 dark:text-gray-400">Vérifié</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  Vérifié
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -385,14 +433,22 @@ const ProfileEditPage = () => {
                     className="absolute right-1 top-1/2 -translate-y-1/2 
                     h-8 w-8 text-gray-500 dark:text-gray-400"
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                     <span className="sr-only">
-                      {showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                      {showPassword
+                        ? "Masquer le mot de passe"
+                        : "Afficher le mot de passe"}
                     </span>
                   </Button>
                 </div>
                 {errors.password && (
-                  <p className="text-sm text-red-500">{errors.password.message}</p>
+                  <p className="text-sm text-red-500">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
             </CardContent>
@@ -414,7 +470,9 @@ const ProfileEditPage = () => {
           <Card>
             <CardHeader>
               <CardTitle>Changer le rôle de votre profil</CardTitle>
-              <CardDescription>Vous pouvez changer le rôle actuel de votre profil.</CardDescription>
+              <CardDescription>
+                Vous pouvez changer le rôle actuel de votre profil.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
@@ -422,7 +480,9 @@ const ProfileEditPage = () => {
                 <Switch
                   id="isTalent"
                   checked={watchedValues.isTalent}
-                  onCheckedChange={(checked) => setValue("isTalent", checked as boolean)}
+                  onCheckedChange={(checked) =>
+                    setValue("isTalent", checked as boolean)
+                  }
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -430,7 +490,9 @@ const ProfileEditPage = () => {
                 <Switch
                   id="isAnnouncer"
                   checked={watchedValues.isAnnouncer}
-                  onCheckedChange={(checked) => setValue("isAnnouncer", checked as boolean)}
+                  onCheckedChange={(checked) =>
+                    setValue("isAnnouncer", checked as boolean)
+                  }
                 />
               </div>
             </CardContent>
@@ -470,7 +532,9 @@ const ProfileEditPage = () => {
                   className="min-h-[120px]" // Adjusted height
                 />
                 {errors.description && (
-                  <p className="text-sm text-red-500">{errors.description.message}</p>
+                  <p className="text-sm text-red-500">
+                    {errors.description.message}
+                  </p>
                 )}
               </div>
             </CardContent>

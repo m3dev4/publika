@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   try {
     // Method 1: Try Better Auth first
     let userId: string | null = null;
-    
+
     try {
       const session = await auth.api.getSession({
         headers: await headers(),
@@ -21,19 +21,21 @@ export async function GET(request: NextRequest) {
     } catch (authError) {
       console.log("Better Auth failed:", authError);
     }
-    
+
     // Method 2: If Better Auth fails, try to get session from cookies manually
     if (!userId) {
-      const cookieHeader = request.headers.get('cookie');
+      const cookieHeader = request.headers.get("cookie");
       console.log("Cookie header:", cookieHeader);
-      
+
       if (cookieHeader) {
         // Extract session token from cookies
-        const sessionTokenMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/);
+        const sessionTokenMatch = cookieHeader.match(
+          /better-auth\.session_token=([^;]+)/,
+        );
         if (sessionTokenMatch) {
           const sessionToken = sessionTokenMatch[1];
           console.log("Found session token:", sessionToken);
-          
+
           // Find session in database using the token
           const dbSession = await prisma.session.findUnique({
             where: {
@@ -43,16 +45,16 @@ export async function GET(request: NextRequest) {
               user: true,
             },
           });
-          
+
           console.log("DB Session:", dbSession);
-          
+
           if (dbSession && dbSession.user) {
             userId = dbSession.user.id;
           }
         }
       }
     }
-    
+
     // Method 3: Fallback - get any active session (for testing only)
     if (!userId) {
       console.log("Trying fallback method...");
@@ -66,10 +68,10 @@ export async function GET(request: NextRequest) {
           user: true,
         },
         orderBy: {
-          lastActivityAt: 'desc',
+          lastActivityAt: "desc",
         },
       });
-      
+
       if (fallbackSession?.user) {
         userId = fallbackSession.user.id;
         console.log("Using fallback session for user:", userId);
@@ -79,10 +81,10 @@ export async function GET(request: NextRequest) {
     if (!userId) {
       return NextResponse.json(
         { error: "Unauthorized - User not authenticated" },
-        { status: 401 }
+        { status: 401 },
       );
     }
-    
+
     console.log("Authenticated user ID:", userId);
 
     const categories = await prisma.category.findMany({
@@ -102,7 +104,7 @@ export async function GET(request: NextRequest) {
     console.error("Erreur lors de la récupération des catégories:", error);
     return NextResponse.json(
       { error: "Erreur lors de la récupération des catégories" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

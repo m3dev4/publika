@@ -3,7 +3,13 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/app/api/store/auth.store";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { CheckCircle, Loader2 } from "lucide-react";
 
 const VerifySuccess = () => {
@@ -45,7 +51,9 @@ const VerifySuccess = () => {
         <CardContent className="text-center">
           <div className="flex items-center justify-center space-x-2">
             <Loader2 className="h-4 w-4 animate-spin" />
-            <span className="text-sm text-gray-500">Redirection en cours...</span>
+            <span className="text-sm text-gray-500">
+              Redirection en cours...
+            </span>
           </div>
         </CardContent>
       </Card>

@@ -39,13 +39,16 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: !!user,
         };
         set(newState);
-        
+
         // Synchroniser avec les cookies
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
           const currentState = useAuthStore.getState();
-          const serializedData = JSON.stringify({ state: currentState, version: 0 });
+          const serializedData = JSON.stringify({
+            state: currentState,
+            version: 0,
+          });
           document.cookie = `auth-storage=${encodeURIComponent(serializedData)}; path=/; max-age=604800; SameSite=Lax`;
-          console.log('Synced setUser to cookies');
+          console.log("Synced setUser to cookies");
         }
       },
 
@@ -68,19 +71,22 @@ export const useAuthStore = create<AuthState>()(
           pendingEmail: null,
         });
         // Forcer la sauvegarde dans localStorage
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
           const storageData = {
             user,
             isAuthenticated: true,
             pendingEmail: null,
           };
-          localStorage.setItem('auth-storage', JSON.stringify({ state: storageData, version: 0 }));
+          localStorage.setItem(
+            "auth-storage",
+            JSON.stringify({ state: storageData, version: 0 }),
+          );
         }
       },
 
       logout: () => {
         console.log("Logging out - clearing all session data");
-        
+
         // Vider le store Zustand
         set({
           user: null,
@@ -88,17 +94,19 @@ export const useAuthStore = create<AuthState>()(
           pendingEmail: null,
           hydrated: false,
         });
-        
+
         // Nettoyer le localStorage
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('auth-storage');
-          
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("auth-storage");
+
           // Nettoyer tous les cookies d'authentification
-          document.cookie = 'auth-storage=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-          
+          document.cookie =
+            "auth-storage=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
           // Nettoyer d'autres cookies potentiels
-          document.cookie = 'onboarding_completed=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-          
+          document.cookie =
+            "onboarding_completed=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
           console.log("Session data cleared from localStorage and cookies");
         }
       },
@@ -116,13 +124,13 @@ export const useAuthStore = create<AuthState>()(
       // Vérifie si l'utilisateur est admin
       isAdmin: () => {
         const state = get();
-        return state.user?.role === 'ADMIN';
+        return state.user?.role === "ADMIN";
       },
 
       // Récupère le rôle de l'utilisateur
       getUserRole: () => {
         const state = get();
-        return state.user?.role || 'USER';
+        return state.user?.role || "USER";
       },
     }),
     {
@@ -134,20 +142,20 @@ export const useAuthStore = create<AuthState>()(
       }),
       onRehydrateStorage: () => (state, error) => {
         if (error) {
-          console.error('Rehydration error:', error);
+          console.error("Rehydration error:", error);
         } else {
           console.log("Rehydrating auth store:", state);
-          
+
           // Synchroniser avec les cookies après la réhydratation
-          if (state && typeof window !== 'undefined') {
+          if (state && typeof window !== "undefined") {
             const serializedData = JSON.stringify({ state, version: 0 });
             document.cookie = `auth-storage=${encodeURIComponent(serializedData)}; path=/; max-age=604800; SameSite=Lax`;
-            console.log('Synced auth data to cookies');
+            console.log("Synced auth data to cookies");
           }
         }
         // Toujours marquer comme hydraté
         return { ...state, hydrated: true };
       },
-    }
-  )
+    },
+  ),
 );

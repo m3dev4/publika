@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ExplorerPage = () => {
-  return (
-    <div>ExplorerPage</div>
-  )
-}
+  return <div>ExplorerPage</div>;
+};
 
-export default ExplorerPage
+export default ExplorerPage;

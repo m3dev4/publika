@@ -10,27 +10,36 @@ export async function PUT(request: NextRequest) {
     if (!id) {
       return NextResponse.json({ error: "ID requis" }, { status: 400 });
     }
-    
+
     const dataWithId = { ...body, id };
     const result = await updateUserProfile(dataWithId);
 
     if (!result.success) {
-      return NextResponse.json({
-        error: result.message,
-        success: false,
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: result.message,
+          success: false,
+        },
+        { status: 400 },
+      );
     }
 
-    return NextResponse.json({
-      success: true,
-      message: result.message,
-      user: result.user,
-    }, { status: 200 });
+    return NextResponse.json(
+      {
+        success: true,
+        message: result.message,
+        user: result.user,
+      },
+      { status: 200 },
+    );
   } catch (error: any) {
     console.error("Erreur API updateProfile:", error);
-    return NextResponse.json({
-      error: error.message,
-      success: false,
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: error.message,
+        success: false,
+      },
+      { status: 500 },
+    );
   }
 }

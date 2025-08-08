@@ -13,6 +13,9 @@ export async function PUT(request: NextRequest) {
     }
   } catch (error) {
     console.error("Erreur API onboarding:", error);
-    return NextResponse.json({ success: false, message: "Erreur interne du serveur" }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: "Erreur interne du serveur" },
+      { status: 500 },
+    );
   }
 }

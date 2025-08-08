@@ -61,7 +61,12 @@ export const auditHelpers = {
       userAgent,
     }),
 
-  userLoginFailed: (email: string, ipAddress?: string, userAgent?: string, error?: string) =>
+  userLoginFailed: (
+    email: string,
+    ipAddress?: string,
+    userAgent?: string,
+    error?: string,
+  ) =>
     logAudit({
       action: "USER_LOGIN",
       success: false,

@@ -17,7 +17,7 @@ export const UseCreatePost = () => {
   const { addPost, setLoading, setError } = usePostStore();
 
   return useMutation({
-    mutationKey: ['createPost'],
+    mutationKey: ["createPost"],
     mutationFn: async (data: CreatePostData): Promise<Post> => {
       setLoading(true);
       setError(null);

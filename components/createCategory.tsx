@@ -91,7 +91,9 @@ const CreateCategory = () => {
             {createCategoryMutation.error && (
               <Alert>
                 <AlertTitle>Erreur</AlertTitle>
-                <AlertDescription>{createCategoryMutation.error.message}</AlertDescription>
+                <AlertDescription>
+                  {createCategoryMutation.error.message}
+                </AlertDescription>
               </Alert>
             )}
           </div>

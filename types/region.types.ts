@@ -1,9 +1,9 @@
-import { cities } from "./cities.type"
+import { cities } from "./cities.type";
 
 export interface region {
-    id: string
-    name: string
-    cities: cities[]
-    createdAt: Date
-    updatedAt: Date
+  id: string;
+  name: string;
+  cities: cities[];
+  createdAt: Date;
+  updatedAt: Date;
 }

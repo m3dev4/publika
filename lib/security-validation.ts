@@ -14,7 +14,7 @@ export const securePasswordSchema = z
   .max(128, "Mot de passe trop long")
   .regex(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-    "Le mot de passe doit contenir au moins une minuscule, une majuscule et un chiffre"
+    "Le mot de passe doit contenir au moins une minuscule, une majuscule et un chiffre",
   );
 
 export const secureTextSchema = z.string().max(1000, "Texte trop long").trim();
@@ -64,7 +64,9 @@ export const secureIdSchema = z
 
 // Middleware de validation
 export function validateRequest<T>(schema: z.ZodSchema<T>) {
-  return (data: unknown): { success: true; data: T } | { success: false; error: string } => {
+  return (
+    data: unknown,
+  ): { success: true; data: T } | { success: false; error: string } => {
     try {
       const validatedData = schema.parse(data);
       return { success: true, data: validatedData };

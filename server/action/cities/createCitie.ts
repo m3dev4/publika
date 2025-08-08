@@ -24,7 +24,9 @@ export const createCitie = async (cityData: CreateCityInput) => {
     });
 
     if (foundCity) {
-      throw new Error(`La ville "${cityData.name}" existe déjà dans cette région`);
+      throw new Error(
+        `La ville "${cityData.name}" existe déjà dans cette région`,
+      );
     }
 
     const newCity = await prisma.city.create({

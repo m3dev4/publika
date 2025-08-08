@@ -10,8 +10,11 @@ const prisma = new PrismaClient();
 export async function POST(request: NextRequest) {
   try {
     console.log("=== DEBUT CREATION POST ===");
-    console.log("Headers reçus:", Object.fromEntries(request.headers.entries()));
-    
+    console.log(
+      "Headers reçus:",
+      Object.fromEntries(request.headers.entries()),
+    );
+
     const body = await request.formData();
     const title = body.get("title") as string;
     const content = body.get("content") as string;
@@ -37,7 +40,7 @@ export async function POST(request: NextRequest) {
       const session = await auth.api.getSession({
         headers: await headers(),
       });
-      
+
       if (session?.user?.id) {
         userId = session.user.id;
         console.log("Session trouvée:", session.user.email);
@@ -52,38 +55,48 @@ export async function POST(request: NextRequest) {
     if (!userId) {
       const cookieHeader = request.headers.get("cookie");
       console.log("Recherche dans les cookies...");
-      
+
       if (cookieHeader) {
         // D'abord essayer Better Auth
-        const sessionMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/);
+        const sessionMatch = cookieHeader.match(
+          /better-auth\.session_token=([^;]+)/,
+        );
         if (sessionMatch) {
           const token = decodeURIComponent(sessionMatch[1]);
           const dbSession = await prisma.session.findUnique({
             where: { token },
             include: { user: true },
           });
-          
+
           if (dbSession?.user && dbSession.expiresAt > new Date()) {
             userId = dbSession.user.id;
             console.log("Session DB trouvée:", dbSession.user.email);
           }
         }
-        
+
         // Si pas de Better Auth, utiliser auth-storage
         if (!userId) {
           const authStorageMatch = cookieHeader.match(/auth-storage=([^;]+)/);
           if (authStorageMatch) {
             try {
-              const authData = JSON.parse(decodeURIComponent(authStorageMatch[1]));
-              if (authData?.state?.user?.id && authData?.state?.isAuthenticated) {
+              const authData = JSON.parse(
+                decodeURIComponent(authStorageMatch[1]),
+              );
+              if (
+                authData?.state?.user?.id &&
+                authData?.state?.isAuthenticated
+              ) {
                 userId = authData.state.user.id;
-                console.log("Utilisateur trouvé dans auth-storage:", authData.state.user.email);
-                
+                console.log(
+                  "Utilisateur trouvé dans auth-storage:",
+                  authData.state.user.email,
+                );
+
                 // Vérifier que l'utilisateur existe toujours en DB
                 const user = await prisma.user.findUnique({
-                  where: { id: userId as string }
+                  where: { id: userId as string },
                 });
-                
+
                 if (!user) {
                   console.log("Utilisateur n'existe plus en DB");
                   userId = null;

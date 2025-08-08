@@ -4,11 +4,14 @@ import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 
-export const login = async (data: UserLogin, request: Request): Promise<User | null> => {
+export const login = async (
+  data: UserLogin,
+  request: Request,
+): Promise<User | null> => {
   try {
     const user = await prisma.user.findUnique({
       where: { email: data.email },
-      include: { sessions: true }
+      include: { sessions: true },
     });
 
     if (!user) {
@@ -34,21 +37,24 @@ export const login = async (data: UserLogin, request: Request): Promise<User | n
     const threeDays = new Date();
     threeDays.setDate(threeDays.getDate() + 3);
 
-    const ipAdress = request.headers.get('x-forwarded-for') || request.headers.get('cf-connecting-ip') || request.headers.get('x-real-ip') 
-    const userAgent = request.headers.get('user-agent')
+    const ipAdress =
+      request.headers.get("x-forwarded-for") ||
+      request.headers.get("cf-connecting-ip") ||
+      request.headers.get("x-real-ip");
+    const userAgent = request.headers.get("user-agent");
 
     // Création de la session
     const session = await prisma.session.create({
       data: {
         userId: user.id,
-         ipAddress: ipAdress || "",
-         userAgent: userAgent || "",
+        ipAddress: ipAdress || "",
+        userAgent: userAgent || "",
         isOnline: true,
         lastActivityAt: new Date(),
         createdAt: new Date(),
         token: token,
-        expiresAt: threeDays
-      }
+        expiresAt: threeDays,
+      },
     });
 
     // Configuration du cookie de session
@@ -58,13 +64,12 @@ export const login = async (data: UserLogin, request: Request): Promise<User | n
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 60 * 60 * 24 * 3 // 3 jours en secondes
+      maxAge: 60 * 60 * 24 * 3, // 3 jours en secondes
     });
 
     // Retourner l'utilisateur sans le mot de passe
     const { password, ...userWithoutPassword } = user;
     return userWithoutPassword as User;
-
   } catch (error) {
     console.error("Login error:", error);
     throw error; // Relancer l'erreur pour la gestion au niveau supérieur
