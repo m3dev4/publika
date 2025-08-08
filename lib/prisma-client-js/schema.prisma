@@ -89,11 +89,11 @@ model Posts {
   content    String
   userId     String
   user       User       @relation(fields: [userId], references: [id])
-  categoryId String
-  category   Category   @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  category   Category?  @relation(fields: [categoryId], references: [id])
   type       PostType
   status     PostStatus
-  photo      String?
+  photo      String[] // Array de strings pour multiple photos
   prices     Float?
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt

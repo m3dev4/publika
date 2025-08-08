@@ -11,6 +11,7 @@
     "lint": "next lint",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.js\" \"src/**/*.jsx\"",
     "seed:categories": "tsx server/scripts/index.ts",
+    "seed:categories-new": "tsx scripts/seed-categories.ts",
     "seed:regions": "tsx scripts/seed-region.ts"
   },
   "dependencies": {

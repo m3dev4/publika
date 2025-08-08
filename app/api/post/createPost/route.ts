@@ -1,5 +1,6 @@
 import { PrismaClient } from "@/lib/prisma-client-js";
 import { createPost } from "@/server/action/post/createPost";
+import { CreatePostInput } from "@/types/post.type";
 import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,6 +9,9 @@ const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
+    console.log("=== DEBUT CREATION POST ===");
+    console.log("Headers reçus:", Object.fromEntries(request.headers.entries()));
+    
     const body = await request.formData();
     const title = body.get("title") as string;
     const content = body.get("content") as string;
@@ -18,9 +22,11 @@ export async function POST(request: NextRequest) {
       (body.get("status") as "DRAFT" | "PUBLISHED" | "ARCHIVED") || "DRAFT";
     const prices = body.get("prices") as string;
 
-    if (!title || !content || !categoryId || !type) {
+    console.log("Données du post:", { title, content, type, status });
+
+    if (!title || !content || !type) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Missing required fields: title, content, type" },
         { status: 400 },
       );
     }
@@ -31,82 +37,88 @@ export async function POST(request: NextRequest) {
       const session = await auth.api.getSession({
         headers: await headers(),
       });
-      userId = session?.user?.id || null;
-      console.log("Better Auth session:", session);
+      
+      if (session?.user?.id) {
+        userId = session.user.id;
+        console.log("Session trouvée:", session.user.email);
+      } else {
+        console.log("Aucune session Better Auth");
+      }
     } catch (authError) {
-      console.log("Better Auth failed:", authError);
+      console.log("Erreur Better Auth:", authError);
     }
 
+    // Si pas de session Better Auth, utiliser le cookie auth-storage
     if (!userId) {
       const cookieHeader = request.headers.get("cookie");
-      console.log("Cookie header:", cookieHeader);
-
+      console.log("Recherche dans les cookies...");
+      
       if (cookieHeader) {
-        // Extract session token from cookies
-        const sessionTokenMatch = cookieHeader.match(
-          /better-auth\.session_token=([^;]+)/,
-        );
-        if (sessionTokenMatch) {
-          const sessionToken = sessionTokenMatch[1];
-          console.log("Found session token:", sessionToken);
-
-          // Find session in database using the token
+        // D'abord essayer Better Auth
+        const sessionMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/);
+        if (sessionMatch) {
+          const token = decodeURIComponent(sessionMatch[1]);
           const dbSession = await prisma.session.findUnique({
-            where: {
-              token: sessionToken,
-            },
-            include: {
-              user: true,
-            },
+            where: { token },
+            include: { user: true },
           });
-
-          console.log("DB Session:", dbSession);
-
-          if (dbSession && dbSession.user) {
+          
+          if (dbSession?.user && dbSession.expiresAt > new Date()) {
             userId = dbSession.user.id;
+            console.log("Session DB trouvée:", dbSession.user.email);
+          }
+        }
+        
+        // Si pas de Better Auth, utiliser auth-storage
+        if (!userId) {
+          const authStorageMatch = cookieHeader.match(/auth-storage=([^;]+)/);
+          if (authStorageMatch) {
+            try {
+              const authData = JSON.parse(decodeURIComponent(authStorageMatch[1]));
+              if (authData?.state?.user?.id && authData?.state?.isAuthenticated) {
+                userId = authData.state.user.id;
+                console.log("Utilisateur trouvé dans auth-storage:", authData.state.user.email);
+                
+                // Vérifier que l'utilisateur existe toujours en DB
+                const user = await prisma.user.findUnique({
+                  where: { id: userId as string }
+                });
+                
+                if (!user) {
+                  console.log("Utilisateur n'existe plus en DB");
+                  userId = null;
+                }
+              }
+            } catch (error) {
+              console.log("Erreur parsing auth-storage:", error);
+            }
           }
         }
       }
     }
 
     if (!userId) {
-      console.log("Trying fallback method...");
-      const fallbackSession = await prisma.session.findFirst({
-        where: {
-          expiresAt: {
-            gt: new Date(),
-          },
-        },
-        include: {
-          user: true,
-        },
-        orderBy: {
-          lastActivityAt: "desc",
-        },
-      });
-
-      if (fallbackSession?.user) {
-        userId = fallbackSession.user.id;
-        console.log("Using fallback session for user:", userId);
-      }
+      return NextResponse.json(
+        { error: "User not authenticated" },
+        { status: 401 },
+      );
     }
 
-    const photoArray = photo ? JSON.parse(photo) : undefined;
-    const priceNumber = prices ? parseFloat(prices) : undefined;
+    const photoArray = photo ? JSON.parse(photo) : [];
+    const priceNumber = prices ? parseFloat(prices) : null;
 
-    const postData = {
-      id: "",
-      userId,
+    const postData: CreatePostInput = {
       title,
       content,
-      type: type,
-      categoryId,
-      photo: photoArray || undefined,
-      status: status,
-      prices: priceNumber || undefined,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      type: type as "GENERAL" | "MISSION",
+      categoryId: categoryId || null,
+      photo: photoArray,
+      status: status as "DRAFT" | "PUBLISHED" | "ARCHIVED",
+      prices: priceNumber,
     };
+
+    console.log("Creating post with data:", postData);
+    console.log("User ID:", userId);
 
     const post = await createPost(postData, userId);
 

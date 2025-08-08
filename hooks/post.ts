@@ -7,9 +7,9 @@ export interface CreatePostData {
   title: string;
   content: string;
   type: "GENERAL" | "MISSION";
-  categoryId: string;
-  photos: string[];
-  price?: number;
+  categoryId?: string; // Optionnel maintenant
+  photos?: string[]; // Optionnel
+  prices?: number; // Renommé pour correspondre à l'API
   status?: "DRAFT" | "PUBLISHED" | "ARCHIVED";
 }
 
@@ -28,10 +28,14 @@ export const UseCreatePost = () => {
         formData.append("title", data.title);
         formData.append("content", data.content);
         formData.append("type", data.type);
-        formData.append("categoryId", data.categoryId);
-        formData.append("photos", JSON.stringify(data.photos));
-        if (data.price) {
-          formData.append("price", data.price.toString());
+        if (data.categoryId) {
+          formData.append("categoryId", data.categoryId);
+        }
+        if (data.photos && data.photos.length > 0) {
+          formData.append("photo", JSON.stringify(data.photos));
+        }
+        if (data.prices) {
+          formData.append("prices", data.prices.toString());
         }
         formData.append("status", data.status || "DRAFT");
 

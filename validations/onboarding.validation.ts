@@ -16,27 +16,37 @@ export const onboardingStepTwoSchema = z.object({
     .string()
     .min(2, "Le pseudo est requis")
     .max(30, "Le pseudo doit contenir au plus 30 caractères")
-    .regex(/^[a-zA-Z0-9_-]+$/, "Le pseudo ne peut contenir que des lettres, chiffres, tirets et underscores"),
+    .regex(
+      /^[a-zA-Z0-9_-]+$/,
+      "Le pseudo ne peut contenir que des lettres, chiffres, tirets et underscores",
+    ),
 });
 
-export const onboardingStepThreeSchema = z.object({
-  avatar: z.string().optional(), // Temporairement optionnel
-  city: z
-    .string()
-    .min(2, "La ville est requise")
-    .max(100, "Le nom de la ville est trop long"),
-});
+export const onboardingStepThreeSchema = z
+  .object({
+    avatar: z.string().optional(), // Temporairement optionnel
+    regionId: z.string().min(1, "La région est requise"),
+    cityId: z.string().optional(), // Optionnel si l'utilisateur choisit "Autre"
+    customCity: z.string().optional(), // Nom de la ville personnalisée
+  })
+  .refine(
+    (data) => data.cityId || (data.customCity && data.customCity.length >= 2),
+    {
+      message:
+        "Veuillez sélectionner une ville ou entrer le nom de votre ville",
+      path: ["cityId"],
+    },
+  );
 
-export const onboardingStepFourSchema = z.object({
-  isTalent: z.boolean(),
-  isAnnouncer: z.boolean(),
-}).refine(
-  (data) => data.isTalent || data.isAnnouncer,
-  {
+export const onboardingStepFourSchema = z
+  .object({
+    isTalent: z.boolean(),
+    isAnnouncer: z.boolean(),
+  })
+  .refine((data) => data.isTalent || data.isAnnouncer, {
     message: "Vous devez sélectionner au moins un rôle (Talent ou Annonceur)",
     path: ["isTalent"], // Affiche l'erreur sur le premier champ
-  }
-);
+  });
 
 export const onboardingStepFiveSchema = z.object({
   description: z

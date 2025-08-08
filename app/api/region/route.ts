@@ -1,4 +1,4 @@
-import { getRegions } from "@/server/action/cities/getCities";
+import { getRegions } from "@/server/action/region/getRegion";
 import { NextResponse } from "next/server";
 
 export async function GET() {

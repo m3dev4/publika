@@ -1,4 +1,4 @@
-export type UserRole = 'USER' | 'ADMIN';
+export type UserRole = "USER" | "ADMIN";
 
 export interface User {
   id: string;
@@ -8,7 +8,8 @@ export interface User {
   lastName: string | null;
   username: string | null;
   avatar: string | null;
-  city: string | null;
+  cityId: string | null;
+  city?: string | null; // Nom de la ville pour compatibilité
   description: string | null;
   isTalent: boolean;
   isAnnouncer: boolean;
@@ -63,20 +64,62 @@ export interface UserOnboarding {
   lastName: string;
   username: string;
   avatar: string;
-  city: string;
+  regionId: string;
+  cityId?: string; // Optionnel si customCity est fourni
+  customCity?: string; // Ville personnalisée si non trouvée dans la liste
+  city: string; // Nom final de la ville (soit depuis cityId soit customCity)
   description: string;
   isTalent: boolean;
   isAnnouncer: boolean;
 }
 
+// Type pour l'utilisateur avec relations Prisma
+export interface UserWithRelations {
+  id: string;
+  email: string;
+  password: string;
+  firstName: string | null;
+  lastName: string | null;
+  username: string | null;
+  avatar: string | null;
+  cityId: string | null;
+  city?: {
+    id: string;
+    name: string;
+    longitude: number | null;
+    latitude: number | null;
+    regionId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    region?: {
+      id: string;
+      name: string;
+      createdAt: Date;
+      updatedAt: Date;
+    };
+  } | null;
+  description: string | null;
+  isTalent: boolean;
+  isAnnouncer: boolean;
+  isVerify: boolean;
+  role: UserRole;
+  passwordResetToken: string | null;
+  passwordResetTokenExpiresAt: Date | null;
+  emailVerificationToken: string | null;
+  emailVerificationTokenExpiresAt: Date | null;
+  onboarding: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  sessions?: UserSession[];
+}
 
 export interface UserUpdateProfile {
-  id: string; 
+  id: string;
   firstName?: string;
   lastName?: string;
   username?: string;
   avatar?: string | null;
-  city?: string;
+  cityId?: string;
   description?: string;
   isTalent?: boolean;
   isAnnouncer?: boolean;

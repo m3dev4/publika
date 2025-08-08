@@ -14,8 +14,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
-import { Megaphone, Users, UploadCloud, AlertCircle } from 'lucide-react'; // Added UploadCloud, AlertCircle
+import {
+  Megaphone,
+  Users,
+  UploadCloud,
+  AlertCircle,
+  MapPin,
+  Building,
+} from "lucide-react";
 import { Textarea } from "./ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { useListRegions } from "@/hooks/region";
+import { useListCities } from "@/hooks/city";
+import { useState, useEffect } from "react";
 
 interface StepOnboardingProps {
   currentStep: number;
@@ -32,6 +49,15 @@ export interface StepOnboardingRef {
 
 const StepOnboarding = forwardRef<StepOnboardingRef, StepOnboardingProps>(
   ({ currentStep, formData, onDataChange, onNext, onPrevious }, ref) => {
+    const [selectedRegionId, setSelectedRegionId] = useState<string>(
+      formData.regionId || "",
+    );
+    const [showCustomCity, setShowCustomCity] = useState<boolean>(false);
+    const [filteredCities, setFilteredCities] = useState<any[]>([]);
+
+    // Hooks pour charger les données
+    const { data: regions, isLoading: regionsLoading } = useListRegions();
+    const { data: cities, isLoading: citiesLoading } = useListCities();
     const stepOneForm = useForm({
       resolver: zodResolver(onboardingStepOneSchema),
       defaultValues: {
@@ -49,9 +75,23 @@ const StepOnboarding = forwardRef<StepOnboardingRef, StepOnboardingProps>(
       resolver: zodResolver(onboardingStepThreeSchema),
       defaultValues: {
         avatar: formData.avatar || "",
-        city: formData.city || "",
+        regionId: formData.regionId || "",
+        cityId: formData.cityId || "",
+        customCity: formData.customCity || "",
       },
     });
+
+    // Effet pour filtrer les villes par région
+    useEffect(() => {
+      if (selectedRegionId && cities) {
+        const filtered = cities.filter(
+          (city) => city.regionId === selectedRegionId,
+        );
+        setFilteredCities(filtered);
+      } else {
+        setFilteredCities([]);
+      }
+    }, [selectedRegionId, cities]);
     const stepFourForm = useForm({
       resolver: zodResolver(onboardingStepFourSchema),
       defaultValues: {
@@ -108,10 +148,13 @@ const StepOnboarding = forwardRef<StepOnboardingRef, StepOnboardingProps>(
             <div className="space-y-6 glass-card p-8 rounded-2xl shadow-2xl border border-gray-700/40 bg-gray-800/30 backdrop-blur-xl">
               <div>
                 <h2 className="text-2xl font-light text-white mb-2">
-                  Informations <span className="font-semibold">personnelles</span>
+                  Informations{" "}
+                  <span className="font-semibold">personnelles</span>
                 </h2>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Commençons par configurer votre profil avec vos informations de base. Ces informations nous aideront à personnaliser votre expérience.
+                  Commençons par configurer votre profil avec vos informations
+                  de base. Ces informations nous aideront à personnaliser votre
+                  expérience.
                 </p>
               </div>
               <div className="space-y-6">
@@ -156,10 +199,13 @@ const StepOnboarding = forwardRef<StepOnboardingRef, StepOnboardingProps>(
                   Nom d&rsquo;utilisateur
                 </h2>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Votre nom d&#39;utilisateur sera visible sur votre profil et sera utilisé pour identifier votre compte.
+                  Votre nom d&#39;utilisateur sera visible sur votre profil et
+                  sera utilisé pour identifier votre compte.
                 </p>
                 <div className="space-y-2 mt-6">
-                  <Label className="text-gray-300">Nom d&rsquo;utilisateur</Label>
+                  <Label className="text-gray-300">
+                    Nom d&rsquo;utilisateur
+                  </Label>
                   <Input
                     id="username"
                     {...stepTwoForm.register("username")}
@@ -184,32 +230,176 @@ const StepOnboarding = forwardRef<StepOnboardingRef, StepOnboardingProps>(
                   Photo & <span className="font-semibold">Localisation</span>
                 </h2>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Ajoutez une photo de profil et indiquez votre localisation pour que les autres utilisateurs puissent vous trouver.
+                  Ajoutez une photo de profil et indiquez votre localisation
+                  pour que les autres utilisateurs puissent vous trouver.
                 </p>
               </div>
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <Label className="text-gray-300">Photo de profil (optionnel)</Label>
+                  <Label className="text-gray-300">
+                    Photo de profil (optionnel)
+                  </Label>
                   <div className="p-6 border-2 border-dashed border-gray-700/50 rounded-xl text-center text-gray-400 bg-gray-900/30 backdrop-blur-sm transition-colors duration-300 hover:border-blue-500 hover:bg-gray-800/40 cursor-pointer flex flex-col items-center justify-center">
                     <UploadCloud className="h-8 w-8 mb-2 text-gray-500" />
-                    <p className="text-sm">Glissez-déposez ou cliquez pour télécharger</p>
-                    <p className="text-xs mt-1 text-gray-500">Upload de photo temporairement désactivé</p>
+                    <p className="text-sm">
+                      Glissez-déposez ou cliquez pour télécharger
+                    </p>
+                    <p className="text-xs mt-1 text-gray-500">
+                      Upload de photo temporairement désactivé
+                    </p>
                   </div>
                 </div>
+
+                {/* Sélection de région */}
                 <div className="space-y-2">
-                  <Label htmlFor="city" className="text-gray-300">Ville</Label>
-                  <Input
-                    id="city"
-                    {...stepThreeForm.register("city")}
-                    className="animate-input h-11 border-gray-700/60 bg-gray-900/50 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-800/30 rounded-xl transition-all duration-300 hover:border-gray-600"
-                  />
-                  {stepThreeForm.formState.errors.city && (
+                  <Label className="text-gray-300 flex items-center gap-2">
+                    <Building className="h-4 w-4" />
+                    Région
+                  </Label>
+                  <Select
+                    value={selectedRegionId}
+                    onValueChange={(value) => {
+                      setSelectedRegionId(value);
+                      stepThreeForm.setValue("regionId", value);
+                      stepThreeForm.setValue("cityId", ""); // Reset city selection
+                      setShowCustomCity(false);
+                      onDataChange({
+                        ...formData,
+                        regionId: value,
+                        cityId: "",
+                        customCity: "",
+                      });
+                    }}
+                  >
+                    <SelectTrigger className="h-11 border-gray-700/60 bg-gray-900/50 text-white focus:border-blue-500 focus:ring-blue-800/30 rounded-xl">
+                      <SelectValue
+                        placeholder={
+                          regionsLoading
+                            ? "Chargement..."
+                            : "Sélectionnez une région"
+                        }
+                      />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-900 border-gray-700">
+                      {regions?.map((region) => (
+                        <SelectItem
+                          key={region.id}
+                          value={region.id}
+                          className="text-white hover:bg-gray-800"
+                        >
+                          {region.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {stepThreeForm.formState.errors.regionId && (
                     <p className="text-sm text-red-400 flex items-center gap-1 animate-in fade-in duration-300">
                       <AlertCircle className="h-3 w-3" />
-                      {stepThreeForm.formState.errors.city.message}
+                      {stepThreeForm.formState.errors.regionId.message}
                     </p>
                   )}
                 </div>
+
+                {/* Sélection de ville */}
+                {selectedRegionId && (
+                  <div className="space-y-2">
+                    <Label className="text-gray-300 flex items-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      Ville
+                    </Label>
+                    <Select
+                      value={showCustomCity ? "custom" : formData.cityId || ""}
+                      onValueChange={(value) => {
+                        if (value === "custom") {
+                          setShowCustomCity(true);
+                          stepThreeForm.setValue("cityId", "");
+                          stepThreeForm.setValue("customCity", "");
+                          onDataChange({
+                            ...formData,
+                            cityId: "",
+                            customCity: "",
+                          });
+                        } else {
+                          setShowCustomCity(false);
+                          const selectedCity = filteredCities.find(
+                            (city) => city.id === value,
+                          );
+                          stepThreeForm.setValue("cityId", value);
+                          stepThreeForm.setValue("customCity", "");
+                          onDataChange({
+                            ...formData,
+                            cityId: value,
+                            customCity: "",
+                            city: selectedCity?.name || "",
+                          });
+                        }
+                      }}
+                    >
+                      <SelectTrigger className="h-11 border-gray-700/60 bg-gray-900/50 text-white focus:border-blue-500 focus:ring-blue-800/30 rounded-xl">
+                        <SelectValue
+                          placeholder={
+                            citiesLoading
+                              ? "Chargement..."
+                              : "Sélectionnez une ville"
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-900 border-gray-700">
+                        {filteredCities.map((city) => (
+                          <SelectItem
+                            key={city.id}
+                            value={city.id}
+                            className="text-white hover:bg-gray-800"
+                          >
+                            {city.name}
+                          </SelectItem>
+                        ))}
+                        <SelectItem
+                          value="custom"
+                          className="text-blue-400 hover:bg-gray-800 font-medium"
+                        >
+                          ➕ Autre (saisir manuellement)
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {stepThreeForm.formState.errors.cityId && (
+                      <p className="text-sm text-red-400 flex items-center gap-1 animate-in fade-in duration-300">
+                        <AlertCircle className="h-3 w-3" />
+                        {stepThreeForm.formState.errors.cityId.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* Champ ville personnalisée */}
+                {showCustomCity && (
+                  <div className="space-y-2">
+                    <Label className="text-gray-300 flex items-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      Nom de votre ville
+                    </Label>
+                    <Input
+                      placeholder="Entrez le nom de votre ville"
+                      value={formData.customCity || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        stepThreeForm.setValue("customCity", value);
+                        onDataChange({
+                          ...formData,
+                          customCity: value,
+                          city: value,
+                        });
+                      }}
+                      className="animate-input h-11 border-gray-700/60 bg-gray-900/50 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-800/30 rounded-xl transition-all duration-300 hover:border-gray-600"
+                    />
+                    {stepThreeForm.formState.errors.customCity && (
+                      <p className="text-sm text-red-400 flex items-center gap-1 animate-in fade-in duration-300">
+                        <AlertCircle className="h-3 w-3" />
+                        {stepThreeForm.formState.errors.customCity.message}
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           );
@@ -221,7 +411,9 @@ const StepOnboarding = forwardRef<StepOnboardingRef, StepOnboardingProps>(
                   Type de <span className="font-semibold">compte</span>
                 </h2>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Définissez votre rôle sur la plateforme. Vous pouvez sélectionner les deux si vous souhaitez à la fois proposer et rechercher des services.
+                  Définissez votre rôle sur la plateforme. Vous pouvez
+                  sélectionner les deux si vous souhaitez à la fois proposer et
+                  rechercher des services.
                 </p>
               </div>
               <div className="space-y-4">
@@ -249,14 +441,20 @@ const StepOnboarding = forwardRef<StepOnboardingRef, StepOnboardingProps>(
                     checked={formData.isTalent}
                     onCheckedChange={(checked) => {
                       stepFourForm.setValue("isTalent", checked as boolean);
-                      onDataChange({ ...formData, isTalent: checked as boolean });
+                      onDataChange({
+                        ...formData,
+                        isTalent: checked as boolean,
+                      });
                     }}
                     className="border-gray-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
                   />
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
                       <Users className="h-6 w-6 text-blue-400" />
-                      <Label htmlFor="isTalent" className="font-semibold text-white cursor-pointer">
+                      <Label
+                        htmlFor="isTalent"
+                        className="font-semibold text-white cursor-pointer"
+                      >
                         Je suis talent
                       </Label>
                     </div>
@@ -280,14 +478,20 @@ const StepOnboarding = forwardRef<StepOnboardingRef, StepOnboardingProps>(
                     checked={formData.isAnnouncer}
                     onCheckedChange={(checked) => {
                       stepFourForm.setValue("isAnnouncer", checked as boolean);
-                      onDataChange({ ...formData, isAnnouncer: checked as boolean });
+                      onDataChange({
+                        ...formData,
+                        isAnnouncer: checked as boolean,
+                      });
                     }}
                     className="border-gray-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
                   />
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
                       <Megaphone className="h-6 w-6 text-blue-400" />
-                      <Label htmlFor="isAnnouncer" className="font-semibold text-white cursor-pointer">
+                      <Label
+                        htmlFor="isAnnouncer"
+                        className="font-semibold text-white cursor-pointer"
+                      >
                         Je suis annonceur
                       </Label>
                     </div>
@@ -307,7 +511,8 @@ const StepOnboarding = forwardRef<StepOnboardingRef, StepOnboardingProps>(
                   À propos de <span className="font-semibold">vous</span>
                 </h2>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Parlez-nous de vous, de vos compétences et de vos objectifs sur la plateforme.
+                  Parlez-nous de vous, de vos compétences et de vos objectifs
+                  sur la plateforme.
                 </p>
               </div>
               <div className="space-y-2">
