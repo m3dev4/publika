@@ -6,7 +6,8 @@ export const postValidation = z.object({
     .string()
     .min(10, "Le contenu doit contenir au moins 10 caractères"),
   type: z.enum(["GENERAL", "MISSION"]),
-  categoryId: z.string(),
+  categoryId: z.string().optional(),
+  cityId: z.string().optional(),
   photos: z.array(z.string()).optional(),
   price: z.number().optional(),
 });

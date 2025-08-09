@@ -49,10 +49,10 @@ export const userUpdateProfileSchema = z
         "Le pseudo ne peut contenir que des lettres, chiffres, tirets et underscores",
       ),
     avatar: z.string().optional(),
-    city: z
-      .string()
-      .min(2, "La ville est requise")
-      .max(100, "Le nom de la ville est trop long"),
+    regionId: z.string().optional(),
+    cityId: z.string().optional(), // Optionnel si l'utilisateur choisit "Autre"
+    customCity: z.string().optional(), // Nom de la ville personnalisée
+    city: z.string().optional(), // Nom final de la ville (pour compatibilité)
     description: z
       .string()
       .min(10, "La description doit contenir au moins 10 caractères")

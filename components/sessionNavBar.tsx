@@ -277,12 +277,12 @@ export function SessionNavBar() {
                       <div className="flex h-8 w-full flex-row items-center gap-2 rounded-md px-2 py-1.5  transition hover:bg-muted hover:text-primary">
                         <Avatar className="size-4">
                           <AvatarImage
-                            src={user?.avatar}
-                            alt={user?.username}
+                            src={user?.avatar || undefined}
+                            alt={user?.username || undefined}
                           />
                           <AvatarFallback>
-                            {user?.firstName?.charAt(0) +
-                              user?.lastName?.charAt(0)}
+                            {(user?.firstName?.charAt(0) || '') +
+                              (user?.lastName?.charAt(0) || '')}
                           </AvatarFallback>
                         </Avatar>
                         <motion.li
@@ -302,12 +302,12 @@ export function SessionNavBar() {
                       <div className="flex flex-row items-center gap-2 p-2">
                         <Avatar className="size-6">
                           <AvatarImage
-                            src={user?.avatar}
-                            alt={user?.username}
+                            src={user?.avatar || undefined}
+                            alt={user?.username || undefined}
                           />
                           <AvatarFallback>
-                            {user?.firstName?.charAt(0) +
-                              user?.lastName?.charAt(0)}
+                            {(user?.firstName?.charAt(0) || '') +
+                              (user?.lastName?.charAt(0) || '')}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col text-left">

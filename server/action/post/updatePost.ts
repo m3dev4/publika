@@ -1,11 +1,11 @@
 "use server";
 
-import { Post } from "@/types/post.type";
+import { UpdatePostInput } from "@/types/post.type";
 import { PrismaClient } from "@/lib/prisma-client-js";
 
 const prisma = new PrismaClient();
 
-export const updatePost = async (id: string, post: Post) => {
+export const updatePost = async (id: string, post: UpdatePostInput) => {
   try {
     const updatedPost = await prisma.posts.update({
       where: {
@@ -15,7 +15,7 @@ export const updatePost = async (id: string, post: Post) => {
         title: post.title,
         content: post.content,
         type: post.type,
-        photo: post.photo || null,
+        photo: post.photo || undefined,
         status: post.status,
         prices: post.prices,
       },

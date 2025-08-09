@@ -1560,10 +1560,12 @@ export namespace Prisma {
 
   export type CityCountOutputType = {
     users: number
+    posts: number
   }
 
   export type CityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | CityCountOutputTypeCountUsersArgs
+    posts?: boolean | CityCountOutputTypeCountPostsArgs
   }
 
   // Custom InputTypes
@@ -1582,6 +1584,13 @@ export namespace Prisma {
    */
   export type CityCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
+  }
+
+  /**
+   * CityCountOutputType without action
+   */
+  export type CityCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostsWhereInput
   }
 
 
@@ -6301,6 +6310,7 @@ export namespace Prisma {
     content: string | null
     userId: string | null
     categoryId: string | null
+    cityId: string | null
     type: $Enums.PostType | null
     status: $Enums.PostStatus | null
     prices: number | null
@@ -6314,6 +6324,7 @@ export namespace Prisma {
     content: string | null
     userId: string | null
     categoryId: string | null
+    cityId: string | null
     type: $Enums.PostType | null
     status: $Enums.PostStatus | null
     prices: number | null
@@ -6327,6 +6338,7 @@ export namespace Prisma {
     content: number
     userId: number
     categoryId: number
+    cityId: number
     type: number
     status: number
     photo: number
@@ -6351,6 +6363,7 @@ export namespace Prisma {
     content?: true
     userId?: true
     categoryId?: true
+    cityId?: true
     type?: true
     status?: true
     prices?: true
@@ -6364,6 +6377,7 @@ export namespace Prisma {
     content?: true
     userId?: true
     categoryId?: true
+    cityId?: true
     type?: true
     status?: true
     prices?: true
@@ -6377,6 +6391,7 @@ export namespace Prisma {
     content?: true
     userId?: true
     categoryId?: true
+    cityId?: true
     type?: true
     status?: true
     photo?: true
@@ -6478,6 +6493,7 @@ export namespace Prisma {
     content: string
     userId: string
     categoryId: string | null
+    cityId: string | null
     type: $Enums.PostType
     status: $Enums.PostStatus
     photo: string[]
@@ -6511,6 +6527,7 @@ export namespace Prisma {
     content?: boolean
     userId?: boolean
     categoryId?: boolean
+    cityId?: boolean
     type?: boolean
     status?: boolean
     photo?: boolean
@@ -6519,6 +6536,7 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | Posts$categoryArgs<ExtArgs>
+    city?: boolean | Posts$cityArgs<ExtArgs>
   }, ExtArgs["result"]["posts"]>
 
   export type PostsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6527,6 +6545,7 @@ export namespace Prisma {
     content?: boolean
     userId?: boolean
     categoryId?: boolean
+    cityId?: boolean
     type?: boolean
     status?: boolean
     photo?: boolean
@@ -6535,6 +6554,7 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | Posts$categoryArgs<ExtArgs>
+    city?: boolean | Posts$cityArgs<ExtArgs>
   }, ExtArgs["result"]["posts"]>
 
   export type PostsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6543,6 +6563,7 @@ export namespace Prisma {
     content?: boolean
     userId?: boolean
     categoryId?: boolean
+    cityId?: boolean
     type?: boolean
     status?: boolean
     photo?: boolean
@@ -6551,6 +6572,7 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | Posts$categoryArgs<ExtArgs>
+    city?: boolean | Posts$cityArgs<ExtArgs>
   }, ExtArgs["result"]["posts"]>
 
   export type PostsSelectScalar = {
@@ -6559,6 +6581,7 @@ export namespace Prisma {
     content?: boolean
     userId?: boolean
     categoryId?: boolean
+    cityId?: boolean
     type?: boolean
     status?: boolean
     photo?: boolean
@@ -6567,18 +6590,21 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PostsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "userId" | "categoryId" | "type" | "status" | "photo" | "prices" | "createdAt" | "updatedAt", ExtArgs["result"]["posts"]>
+  export type PostsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "userId" | "categoryId" | "cityId" | "type" | "status" | "photo" | "prices" | "createdAt" | "updatedAt", ExtArgs["result"]["posts"]>
   export type PostsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | Posts$categoryArgs<ExtArgs>
+    city?: boolean | Posts$cityArgs<ExtArgs>
   }
   export type PostsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | Posts$categoryArgs<ExtArgs>
+    city?: boolean | Posts$cityArgs<ExtArgs>
   }
   export type PostsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | Posts$categoryArgs<ExtArgs>
+    city?: boolean | Posts$cityArgs<ExtArgs>
   }
 
   export type $PostsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6586,6 +6612,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       category: Prisma.$CategoryPayload<ExtArgs> | null
+      city: Prisma.$CityPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6593,6 +6620,7 @@ export namespace Prisma {
       content: string
       userId: string
       categoryId: string | null
+      cityId: string | null
       type: $Enums.PostType
       status: $Enums.PostStatus
       photo: string[]
@@ -6995,6 +7023,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     category<T extends Posts$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Posts$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    city<T extends Posts$cityArgs<ExtArgs> = {}>(args?: Subset<T, Posts$cityArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7029,6 +7058,7 @@ export namespace Prisma {
     readonly content: FieldRef<"Posts", 'String'>
     readonly userId: FieldRef<"Posts", 'String'>
     readonly categoryId: FieldRef<"Posts", 'String'>
+    readonly cityId: FieldRef<"Posts", 'String'>
     readonly type: FieldRef<"Posts", 'PostType'>
     readonly status: FieldRef<"Posts", 'PostStatus'>
     readonly photo: FieldRef<"Posts", 'String[]'>
@@ -7450,6 +7480,25 @@ export namespace Prisma {
   }
 
   /**
+   * Posts.city
+   */
+  export type Posts$cityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    where?: CityWhereInput
+  }
+
+  /**
    * Posts without action
    */
   export type PostsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7688,6 +7737,7 @@ export namespace Prisma {
     updatedAt?: boolean
     region?: boolean | RegionDefaultArgs<ExtArgs>
     users?: boolean | City$usersArgs<ExtArgs>
+    posts?: boolean | City$postsArgs<ExtArgs>
     _count?: boolean | CityCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["city"]>
 
@@ -7727,6 +7777,7 @@ export namespace Prisma {
   export type CityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     region?: boolean | RegionDefaultArgs<ExtArgs>
     users?: boolean | City$usersArgs<ExtArgs>
+    posts?: boolean | City$postsArgs<ExtArgs>
     _count?: boolean | CityCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7741,6 +7792,7 @@ export namespace Prisma {
     objects: {
       region: Prisma.$RegionPayload<ExtArgs>
       users: Prisma.$UserPayload<ExtArgs>[]
+      posts: Prisma.$PostsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8146,6 +8198,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     region<T extends RegionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RegionDefaultArgs<ExtArgs>>): Prisma__RegionClient<$Result.GetResult<Prisma.$RegionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     users<T extends City$usersArgs<ExtArgs> = {}>(args?: Subset<T, City$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posts<T extends City$postsArgs<ExtArgs> = {}>(args?: Subset<T, City$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8599,6 +8652,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * City.posts
+   */
+  export type City$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    where?: PostsWhereInput
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
+    cursor?: PostsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
   }
 
   /**
@@ -9761,6 +9838,7 @@ export namespace Prisma {
     content: 'content',
     userId: 'userId',
     categoryId: 'categoryId',
+    cityId: 'cityId',
     type: 'type',
     status: 'status',
     photo: 'photo',
@@ -10276,6 +10354,7 @@ export namespace Prisma {
     content?: StringFilter<"Posts"> | string
     userId?: StringFilter<"Posts"> | string
     categoryId?: StringNullableFilter<"Posts"> | string | null
+    cityId?: StringNullableFilter<"Posts"> | string | null
     type?: EnumPostTypeFilter<"Posts"> | $Enums.PostType
     status?: EnumPostStatusFilter<"Posts"> | $Enums.PostStatus
     photo?: StringNullableListFilter<"Posts">
@@ -10284,6 +10363,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Posts"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
   }
 
   export type PostsOrderByWithRelationInput = {
@@ -10292,6 +10372,7 @@ export namespace Prisma {
     content?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrderInput | SortOrder
+    cityId?: SortOrderInput | SortOrder
     type?: SortOrder
     status?: SortOrder
     photo?: SortOrder
@@ -10300,6 +10381,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
+    city?: CityOrderByWithRelationInput
   }
 
   export type PostsWhereUniqueInput = Prisma.AtLeast<{
@@ -10311,6 +10393,7 @@ export namespace Prisma {
     content?: StringFilter<"Posts"> | string
     userId?: StringFilter<"Posts"> | string
     categoryId?: StringNullableFilter<"Posts"> | string | null
+    cityId?: StringNullableFilter<"Posts"> | string | null
     type?: EnumPostTypeFilter<"Posts"> | $Enums.PostType
     status?: EnumPostStatusFilter<"Posts"> | $Enums.PostStatus
     photo?: StringNullableListFilter<"Posts">
@@ -10319,6 +10402,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Posts"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
   }, "id">
 
   export type PostsOrderByWithAggregationInput = {
@@ -10327,6 +10411,7 @@ export namespace Prisma {
     content?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrderInput | SortOrder
+    cityId?: SortOrderInput | SortOrder
     type?: SortOrder
     status?: SortOrder
     photo?: SortOrder
@@ -10349,6 +10434,7 @@ export namespace Prisma {
     content?: StringWithAggregatesFilter<"Posts"> | string
     userId?: StringWithAggregatesFilter<"Posts"> | string
     categoryId?: StringNullableWithAggregatesFilter<"Posts"> | string | null
+    cityId?: StringNullableWithAggregatesFilter<"Posts"> | string | null
     type?: EnumPostTypeWithAggregatesFilter<"Posts"> | $Enums.PostType
     status?: EnumPostStatusWithAggregatesFilter<"Posts"> | $Enums.PostStatus
     photo?: StringNullableListFilter<"Posts">
@@ -10370,6 +10456,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"City"> | Date | string
     region?: XOR<RegionScalarRelationFilter, RegionWhereInput>
     users?: UserListRelationFilter
+    posts?: PostsListRelationFilter
   }
 
   export type CityOrderByWithRelationInput = {
@@ -10382,6 +10469,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     region?: RegionOrderByWithRelationInput
     users?: UserOrderByRelationAggregateInput
+    posts?: PostsOrderByRelationAggregateInput
   }
 
   export type CityWhereUniqueInput = Prisma.AtLeast<{
@@ -10397,6 +10485,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"City"> | Date | string
     region?: XOR<RegionScalarRelationFilter, RegionWhereInput>
     users?: UserListRelationFilter
+    posts?: PostsListRelationFilter
   }, "id">
 
   export type CityOrderByWithAggregationInput = {
@@ -10869,6 +10958,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPostsInput
     category?: CategoryCreateNestedOneWithoutPostsInput
+    city?: CityCreateNestedOneWithoutPostsInput
   }
 
   export type PostsUncheckedCreateInput = {
@@ -10877,6 +10967,7 @@ export namespace Prisma {
     content: string
     userId: string
     categoryId?: string | null
+    cityId?: string | null
     type: $Enums.PostType
     status: $Enums.PostStatus
     photo?: PostsCreatephotoInput | string[]
@@ -10897,6 +10988,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPostsNestedInput
     category?: CategoryUpdateOneWithoutPostsNestedInput
+    city?: CityUpdateOneWithoutPostsNestedInput
   }
 
   export type PostsUncheckedUpdateInput = {
@@ -10905,6 +10997,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
     status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
     photo?: PostsUpdatephotoInput | string[]
@@ -10919,6 +11012,7 @@ export namespace Prisma {
     content: string
     userId: string
     categoryId?: string | null
+    cityId?: string | null
     type: $Enums.PostType
     status: $Enums.PostStatus
     photo?: PostsCreatephotoInput | string[]
@@ -10945,6 +11039,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
     status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
     photo?: PostsUpdatephotoInput | string[]
@@ -10962,6 +11057,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     region: RegionCreateNestedOneWithoutCitiesInput
     users?: UserCreateNestedManyWithoutCityInput
+    posts?: PostsCreateNestedManyWithoutCityInput
   }
 
   export type CityUncheckedCreateInput = {
@@ -10973,6 +11069,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCityInput
+    posts?: PostsUncheckedCreateNestedManyWithoutCityInput
   }
 
   export type CityUpdateInput = {
@@ -10984,6 +11081,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     region?: RegionUpdateOneRequiredWithoutCitiesNestedInput
     users?: UserUpdateManyWithoutCityNestedInput
+    posts?: PostsUpdateManyWithoutCityNestedInput
   }
 
   export type CityUncheckedUpdateInput = {
@@ -10995,6 +11093,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCityNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutCityNestedInput
   }
 
   export type CityCreateManyInput = {
@@ -11485,6 +11584,7 @@ export namespace Prisma {
     content?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
+    cityId?: SortOrder
     type?: SortOrder
     status?: SortOrder
     photo?: SortOrder
@@ -11503,6 +11603,7 @@ export namespace Prisma {
     content?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
+    cityId?: SortOrder
     type?: SortOrder
     status?: SortOrder
     prices?: SortOrder
@@ -11516,6 +11617,7 @@ export namespace Prisma {
     content?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
+    cityId?: SortOrder
     type?: SortOrder
     status?: SortOrder
     prices?: SortOrder
@@ -11957,6 +12059,12 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput
   }
 
+  export type CityCreateNestedOneWithoutPostsInput = {
+    create?: XOR<CityCreateWithoutPostsInput, CityUncheckedCreateWithoutPostsInput>
+    connectOrCreate?: CityCreateOrConnectWithoutPostsInput
+    connect?: CityWhereUniqueInput
+  }
+
   export type EnumPostTypeFieldUpdateOperationsInput = {
     set?: $Enums.PostType
   }
@@ -11996,6 +12104,16 @@ export namespace Prisma {
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutPostsInput, CategoryUpdateWithoutPostsInput>, CategoryUncheckedUpdateWithoutPostsInput>
   }
 
+  export type CityUpdateOneWithoutPostsNestedInput = {
+    create?: XOR<CityCreateWithoutPostsInput, CityUncheckedCreateWithoutPostsInput>
+    connectOrCreate?: CityCreateOrConnectWithoutPostsInput
+    upsert?: CityUpsertWithoutPostsInput
+    disconnect?: CityWhereInput | boolean
+    delete?: CityWhereInput | boolean
+    connect?: CityWhereUniqueInput
+    update?: XOR<XOR<CityUpdateToOneWithWhereWithoutPostsInput, CityUpdateWithoutPostsInput>, CityUncheckedUpdateWithoutPostsInput>
+  }
+
   export type RegionCreateNestedOneWithoutCitiesInput = {
     create?: XOR<RegionCreateWithoutCitiesInput, RegionUncheckedCreateWithoutCitiesInput>
     connectOrCreate?: RegionCreateOrConnectWithoutCitiesInput
@@ -12009,11 +12127,25 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
+  export type PostsCreateNestedManyWithoutCityInput = {
+    create?: XOR<PostsCreateWithoutCityInput, PostsUncheckedCreateWithoutCityInput> | PostsCreateWithoutCityInput[] | PostsUncheckedCreateWithoutCityInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutCityInput | PostsCreateOrConnectWithoutCityInput[]
+    createMany?: PostsCreateManyCityInputEnvelope
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCityInput = {
     create?: XOR<UserCreateWithoutCityInput, UserUncheckedCreateWithoutCityInput> | UserCreateWithoutCityInput[] | UserUncheckedCreateWithoutCityInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCityInput | UserCreateOrConnectWithoutCityInput[]
     createMany?: UserCreateManyCityInputEnvelope
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type PostsUncheckedCreateNestedManyWithoutCityInput = {
+    create?: XOR<PostsCreateWithoutCityInput, PostsUncheckedCreateWithoutCityInput> | PostsCreateWithoutCityInput[] | PostsUncheckedCreateWithoutCityInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutCityInput | PostsCreateOrConnectWithoutCityInput[]
+    createMany?: PostsCreateManyCityInputEnvelope
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
   }
 
   export type RegionUpdateOneRequiredWithoutCitiesNestedInput = {
@@ -12038,6 +12170,20 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
+  export type PostsUpdateManyWithoutCityNestedInput = {
+    create?: XOR<PostsCreateWithoutCityInput, PostsUncheckedCreateWithoutCityInput> | PostsCreateWithoutCityInput[] | PostsUncheckedCreateWithoutCityInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutCityInput | PostsCreateOrConnectWithoutCityInput[]
+    upsert?: PostsUpsertWithWhereUniqueWithoutCityInput | PostsUpsertWithWhereUniqueWithoutCityInput[]
+    createMany?: PostsCreateManyCityInputEnvelope
+    set?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    disconnect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    delete?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    update?: PostsUpdateWithWhereUniqueWithoutCityInput | PostsUpdateWithWhereUniqueWithoutCityInput[]
+    updateMany?: PostsUpdateManyWithWhereWithoutCityInput | PostsUpdateManyWithWhereWithoutCityInput[]
+    deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCityNestedInput = {
     create?: XOR<UserCreateWithoutCityInput, UserUncheckedCreateWithoutCityInput> | UserCreateWithoutCityInput[] | UserUncheckedCreateWithoutCityInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCityInput | UserCreateOrConnectWithoutCityInput[]
@@ -12050,6 +12196,20 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutCityInput | UserUpdateWithWhereUniqueWithoutCityInput[]
     updateMany?: UserUpdateManyWithWhereWithoutCityInput | UserUpdateManyWithWhereWithoutCityInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type PostsUncheckedUpdateManyWithoutCityNestedInput = {
+    create?: XOR<PostsCreateWithoutCityInput, PostsUncheckedCreateWithoutCityInput> | PostsCreateWithoutCityInput[] | PostsUncheckedCreateWithoutCityInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutCityInput | PostsCreateOrConnectWithoutCityInput[]
+    upsert?: PostsUpsertWithWhereUniqueWithoutCityInput | PostsUpsertWithWhereUniqueWithoutCityInput[]
+    createMany?: PostsCreateManyCityInputEnvelope
+    set?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    disconnect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    delete?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    update?: PostsUpdateWithWhereUniqueWithoutCityInput | PostsUpdateWithWhereUniqueWithoutCityInput[]
+    updateMany?: PostsUpdateManyWithWhereWithoutCityInput | PostsUpdateManyWithWhereWithoutCityInput[]
+    deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
   }
 
   export type CityCreateNestedManyWithoutRegionInput = {
@@ -12327,6 +12487,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     region: RegionCreateNestedOneWithoutCitiesInput
+    posts?: PostsCreateNestedManyWithoutCityInput
   }
 
   export type CityUncheckedCreateWithoutUsersInput = {
@@ -12337,6 +12498,7 @@ export namespace Prisma {
     regionId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    posts?: PostsUncheckedCreateNestedManyWithoutCityInput
   }
 
   export type CityCreateOrConnectWithoutUsersInput = {
@@ -12417,6 +12579,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     category?: CategoryCreateNestedOneWithoutPostsInput
+    city?: CityCreateNestedOneWithoutPostsInput
   }
 
   export type PostsUncheckedCreateWithoutUserInput = {
@@ -12424,6 +12587,7 @@ export namespace Prisma {
     title: string
     content: string
     categoryId?: string | null
+    cityId?: string | null
     type: $Enums.PostType
     status: $Enums.PostStatus
     photo?: PostsCreatephotoInput | string[]
@@ -12461,6 +12625,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     region?: RegionUpdateOneRequiredWithoutCitiesNestedInput
+    posts?: PostsUpdateManyWithoutCityNestedInput
   }
 
   export type CityUncheckedUpdateWithoutUsersInput = {
@@ -12471,6 +12636,7 @@ export namespace Prisma {
     regionId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    posts?: PostsUncheckedUpdateManyWithoutCityNestedInput
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -12557,6 +12723,7 @@ export namespace Prisma {
     content?: StringFilter<"Posts"> | string
     userId?: StringFilter<"Posts"> | string
     categoryId?: StringNullableFilter<"Posts"> | string | null
+    cityId?: StringNullableFilter<"Posts"> | string | null
     type?: EnumPostTypeFilter<"Posts"> | $Enums.PostType
     status?: EnumPostStatusFilter<"Posts"> | $Enums.PostStatus
     photo?: StringNullableListFilter<"Posts">
@@ -12771,6 +12938,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPostsInput
+    city?: CityCreateNestedOneWithoutPostsInput
   }
 
   export type PostsUncheckedCreateWithoutCategoryInput = {
@@ -12778,6 +12946,7 @@ export namespace Prisma {
     title: string
     content: string
     userId: string
+    cityId?: string | null
     type: $Enums.PostType
     status: $Enums.PostStatus
     photo?: PostsCreatephotoInput | string[]
@@ -13030,6 +13199,33 @@ export namespace Prisma {
     create: XOR<CategoryCreateWithoutPostsInput, CategoryUncheckedCreateWithoutPostsInput>
   }
 
+  export type CityCreateWithoutPostsInput = {
+    id?: string
+    name: string
+    longitude?: number | null
+    latitude?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    region: RegionCreateNestedOneWithoutCitiesInput
+    users?: UserCreateNestedManyWithoutCityInput
+  }
+
+  export type CityUncheckedCreateWithoutPostsInput = {
+    id?: string
+    name: string
+    longitude?: number | null
+    latitude?: number | null
+    regionId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCityInput
+  }
+
+  export type CityCreateOrConnectWithoutPostsInput = {
+    where: CityWhereUniqueInput
+    create: XOR<CityCreateWithoutPostsInput, CityUncheckedCreateWithoutPostsInput>
+  }
+
   export type UserUpsertWithoutPostsInput = {
     update: XOR<UserUpdateWithoutPostsInput, UserUncheckedUpdateWithoutPostsInput>
     create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
@@ -13120,6 +13316,39 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
+  export type CityUpsertWithoutPostsInput = {
+    update: XOR<CityUpdateWithoutPostsInput, CityUncheckedUpdateWithoutPostsInput>
+    create: XOR<CityCreateWithoutPostsInput, CityUncheckedCreateWithoutPostsInput>
+    where?: CityWhereInput
+  }
+
+  export type CityUpdateToOneWithWhereWithoutPostsInput = {
+    where?: CityWhereInput
+    data: XOR<CityUpdateWithoutPostsInput, CityUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type CityUpdateWithoutPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    region?: RegionUpdateOneRequiredWithoutCitiesNestedInput
+    users?: UserUpdateManyWithoutCityNestedInput
+  }
+
+  export type CityUncheckedUpdateWithoutPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    regionId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCityNestedInput
+  }
+
   export type RegionCreateWithoutCitiesInput = {
     id?: string
     name: string
@@ -13199,6 +13428,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PostsCreateWithoutCityInput = {
+    id?: string
+    title: string
+    content: string
+    type: $Enums.PostType
+    status: $Enums.PostStatus
+    photo?: PostsCreatephotoInput | string[]
+    prices?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPostsInput
+    category?: CategoryCreateNestedOneWithoutPostsInput
+  }
+
+  export type PostsUncheckedCreateWithoutCityInput = {
+    id?: string
+    title: string
+    content: string
+    userId: string
+    categoryId?: string | null
+    type: $Enums.PostType
+    status: $Enums.PostStatus
+    photo?: PostsCreatephotoInput | string[]
+    prices?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostsCreateOrConnectWithoutCityInput = {
+    where: PostsWhereUniqueInput
+    create: XOR<PostsCreateWithoutCityInput, PostsUncheckedCreateWithoutCityInput>
+  }
+
+  export type PostsCreateManyCityInputEnvelope = {
+    data: PostsCreateManyCityInput | PostsCreateManyCityInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RegionUpsertWithoutCitiesInput = {
     update: XOR<RegionUpdateWithoutCitiesInput, RegionUncheckedUpdateWithoutCitiesInput>
     create: XOR<RegionCreateWithoutCitiesInput, RegionUncheckedCreateWithoutCitiesInput>
@@ -13266,6 +13533,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
   }
 
+  export type PostsUpsertWithWhereUniqueWithoutCityInput = {
+    where: PostsWhereUniqueInput
+    update: XOR<PostsUpdateWithoutCityInput, PostsUncheckedUpdateWithoutCityInput>
+    create: XOR<PostsCreateWithoutCityInput, PostsUncheckedCreateWithoutCityInput>
+  }
+
+  export type PostsUpdateWithWhereUniqueWithoutCityInput = {
+    where: PostsWhereUniqueInput
+    data: XOR<PostsUpdateWithoutCityInput, PostsUncheckedUpdateWithoutCityInput>
+  }
+
+  export type PostsUpdateManyWithWhereWithoutCityInput = {
+    where: PostsScalarWhereInput
+    data: XOR<PostsUpdateManyMutationInput, PostsUncheckedUpdateManyWithoutCityInput>
+  }
+
   export type CityCreateWithoutRegionInput = {
     id?: string
     name: string
@@ -13274,6 +13557,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCityInput
+    posts?: PostsCreateNestedManyWithoutCityInput
   }
 
   export type CityUncheckedCreateWithoutRegionInput = {
@@ -13284,6 +13568,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCityInput
+    posts?: PostsUncheckedCreateNestedManyWithoutCityInput
   }
 
   export type CityCreateOrConnectWithoutRegionInput = {
@@ -13349,6 +13634,7 @@ export namespace Prisma {
     title: string
     content: string
     categoryId?: string | null
+    cityId?: string | null
     type: $Enums.PostType
     status: $Enums.PostStatus
     photo?: PostsCreatephotoInput | string[]
@@ -13429,6 +13715,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneWithoutPostsNestedInput
+    city?: CityUpdateOneWithoutPostsNestedInput
   }
 
   export type PostsUncheckedUpdateWithoutUserInput = {
@@ -13436,6 +13723,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
     status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
     photo?: PostsUpdatephotoInput | string[]
@@ -13449,6 +13737,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
     status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
     photo?: PostsUpdatephotoInput | string[]
@@ -13469,6 +13758,7 @@ export namespace Prisma {
     title: string
     content: string
     userId: string
+    cityId?: string | null
     type: $Enums.PostType
     status: $Enums.PostStatus
     photo?: PostsCreatephotoInput | string[]
@@ -13509,6 +13799,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPostsNestedInput
+    city?: CityUpdateOneWithoutPostsNestedInput
   }
 
   export type PostsUncheckedUpdateWithoutCategoryInput = {
@@ -13516,6 +13807,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
     status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
     photo?: PostsUpdatephotoInput | string[]
@@ -13529,6 +13821,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
     status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
     photo?: PostsUpdatephotoInput | string[]
@@ -13555,6 +13848,20 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     emailVerificationTokenExpiresAt?: Date | string | null
     onboarding?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostsCreateManyCityInput = {
+    id?: string
+    title: string
+    content: string
+    userId: string
+    categoryId?: string | null
+    type: $Enums.PostType
+    status: $Enums.PostStatus
+    photo?: PostsCreatephotoInput | string[]
+    prices?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13631,6 +13938,48 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PostsUpdateWithoutCityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    photo?: PostsUpdatephotoInput | string[]
+    prices?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPostsNestedInput
+    category?: CategoryUpdateOneWithoutPostsNestedInput
+  }
+
+  export type PostsUncheckedUpdateWithoutCityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    photo?: PostsUpdatephotoInput | string[]
+    prices?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostsUncheckedUpdateManyWithoutCityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    photo?: PostsUpdatephotoInput | string[]
+    prices?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CityCreateManyRegionInput = {
     id?: string
     name: string
@@ -13648,6 +13997,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCityNestedInput
+    posts?: PostsUpdateManyWithoutCityNestedInput
   }
 
   export type CityUncheckedUpdateWithoutRegionInput = {
@@ -13658,6 +14008,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCityNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutCityNestedInput
   }
 
   export type CityUncheckedUpdateManyWithoutRegionInput = {

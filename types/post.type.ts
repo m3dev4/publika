@@ -5,6 +5,7 @@ export interface Post {
   id: string;
   userId: string;
   categoryId?: string; // Optionnel
+  cityId?: string; // Optionnel
   title: string;
   content: string;
   type: PostType;
@@ -21,7 +22,20 @@ export interface CreatePostInput {
   content: string;
   type: PostType;
   categoryId?: string | null;
+  cityId?: string | null;
   photo?: string[];
   status: PostStatus;
+  prices?: number | null;
+}
+
+// Interface pour la mise à jour de posts (champs optionnels)
+export interface UpdatePostInput {
+  title?: string;
+  content?: string;
+  type?: PostType;
+  categoryId?: string | null;
+  cityId?: string | null;
+  photo?: string[];
+  status?: PostStatus;
   prices?: number | null;
 }

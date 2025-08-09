@@ -92,6 +92,8 @@ model Posts {
   user       User       @relation(fields: [userId], references: [id])
   categoryId String?
   category   Category?  @relation(fields: [categoryId], references: [id])
+  cityId     String?
+  city       City?      @relation(fields: [cityId], references: [id])
   type       PostType
   status     PostStatus
   photo      String[]   // Array de strings pour multiple photos
@@ -123,6 +125,7 @@ model City {
   updatedAt DateTime @updatedAt
   
   users User[]
+  posts Posts[]
 }
 
 model Region {

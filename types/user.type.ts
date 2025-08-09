@@ -119,7 +119,10 @@ export interface UserUpdateProfile {
   lastName?: string;
   username?: string;
   avatar?: string | null;
+  regionId?: string;
   cityId?: string;
+  customCity?: string;
+  city?: string;
   description?: string;
   isTalent?: boolean;
   isAnnouncer?: boolean;

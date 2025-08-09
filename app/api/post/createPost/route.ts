@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
     const content = body.get("content") as string;
     const type = body.get("type") as "GENERAL" | "MISSION";
     const categoryId = body.get("categoryId") as string;
+    const cityId = body.get("cityId") as string;
     const photo = body.get("photo") as string;
     const status =
       (body.get("status") as "DRAFT" | "PUBLISHED" | "ARCHIVED") || "DRAFT";
@@ -125,6 +126,7 @@ export async function POST(request: NextRequest) {
       content,
       type: type as "GENERAL" | "MISSION",
       categoryId: categoryId || null,
+      cityId: cityId || null,
       photo: photoArray,
       status: status as "DRAFT" | "PUBLISHED" | "ARCHIVED",
       prices: priceNumber,

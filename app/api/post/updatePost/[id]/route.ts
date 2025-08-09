@@ -3,9 +3,10 @@ import { NextResponse } from "next/server";
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await params;
     const body = await request.formData();
     const title = body.get("title") as string;
     const content = body.get("content") as string;
@@ -17,10 +18,12 @@ export async function PUT(
       );
     }
     const categoryId = body.get("categoryId") as string;
-    const photo = body.get("photo") as string;
+    const photoData = body.get("photo") as string;
+    const photo = photoData ? [photoData] : undefined; // Convert to array or undefined
     const status =
       (body.get("status") as "DRAFT" | "PUBLISHED" | "ARCHIVED") || "DRAFT";
-    const prices = body.get("prices") as string;
+    const pricesData = body.get("prices") as string;
+    const prices = pricesData ? parseFloat(pricesData) : undefined; // Convert to number or undefined
 
     const post = {
       title,
@@ -32,7 +35,7 @@ export async function PUT(
       prices,
     };
 
-    const updatedPost = await updatePost(params.id, post);
+    const updatedPost = await updatePost(id, post);
     return NextResponse.json({ updatedPost }, { status: 200 });
   } catch (error) {
     console.log(error);

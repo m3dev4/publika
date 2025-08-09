@@ -42,6 +42,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useListRegions } from "@/hooks/region";
+import { useListCities } from "@/hooks/city";
+import { useCityStore } from "@/app/api/store/city.store";
+import { Controller } from "react-hook-form";
 
 const ProfileEditPage = () => {
   const params = useParams();
@@ -50,6 +61,14 @@ const ProfileEditPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [selectedRegionId, setSelectedRegionId] = useState<string>("");
+  const [showCustomCity, setShowCustomCity] = useState<boolean>(false);
+  const [filteredCities, setFilteredCities] = useState<any[]>([]);
+
+  // Hooks pour charger les données
+  const { data: regions, isLoading: regionsLoading } = useListRegions();
+  const { data: cities, isLoading: citiesLoading } = useListCities();
+  const { cities: storeCities } = useCityStore();
 
   const updateProfileMutation = updateProfile();
   // Utiliser directement les données du store
@@ -61,6 +80,7 @@ const ProfileEditPage = () => {
     setValue,
     watch,
     reset,
+    control,
   } = useForm<updateProfileFormValue>({
     resolver: zodResolver(userUpdateProfileSchema),
     defaultValues: {
@@ -68,6 +88,9 @@ const ProfileEditPage = () => {
       lastName: "",
       username: "",
       city: "",
+      regionId: "",
+      cityId: "",
+      customCity: "",
       description: "",
       avatar: "",
       isTalent: false,
@@ -78,14 +101,42 @@ const ProfileEditPage = () => {
 
   const watchedValues = watch();
 
+  // Effet pour filtrer les villes par région
+  useEffect(() => {
+    if (selectedRegionId && cities) {
+      const filtered = cities.filter(
+        (city) => city.regionId === selectedRegionId,
+      );
+      setFilteredCities(filtered);
+    } else {
+      setFilteredCities([]);
+    }
+  }, [selectedRegionId, cities]);
+
   // Load user data when component mounts or user data changes
   useEffect(() => {
     if (user) {
+      // Déterminer la région de l'utilisateur si il a une ville
+      let userRegionId = "";
+      if (user.city && cities) {
+        const cityName = typeof user.city === 'string' ? user.city : (user.city as any)?.name;
+        const userCity = cities.find(city => 
+          city.name === cityName || city.id === user.cityId
+        );
+        if (userCity) {
+          userRegionId = userCity.regionId;
+          setSelectedRegionId(userRegionId);
+        }
+      }
+
       reset({
         firstName: user.firstName || "",
         lastName: user.lastName || "",
         username: user.username || "",
-        city: user.city || "",
+        city: typeof user.city === 'string' ? user.city : ((user.city as any)?.name || ""),
+        regionId: userRegionId,
+        cityId: user.cityId || "",
+        customCity: "",
         description: user.description || "",
         avatar: user.avatar || "",
         isTalent: user.isTalent || false,
@@ -94,7 +145,7 @@ const ProfileEditPage = () => {
       });
       setPreviewImage(user.avatar || null);
     }
-  }, [user, reset]);
+  }, [user, reset, cities]);
 
   // Check if user can edit this profile
   useEffect(() => {
@@ -116,24 +167,28 @@ const ProfileEditPage = () => {
       const modifiedData: Partial<updateProfileFormValue> = {};
 
       fieldsToSave.forEach((field) => {
-        console.log(
-          `Checking field ${field}: form=${data[field]}, user=${user?.[field]}`,
-        );
-        if (data[field] !== user?.[field]) {
-          modifiedData[field] = data[field];
-          console.log(`Field ${field} modified:`, data[field]);
+        // Ajouter tous les champs demandés sans vérification de modification
+        // car les nouveaux champs (regionId, cityId, customCity) n'existent pas sur User
+        if (data[field] !== undefined && data[field] !== "") {
+          (modifiedData as any)[field] = data[field];
+          console.log(`Field ${field} added:`, data[field]);
         }
       });
 
+      // Ajouter l'ID utilisateur pour l'update
+      if (user?.id) {
+        (modifiedData as any).id = user.id;
+      }
+
       console.log("Modified data to send:", modifiedData);
 
-      if (Object.keys(modifiedData).length === 0) {
+      if (Object.keys(modifiedData).length <= 1) { // <= 1 car on a toujours l'ID
         toast.error("Aucune modification détectée");
         return;
       }
 
       console.log("Sending update request...");
-      await updateProfileMutation.mutateAsync(modifiedData);
+      await updateProfileMutation.mutateAsync(modifiedData as any);
       console.log("Update successful");
       toast.success("Profil mis à jour avec succès!");
     } catch (error: any) {
@@ -333,20 +388,124 @@ const ProfileEditPage = () => {
                     </p>
                   )}
                 </div>
+                {/* Sélection de région */}
                 <div className="space-y-2">
-                  <Label htmlFor="city">Ville</Label>
-                  <Input
-                    id="city"
-                    type="text"
-                    placeholder="Ville"
-                    {...register("city")}
+                  <Label htmlFor="regionId">Région</Label>
+                  <Controller
+                    control={control}
+                    name="regionId"
+                    render={({ field }) => (
+                      <Select
+                        value={selectedRegionId}
+                        onValueChange={(value) => {
+                          setSelectedRegionId(value);
+                          field.onChange(value);
+                          setValue("cityId", ""); // Reset city selection
+                          setValue("customCity", "");
+                          setShowCustomCity(false);
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={
+                              regionsLoading
+                                ? "Chargement..."
+                                : "Sélectionnez une région"
+                            }
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {regions?.map((region) => (
+                            <SelectItem key={region.id} value={region.id}>
+                              {region.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
                   />
-                  {errors.city && (
+                  {errors.regionId && (
                     <p className="text-sm text-red-500">
-                      {errors.city.message}
+                      {errors.regionId.message}
                     </p>
                   )}
                 </div>
+                {/* Sélection de ville */}
+                {selectedRegionId && (
+                  <div className="space-y-2">
+                    <Label htmlFor="cityId">Ville</Label>
+                    <Controller
+                      control={control}
+                      name="cityId"
+                      render={({ field }) => (
+                        <Select
+                          value={showCustomCity ? "custom" : field.value || ""}
+                          onValueChange={(value) => {
+                            if (value === "custom") {
+                              setShowCustomCity(true);
+                              field.onChange("");
+                              setValue("customCity", "");
+                            } else {
+                              setShowCustomCity(false);
+                              const selectedCity = filteredCities.find(
+                                (city) => city.id === value,
+                              );
+                              field.onChange(value);
+                              setValue("customCity", "");
+                              setValue("city", selectedCity?.name || "");
+                            }
+                          }}
+                        >
+                          <SelectTrigger>
+                            <SelectValue
+                              placeholder={
+                                citiesLoading
+                                  ? "Chargement..."
+                                  : "Sélectionnez une ville"
+                              }
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {filteredCities.map((city) => (
+                              <SelectItem key={city.id} value={city.id}>
+                                {city.name}
+                              </SelectItem>
+                            ))}
+                            <SelectItem value="custom" className="text-blue-400 font-medium">
+                              ➕ Autre (saisir manuellement)
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    {errors.cityId && (
+                      <p className="text-sm text-red-500">
+                        {errors.cityId.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+                {/* Champ ville personnalisée */}
+                {showCustomCity && (
+                  <div className="space-y-2">
+                    <Label htmlFor="customCity">Nom de votre ville</Label>
+                    <Input
+                      id="customCity"
+                      placeholder="Entrez le nom de votre ville"
+                      {...register("customCity")}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setValue("customCity", value);
+                        setValue("city", value);
+                      }}
+                    />
+                    {errors.customCity && (
+                      <p className="text-sm text-red-500">
+                        {errors.customCity.message}
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
@@ -360,6 +519,9 @@ const ProfileEditPage = () => {
                     "firstName",
                     "lastName",
                     "username",
+                    "regionId",
+                    "cityId",
+                    "customCity",
                     "city",
                     "avatar",
                   ])

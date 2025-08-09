@@ -136,20 +136,30 @@ const PostPage = () => {
                 <div className="flex gap-3">
                   <div className="w-1/2">
                     <Label className="text-xs text-gray-300">Type</Label>
-                    <Select {...register("type")}>
-                      <SelectTrigger className="rounded-xl border border-gray-700 bg-gray-900/60 text-white">
-                        <SelectValue placeholder="Type" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-800 text-white border border-gray-700">
-                        <SelectGroup>
-                          <SelectLabel className="text-gray-400">
-                            Type
-                          </SelectLabel>
-                          <SelectItem value="GENERAL">General</SelectItem>
-                          <SelectItem value="MISSION">Mission</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                    <Controller
+                      control={control}
+                      name="type"
+                      render={({ field }) => (
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          defaultValue=""
+                        >
+                          <SelectTrigger className="rounded-xl border border-gray-700 bg-gray-900/60 text-white">
+                            <SelectValue placeholder="Type" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-gray-800 text-white border border-gray-700">
+                            <SelectGroup>
+                              <SelectLabel className="text-gray-400">
+                                Type
+                              </SelectLabel>
+                              <SelectItem value="GENERAL">General</SelectItem>
+                              <SelectItem value="MISSION">Mission</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
                   </div>
                   <Controller
                     control={control}
@@ -211,10 +221,10 @@ const PostPage = () => {
                 </div> */}
                 <div className="flex gap-2 pt-6">
                   <Button
-                    type="submit"
+                    type="button"
                     className="w-1/3 rounded-xl bg-gray-700 text-white hover:bg-gray-600 hover:scale-[1.03] transition-all shadow"
                     variant="secondary"
-                    onClick={handlePreview}
+                    onClick={handleSubmit(handlePreview)}
                   >
                     Preview
                   </Button>
