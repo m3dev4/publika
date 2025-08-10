@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,7 +16,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast, Toaster } from "sonner";
 import { userVerifyEmail } from "@/hooks/user";
 
-const VerifyEmail = () => {
+const VerifyEmailContent = () => {
   const [verificationCode, setVerificationCode] = useState([
     "",
     "",
@@ -261,6 +261,14 @@ const VerifyEmail = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const VerifyEmail = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyEmailContent />
+    </Suspense>
   );
 };
 
