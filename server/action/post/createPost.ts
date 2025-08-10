@@ -31,10 +31,16 @@ export const createPost = async (postData: CreatePostInput, userId: string) => {
             connect: { id: postData.categoryId },
           },
         }),
+        ...(postData.cityId && {
+          city: {
+            connect: { id: postData.cityId },
+          },
+        }),
       },
       include: {
         user: true,
         category: true,
+        city: true,
       },
     });
 
