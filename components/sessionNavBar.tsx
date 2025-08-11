@@ -281,8 +281,8 @@ export function SessionNavBar() {
                             alt={user?.username || undefined}
                           />
                           <AvatarFallback>
-                            {(user?.firstName?.charAt(0) || '') +
-                              (user?.lastName?.charAt(0) || '')}
+                            {(user?.firstName?.charAt(0) || "") +
+                              (user?.lastName?.charAt(0) || "")}
                           </AvatarFallback>
                         </Avatar>
                         <motion.li
@@ -306,8 +306,8 @@ export function SessionNavBar() {
                             alt={user?.username || undefined}
                           />
                           <AvatarFallback>
-                            {(user?.firstName?.charAt(0) || '') +
-                              (user?.lastName?.charAt(0) || '')}
+                            {(user?.firstName?.charAt(0) || "") +
+                              (user?.lastName?.charAt(0) || "")}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col text-left">

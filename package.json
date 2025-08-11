@@ -13,7 +13,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx}\" \"!node_modules/**\" \"!.next/**\" \"!lib/prisma-client-js/**\"",
     "seed:categories": "tsx server/scripts/index.ts",
     "seed:categories-new": "tsx scripts/seed-categories.ts",
-    "seed:regions": "tsx scripts/seed-region.ts"
+    "seed:regions": "tsx scripts/seed-region.ts",
+    "seed:posts": "tsx scripts/seed-posts.ts"
   },
   "dependencies": {
     "@auth/core": "^0.40.0",

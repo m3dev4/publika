@@ -52,17 +52,20 @@ export default [
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-this-alias": "off",
-      
+
       // Règles React/JSX plus permissives
       "react/react-in-jsx-scope": "off",
       "react/no-unescaped-entities": "off", // Permet les apostrophes et guillemets dans JSX
       "react/no-unknown-property": "off", // Permet les propriétés personnalisées comme jsx, global
       "react/prop-types": "off", // Pas besoin avec TypeScript
-      
+
       // Variables et expressions
-      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_" },
+      ],
       "@typescript-eslint/no-unused-expressions": "off",
-      
+
       // Règles pour une meilleure expérience de développement
       "no-console": "warn",
       "prefer-const": "warn",

@@ -89,7 +89,11 @@ export const updateUserProfile = async (data: UserUpdateProfile) => {
       },
     });
 
-    return { success: true, message: "User updated successfully", user: updatedUser };
+    return {
+      success: true,
+      message: "User updated successfully",
+      user: updatedUser,
+    };
   } catch (error: any) {
     console.log(error);
     return { success: false, message: error.message };

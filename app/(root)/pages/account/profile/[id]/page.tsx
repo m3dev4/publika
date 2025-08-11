@@ -119,9 +119,10 @@ const ProfileEditPage = () => {
       // Déterminer la région de l'utilisateur si il a une ville
       let userRegionId = "";
       if (user.city && cities) {
-        const cityName = typeof user.city === 'string' ? user.city : (user.city as any)?.name;
-        const userCity = cities.find(city => 
-          city.name === cityName || city.id === user.cityId
+        const cityName =
+          typeof user.city === "string" ? user.city : (user.city as any)?.name;
+        const userCity = cities.find(
+          (city) => city.name === cityName || city.id === user.cityId,
         );
         if (userCity) {
           userRegionId = userCity.regionId;
@@ -133,7 +134,10 @@ const ProfileEditPage = () => {
         firstName: user.firstName || "",
         lastName: user.lastName || "",
         username: user.username || "",
-        city: typeof user.city === 'string' ? user.city : ((user.city as any)?.name || ""),
+        city:
+          typeof user.city === "string"
+            ? user.city
+            : (user.city as any)?.name || "",
         regionId: userRegionId,
         cityId: user.cityId || "",
         customCity: "",
@@ -182,7 +186,8 @@ const ProfileEditPage = () => {
 
       console.log("Modified data to send:", modifiedData);
 
-      if (Object.keys(modifiedData).length <= 1) { // <= 1 car on a toujours l'ID
+      if (Object.keys(modifiedData).length <= 1) {
+        // <= 1 car on a toujours l'ID
         toast.error("Aucune modification détectée");
         return;
       }
@@ -471,7 +476,10 @@ const ProfileEditPage = () => {
                                 {city.name}
                               </SelectItem>
                             ))}
-                            <SelectItem value="custom" className="text-blue-400 font-medium">
+                            <SelectItem
+                              value="custom"
+                              className="text-blue-400 font-medium"
+                            >
                               ➕ Autre (saisir manuellement)
                             </SelectItem>
                           </SelectContent>
