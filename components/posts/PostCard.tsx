@@ -1,13 +1,13 @@
-import type { Post } from "@/hooks/usePosts"
-import { EnhancedPostCard } from "./EnhancedPostCard"
+import type { Post } from "@/hooks/usePosts";
+import { EnhancedPostCard } from "./EnhancedPostCard";
 
 interface PostCardProps {
-  post: Post
-  variant?: "default" | "compact" | "featured"
-  showActions?: boolean
-  showStats?: boolean
+  post: Post;
+  variant?: "default" | "compact" | "featured";
+  showActions?: boolean;
+  showStats?: boolean;
 }
 
 export function PostCard({ post, ...props }: PostCardProps) {
-  return <EnhancedPostCard post={post} {...props} />
+  return <EnhancedPostCard post={post} {...props} />;
 }

@@ -1,13 +1,25 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Filter, List, Map, Search, Loader2, X } from "lucide-react"
-import { usePosts, useCategories, useRegions, useCities, type PostFilters } from "@/hooks/usePosts"
-import { PostCard } from "@/components/posts/PostCard"
+import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Filter, List, Map, Search, Loader2, X } from "lucide-react";
+import {
+  usePosts,
+  useCategories,
+  useRegions,
+  useCities,
+  type PostFilters,
+} from "@/hooks/usePosts";
+import { PostCard } from "@/components/posts/PostCard";
 
 export default function ExplorerPage() {
   const [filters, setFilters] = useState<PostFilters>({
@@ -18,24 +30,30 @@ export default function ExplorerPage() {
     search: "",
     page: 1,
     limit: 12,
-  })
-  const [searchInput, setSearchInput] = useState("")
-  const [viewMode, setViewMode] = useState<"list" | "map">("list")
+  });
+  const [searchInput, setSearchInput] = useState("");
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
 
   // Hooks pour récupérer les données
-  const { data: postsData, isLoading: postsLoading, error: postsError } = usePosts(filters)
-  const { data: categoriesData } = useCategories()
-  const { data: regionsData } = useRegions()
-  const { data: citiesData } = useCities(filters.regionId !== "all" ? filters.regionId : undefined)
+  const {
+    data: postsData,
+    isLoading: postsLoading,
+    error: postsError,
+  } = usePosts(filters);
+  const { data: categoriesData } = useCategories();
+  const { data: regionsData } = useRegions();
+  const { data: citiesData } = useCities(
+    filters.regionId !== "all" ? filters.regionId : undefined,
+  );
 
   // Gestion de la recherche avec debounce
   useEffect(() => {
     const timer = setTimeout(() => {
-      setFilters((prev) => ({ ...prev, search: searchInput, page: 1 }))
-    }, 500)
+      setFilters((prev) => ({ ...prev, search: searchInput, page: 1 }));
+    }, 500);
 
-    return () => clearTimeout(timer)
-  }, [searchInput])
+    return () => clearTimeout(timer);
+  }, [searchInput]);
 
   // Gestion du changement de région (reset ville)
   const handleRegionChange = (regionId: string) => {
@@ -44,13 +62,13 @@ export default function ExplorerPage() {
       regionId,
       cityId: "all", // Reset ville quand région change
       page: 1,
-    }))
-  }
+    }));
+  };
 
   // Gestion des autres filtres
   const handleFilterChange = (key: keyof PostFilters, value: string) => {
-    setFilters((prev) => ({ ...prev, [key]: value, page: 1 }))
-  }
+    setFilters((prev) => ({ ...prev, [key]: value, page: 1 }));
+  };
 
   // Réinitialiser tous les filtres
   const resetFilters = () => {
@@ -62,9 +80,9 @@ export default function ExplorerPage() {
       search: "",
       page: 1,
       limit: 12,
-    })
-    setSearchInput("")
-  }
+    });
+    setSearchInput("");
+  };
 
   // Compter les filtres actifs
   const activeFiltersCount = [
@@ -73,14 +91,18 @@ export default function ExplorerPage() {
     filters.regionId !== "all",
     filters.cityId !== "all",
     filters.search && filters.search.length > 0,
-  ].filter(Boolean).length
+  ].filter(Boolean).length;
 
   return (
     <div className="min-h-screen w-full text-white">
       {/* Header Section */}
       <header className="py-10 text-center">
-        <h1 className="text-3xl font-black tracking-tight md:text-4xl">Explorer</h1>
-        <p className="text-sm text-gray-300 md:text-base">Explorez les annonces et propositions</p>
+        <h1 className="text-3xl font-black tracking-tight md:text-4xl">
+          Explorer
+        </h1>
+        <p className="text-sm text-gray-300 md:text-base">
+          Explorez les annonces et propositions
+        </p>
       </header>
 
       {/* Search, Filters & View Section */}
@@ -124,7 +146,9 @@ export default function ExplorerPage() {
                 <button
                   onClick={() => setViewMode("list")}
                   className={`flex items-center justify-center rounded-full p-2 transition-colors ${
-                    viewMode === "list" ? "bg-primary text-white" : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                    viewMode === "list"
+                      ? "bg-primary text-white"
+                      : "text-gray-400 hover:bg-gray-700 hover:text-white"
                   }`}
                   aria-label="Vue Liste"
                 >
@@ -133,7 +157,9 @@ export default function ExplorerPage() {
                 <button
                   onClick={() => setViewMode("map")}
                   className={`flex items-center justify-center rounded-full p-2 transition-colors ${
-                    viewMode === "map" ? "bg-primary text-white" : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                    viewMode === "map"
+                      ? "bg-primary text-white"
+                      : "text-gray-400 hover:bg-gray-700 hover:text-white"
                   }`}
                   aria-label="Vue Carte"
                 >
@@ -146,7 +172,10 @@ export default function ExplorerPage() {
           {/* Ligne des filtres */}
           <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
             {/* Type de post */}
-            <Select value={filters.type} onValueChange={(value) => handleFilterChange("type", value)}>
+            <Select
+              value={filters.type}
+              onValueChange={(value) => handleFilterChange("type", value)}
+            >
               <SelectTrigger className="w-40 border-gray-700 bg-gray-800 text-white">
                 <SelectValue placeholder="Type" />
               </SelectTrigger>
@@ -158,7 +187,10 @@ export default function ExplorerPage() {
             </Select>
 
             {/* Catégories */}
-            <Select value={filters.categoryId} onValueChange={(value) => handleFilterChange("categoryId", value)}>
+            <Select
+              value={filters.categoryId}
+              onValueChange={(value) => handleFilterChange("categoryId", value)}
+            >
               <SelectTrigger className="w-48 border-gray-700 bg-gray-800 text-white">
                 <SelectValue placeholder="Catégorie" />
               </SelectTrigger>
@@ -226,12 +258,15 @@ export default function ExplorerPage() {
                 </div>
                 {activeFiltersCount > 0 && (
                   <Badge variant="outline" className="text-xs">
-                    {activeFiltersCount} filtre{activeFiltersCount > 1 ? "s" : ""} actif{activeFiltersCount > 1 ? "s" : ""}
+                    {activeFiltersCount} filtre
+                    {activeFiltersCount > 1 ? "s" : ""} actif
+                    {activeFiltersCount > 1 ? "s" : ""}
                   </Badge>
                 )}
               </div>
               <p className="text-sm text-gray-400">
-                Page {postsData.pagination.page} sur {postsData.pagination.totalPages}
+                Page {postsData.pagination.page} sur{" "}
+                {postsData.pagination.totalPages}
               </p>
             </div>
           )}
@@ -243,30 +278,40 @@ export default function ExplorerPage() {
                 <Loader2 className="h-12 w-12 animate-spin text-primary" />
                 <div className="absolute inset-0 h-12 w-12 animate-ping rounded-full bg-primary/20"></div>
               </div>
-              <span className="mt-4 text-lg font-medium text-gray-300">Chargement des annonces...</span>
-              <span className="mt-1 text-sm text-gray-500">Recherche en cours</span>
+              <span className="mt-4 text-lg font-medium text-gray-300">
+                Chargement des annonces...
+              </span>
+              <span className="mt-1 text-sm text-gray-500">
+                Recherche en cours
+              </span>
             </div>
           )}
 
           {/* Error state */}
           {postsError && (
             <div className="rounded-lg bg-red-900/20 border border-red-800 p-6 text-center">
-              <p className="text-red-400">Erreur lors du chargement des annonces</p>
+              <p className="text-red-400">
+                Erreur lors du chargement des annonces
+              </p>
             </div>
           )}
 
-          {/* Posts grid */}
+          {/* Posts list */}
           {postsData && postsData.posts.length > 0 && (
-            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-1">
               {postsData.posts.map((post, index) => (
                 <div
                   key={post.id}
                   className="animate-in fade-in-50 slide-in-from-bottom-4"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <PostCard 
-                    post={post} 
-                    variant={index === 0 && postsData.posts.length > 1 ? "featured" : "default"}
+                  <PostCard
+                    post={post}
+                    variant={
+                      index === 0 && postsData.posts.length > 1
+                        ? "featured"
+                        : "default"
+                    }
                     showActions={true}
                     showStats={true}
                   />
@@ -279,10 +324,18 @@ export default function ExplorerPage() {
           {postsData && postsData.posts.length === 0 && !postsLoading && (
             <div className="rounded-lg bg-gray-900 p-12 text-center">
               <Filter className="mx-auto h-12 w-12 text-gray-600" />
-              <h3 className="mt-4 text-lg font-medium text-gray-300">Aucune annonce trouvée</h3>
-              <p className="mt-2 text-sm text-gray-500">Essayez de modifier vos critères de recherche</p>
+              <h3 className="mt-4 text-lg font-medium text-gray-300">
+                Aucune annonce trouvée
+              </h3>
+              <p className="mt-2 text-sm text-gray-500">
+                Essayez de modifier vos critères de recherche
+              </p>
               {activeFiltersCount > 0 && (
-                <Button variant="outline" onClick={resetFilters} className="mt-4 bg-transparent">
+                <Button
+                  variant="outline"
+                  onClick={resetFilters}
+                  className="mt-4 bg-transparent"
+                >
                   Réinitialiser les filtres
                 </Button>
               )}
@@ -297,39 +350,58 @@ export default function ExplorerPage() {
                   variant="ghost"
                   size="sm"
                   disabled={postsData.pagination.page === 1}
-                  onClick={() => handleFilterChange("page", (postsData.pagination.page - 1).toString())}
+                  onClick={() =>
+                    handleFilterChange(
+                      "page",
+                      (postsData.pagination.page - 1).toString(),
+                    )
+                  }
                   className="disabled:opacity-50 hover:bg-primary/20"
                 >
                   Précédent
                 </Button>
-                
+
                 <div className="flex items-center gap-1 px-2">
-                  {Array.from({ length: Math.min(5, postsData.pagination.totalPages) }, (_, i) => {
-                    const pageNum = i + 1;
-                    return (
-                      <Button
-                        key={pageNum}
-                        variant={pageNum === postsData.pagination.page ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => handleFilterChange("page", pageNum.toString())}
-                        className={`h-8 w-8 p-0 ${
-                          pageNum === postsData.pagination.page 
-                            ? "bg-primary text-white" 
-                            : "hover:bg-primary/20"
-                        }`}
-                      >
-                        {pageNum}
-                      </Button>
-                    );
-                  })}
-                  
+                  {Array.from(
+                    { length: Math.min(5, postsData.pagination.totalPages) },
+                    (_, i) => {
+                      const pageNum = i + 1;
+                      return (
+                        <Button
+                          key={pageNum}
+                          variant={
+                            pageNum === postsData.pagination.page
+                              ? "default"
+                              : "ghost"
+                          }
+                          size="sm"
+                          onClick={() =>
+                            handleFilterChange("page", pageNum.toString())
+                          }
+                          className={`h-8 w-8 p-0 ${
+                            pageNum === postsData.pagination.page
+                              ? "bg-primary text-white"
+                              : "hover:bg-primary/20"
+                          }`}
+                        >
+                          {pageNum}
+                        </Button>
+                      );
+                    },
+                  )}
+
                   {postsData.pagination.totalPages > 5 && (
                     <>
                       <span className="px-2 text-gray-400">...</span>
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleFilterChange("page", postsData.pagination.totalPages.toString())}
+                        onClick={() =>
+                          handleFilterChange(
+                            "page",
+                            postsData.pagination.totalPages.toString(),
+                          )
+                        }
                         className="h-8 w-8 p-0 hover:bg-primary/20"
                       >
                         {postsData.pagination.totalPages}
@@ -341,8 +413,16 @@ export default function ExplorerPage() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  disabled={postsData.pagination.page === postsData.pagination.totalPages}
-                  onClick={() => handleFilterChange("page", (postsData.pagination.page + 1).toString())}
+                  disabled={
+                    postsData.pagination.page ===
+                    postsData.pagination.totalPages
+                  }
+                  onClick={() =>
+                    handleFilterChange(
+                      "page",
+                      (postsData.pagination.page + 1).toString(),
+                    )
+                  }
                   className="disabled:opacity-50 hover:bg-primary/20"
                 >
                   Suivant
@@ -353,5 +433,5 @@ export default function ExplorerPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }

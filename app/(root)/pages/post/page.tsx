@@ -16,12 +16,16 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { UseCreatePost } from "@/hooks/post";
 import { useCategories } from "@/hooks/category";
+import { useListRegions } from "@/hooks/region";
+import { useListCities } from "@/hooks/city";
+import { useRegionStore } from "@/app/api/store/region.store";
+import { useCityStore } from "@/app/api/store/city.store";
 import {
   postValidation,
   PostValidationValue,
 } from "@/validations/post.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
@@ -33,6 +37,9 @@ const PostPage = () => {
   const [showPreview, setShowPreview] = useState(false);
   const createPost = UseCreatePost();
   const { categories } = useCategoryStore();
+  const { region: regions } = useRegionStore();
+  const { cities } = useCityStore();
+  const [selectedRegionId, setSelectedRegionId] = useState<string>("");
 
   // Charger les catégories depuis l'API
   const {
@@ -41,12 +48,17 @@ const PostPage = () => {
     error: categoriesError,
   } = useCategories();
 
+  // Charger régions et villes
+  const { data: regionsData } = useListRegions();
+  const { data: citiesData } = useListCities();
+
   const {
     register,
     handleSubmit,
     reset,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm<PostValidationValue>({
     resolver: zodResolver(postValidation),
@@ -55,6 +67,7 @@ const PostPage = () => {
       content: "",
       type: "GENERAL",
       categoryId: "",
+      cityId: "",
       photos: [],
       price: undefined,
     },
@@ -202,6 +215,74 @@ const PostPage = () => {
                     )}
                   />
                 </div>
+                {/* Region et Ville */}
+                <div className="flex gap-3">
+                  <div className="w-1/2">
+                    <Label className="text-xs text-gray-300">Région</Label>
+                    <Select
+                      value={selectedRegionId}
+                      onValueChange={(val) => {
+                        setSelectedRegionId(val);
+                        // Reset cityId when region changes
+                        setValue("cityId", "");
+                      }}
+                    >
+                      <SelectTrigger className="rounded-xl border border-gray-700 bg-gray-900/60 text-white">
+                        <SelectValue placeholder="Sélectionne une région" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-800 text-white border border-gray-700">
+                        <SelectGroup>
+                          <SelectLabel className="text-gray-400">
+                            Régions
+                          </SelectLabel>
+                          {(regions || []).length === 0 ? (
+                            <p className="text-xs text-center text-gray-400">
+                              Aucune région
+                            </p>
+                          ) : (
+                            regions.map((r) => (
+                              <SelectItem key={r.id} value={r.id}>
+                                {r.name}
+                              </SelectItem>
+                            ))
+                          )}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="w-1/2">
+                    <Label className="text-xs text-gray-300">Ville</Label>
+                    <Controller
+                      control={control}
+                      name="cityId"
+                      render={({ field }) => (
+                        <Select
+                          value={field.value || ""}
+                          onValueChange={field.onChange}
+                          disabled={!selectedRegionId}
+                        >
+                          <SelectTrigger className="rounded-xl border border-gray-700 bg-gray-900/60 text-white">
+                            <SelectValue placeholder={selectedRegionId ? "Sélectionne une ville" : "Choisis d'abord une région"} />
+                          </SelectTrigger>
+                          <SelectContent className="bg-gray-800 text-white border border-gray-700">
+                            <SelectGroup>
+                              <SelectLabel className="text-gray-400">
+                                Villes
+                              </SelectLabel>
+                              {(cities || [])
+                                .filter((c) => c.regionId === selectedRegionId)
+                                .map((city) => (
+                                  <SelectItem key={city.id} value={city.id}>
+                                    {city.name}
+                                  </SelectItem>
+                                ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                  </div>
+                </div>
                 <div>
                   <Label className="text-xs text-gray-300">Photos</Label>
                   <Input
@@ -301,6 +382,24 @@ const PostPage = () => {
                       <span className="ml-1 text-blue-300 font-bold">
                         {categories.find((c) => c.id === formValues.categoryId)
                           ?.name || (
+                          <span className="text-gray-500">(Aucune)</span>
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1 text-sm">
+                      <span className="font-semibold text-gray-400">
+                        Région :
+                      </span>
+                      <span className="ml-1 text-blue-300 font-bold">
+                        {regions.find?.((r) => r.id === selectedRegionId)?.name || (
+                          <span className="text-gray-500">(Aucune)</span>
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1 text-sm">
+                      <span className="font-semibold text-gray-400">Ville :</span>
+                      <span className="ml-1 text-blue-300 font-bold">
+                        {cities.find?.((c) => c.id === formValues.cityId)?.name || (
                           <span className="text-gray-500">(Aucune)</span>
                         )}
                       </span>

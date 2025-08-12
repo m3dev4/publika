@@ -8,6 +8,7 @@ export interface CreatePostData {
   content: string;
   type: "GENERAL" | "MISSION";
   categoryId?: string; // Optionnel maintenant
+  cityId?: string; // Optionnel
   photos?: string[]; // Optionnel
   prices?: number; // Renommé pour correspondre à l'API
   status?: "DRAFT" | "PUBLISHED" | "ARCHIVED";
@@ -30,6 +31,9 @@ export const UseCreatePost = () => {
         formData.append("type", data.type);
         if (data.categoryId) {
           formData.append("categoryId", data.categoryId);
+        }
+        if (data.cityId) {
+          formData.append("cityId", data.cityId);
         }
         if (data.photos && data.photos.length > 0) {
           formData.append("photo", JSON.stringify(data.photos));

@@ -1,9 +1,10 @@
 "use client";
 
-import { SessionNavBar } from "@/components/sessionNavBar";
 import React, { useEffect } from "react";
 import { useAuthStore } from "../api/store/auth.store";
 import { useRouter } from "next/navigation";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/appSidebar";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, isAuthenticated, isLoading } = useAuthStore();
@@ -28,15 +29,13 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   // }
 
   return (
-    <main className="min-h-screen w-full bg-gray-950">
-      <div className="flex items-center w-full justify-between">
-        <div>
-          <SessionNavBar />
-        </div>
-
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="min-h-screen w-full bg-neutral-950">
+        <SidebarTrigger />
         {children}
-      </div>
-    </main>
+      </main>
+    </SidebarProvider>
   );
 };
 
